@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beaver Trading</title>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Estilos -->
+    <style>
+    :root {
+        --primary: #00f0ff;
+        --accent: #7a04eb;
+        --dark: #0a0a1a;
+        --darker: #050510;
+        --light: #e0e0ff;
+        --card-bg: rgba(15, 15, 35, 0.6);
+        --neon-glow: 0 0 10px var(--primary), 0 0 20px rgba(0, 240, 255, 0.3);
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Orbitron', 'Rajdhani', sans-serif;
+    }
+    
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: url('https://raw.githubusercontent.com/welding30001994/vip/refs/heads/main/unnamed%20(1).jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+      
+        /* Capa oscura sobre la imagen de fondo */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+        
+      
+      
+      
+      
+      
+    
+    .grid-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+            linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+        background-size: 50px 50px;
+        pointer-events: none;
+        z-index: -1;
+        perspective: 1000px;
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    header {
+        background-color: rgba(10, 10, 26, 0.7);
+        color: white;
+        padding: 1rem 0;
+        border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+        backdrop-filter: blur(10px);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+    
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .logo {
+        font-size: 1.8rem;
+        font-weight: 900;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        letter-spacing: 1px;
+        color: var(--primary);
+    }
+    
+    .logo i {
+        color: var(--primary);
+        font-size: 2rem;
+    }
+    
+    .nav-links {
+        display: flex;
+        gap: 30px;
+    }
+    
+    .nav-links a {
+        color: var(--light);
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        position: relative;
+        font-family: 'Rajdhani', sans-serif;
+        font-size: 1.1rem;
+        letter-spacing: 1px;
+    }
+    
+    .nav-links a:hover {
+        color: var(--primary);
+    }
+    
+    .nav-links a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 1px;
+        bottom: -5px;
+        left: 0;
+        background: var(--primary);
+        transition: width 0.3s ease;
+    }
+    
+    .nav-links a:hover::after {
+        width: 100%;
+    }
+    
+    .auth-buttons button {
+        padding: 10px 20px;
+        border-radius: 4px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: 'Rajdhani', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+    
+    .login-btn {
+        background: transparent;
+        border: 1px solid var(--primary);
+        color: var(--primary);
+        margin-right: 15px;
+    }
+    
+    .login-btn:hover {
+        background: rgba(0, 240, 255, 0.1);
+    }
+    
+    .register-btn {
+        background: rgba(0, 240, 255, 0.1);
+        border: 1px solid var(--primary);
+        color: var(--primary);
+    }
+    
+    .register-btn:hover {
+        background: rgba(0, 240, 255, 0.2);
+    }
+    
+    .hero {
+        padding: 8rem 0 6rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+            linear-gradient(45deg, 
+                transparent 48%, 
+                rgba(0, 240, 255, 0.05) 48%, 
+                rgba(0, 240, 255, 0.05) 52%, 
+                transparent 52%),
+            linear-gradient(-45deg, 
+                transparent 48%, 
+                rgba(0, 240, 255, 0.05) 48%, 
+                rgba(0, 240, 255, 0.05) 52%, 
+                transparent 52%);
+        background-size: 40px 40px;
+        opacity: 0.3;
+        pointer-events: none;
+        animation: grid-move 20s linear infinite;
+    }
+    
+    @keyframes grid-move {
+        0% { background-position: 0 0; }
+        100% { background-position: 40px 40px; }
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .hero h1 {
+        font-size: 4rem;
+        margin-bottom: 1.5rem;
+        font-weight: 900;
+        letter-spacing: 3px;
+        position: relative;
+        display: inline-block;
+        color: var(--primary);
+    }
+    
+    .hero h1::after {
+        content: '';
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 150px;
+        height: 2px;
+        background: var(--primary);
+    }
+    
+    .hero p {
+        font-size: 1.4rem;
+        max-width: 800px;
+        margin: 0 auto 3rem;
+        color: var(--light);
+        font-family: 'Rajdhani', sans-serif;
+        font-weight: 500;
+        line-height: 1.8;
+    }
+    
+    .cta-button {
+        padding: 15px 35px;
+        background-color: transparent;
+        color: var(--primary);
+        border: 1px solid var(--primary);
+        border-radius: 0;
+        font-size: 1.2rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+    
+    .cta-button:hover {
+        background-color: rgba(0, 240, 255, 0.1);
+    }
+    
+    .features {
+        padding: 6rem 0;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .features::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+            radial-gradient(circle at 20% 30%, rgba(0, 240, 255, 0.05) 0%, transparent 20%),
+            radial-gradient(circle at 80% 70%, rgba(122, 4, 235, 0.05) 0%, transparent 20%);
+        pointer-events: none;
+    }
+    
+    .section-title {
+        text-align: center;
+        margin-bottom: 5rem;
+        position: relative;
+    }
+    
+    .section-title h2 {
+        font-size: 3rem;
+        color: var(--primary);
+        margin-bottom: 1.5rem;
+        font-weight: 800;
+        letter-spacing: 2px;
+        position: relative;
+        display: inline-block;
+    }
+    
+    .section-title h2::after {
+        content: '';
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 2px;
+        background: var(--primary);
+    }
+    
+    .section-title p {
+        color: var(--light);
+        max-width: 700px;
+        margin: 0 auto;
+        font-size: 1.2rem;
+        font-family: 'Rajdhani', sans-serif;
+        font-weight: 500;
+        line-height: 1.8;
+    }
+    
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 3rem;
+    }
+    
+    .feature-card {
+        background: var(--card-bg);
+        border-radius: 8px;
+        padding: 3rem 2.5rem;
+        transition: all 0.5s ease;
+        border: 1px solid rgba(0, 240, 255, 0.1);
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-10px);
+        border-color: var(--primary);
+    }
+    
+    .feature-icon {
+        font-size: 3.5rem;
+        margin-bottom: 2rem;
+        position: relative;
+        display: inline-block;
+    }
+    
+    .feature-icon i {
+        color: var(--primary);
+    }
+    
+    .feature-card h3 {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+        color: var(--primary);
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+    
+    .feature-card p {
+        color: var(--light);
+        font-family: 'Rajdhani', sans-serif;
+        font-size: 1.1rem;
+        line-height: 1.8;
+        font-weight: 500;
+    }
+    
+    footer {
+        background-color: rgba(5, 5, 16, 0.9);
+        color: white;
+        padding: 5rem 0 2rem;
+        text-align: center;
+        border-top: 1px solid rgba(0, 240, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    footer::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    }
+    
+    .footer-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2.5rem;
+    }
+    
+    .footer-logo {
+        font-size: 2.2rem;
+        font-weight: 900;
+        color: var(--primary);
+        letter-spacing: 1.5px;
+    }
+    
+    .footer-logo i {
+        color: var(--primary);
+        margin-right: 10px;
+    }
+    
+    .footer-links {
+        display: flex;
+        gap: 30px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .footer-links a {
+        color: var(--light);
+        text-decoration: none;
+        position: relative;
+        font-family: 'Rajdhani', sans-serif;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .footer-links a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 1px;
+        bottom: -5px;
+        left: 0;
+        background: var(--primary);
+        transition: width 0.3s ease;
+    }
+    
+    .footer-links a:hover {
+        color: var(--primary);
+    }
+    
+    .footer-links a:hover::after {
+        width: 100%;
+    }
+    
+    .social-icons {
+        display: flex;
+        gap: 25px;
+    }
+    
+    .social-icons a {
+        color: var(--light);
+        font-size: 1.8rem;
+        transition: all 0.3s ease;
+        position: relative;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: rgba(0, 240, 255, 0.05);
+        border: 1px solid rgba(0, 240, 255, 0.1);
+    }
+    
+    .social-icons a:hover {
+        color: var(--primary);
+        background: rgba(0, 240, 255, 0.1);
+    }
+    
+    .copyright {
+        margin-top: 4rem;
+        color: rgba(224, 224, 255, 0.6);
+        font-size: 1rem;
+        font-family: 'Rajdhani', sans-serif;
+        font-weight: 500;
+    }
+    
+    /* Modal de autenticación */
+    .auth-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 10, 0.9);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+        backdrop-filter: blur(10px);
+    }
+    
+    .auth-container {
+        background: var(--card-bg);
+        border-radius: 10px;
+        width: 100%;
+        max-width: 500px;
+        padding: 3rem;
+        border: 1px solid rgba(0, 240, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .auth-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2.5rem;
+    }
+    
+    .auth-header h2 {
+        color: var(--primary);
+        font-weight: 800;
+        font-size: 2.2rem;
+        letter-spacing: 1.5px;
+    }
+    
+    .close-auth {
+        background: none;
+        border: none;
+        font-size: 2.5rem;
+        cursor: pointer;
+        color: var(--light);
+        transition: all 0.3s ease;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+    }
+    
+    .close-auth:hover {
+        color: var(--primary);
+    }
+    
+    .auth-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .auth-form input {
+        padding: 15px 20px;
+        background: rgba(10, 10, 20, 0.8);
+        border: 1px solid rgba(0, 240, 255, 0.2);
+        border-radius: 6px;
+        font-size: 1.1rem;
+        color: white;
+        font-family: 'Rajdhani', sans-serif;
+        transition: all 0.3s ease;
+        letter-spacing: 1px;
+    }
+    
+    .auth-form input:focus {
+        outline: none;
+        border-color: var(--primary);
+        background: rgba(10, 10, 20, 0.9);
+    }
+    
+    .auth-form input::placeholder {
+        color: rgba(224, 224, 255, 0.6);
+        font-weight: 500;
+    }
+    
+    .auth-submit {
+        padding: 15px;
+        background: transparent;
+        color: var(--primary);
+        border: 1px solid var(--primary);
+        border-radius: 6px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        margin-top: 1rem;
+        font-size: 1.1rem;
+    }
+    
+    .auth-submit:hover {
+        background: rgba(0, 240, 255, 0.1);
+    }
+    
+    .auth-toggle {
+        text-align: center;
+        margin-top: 2.5rem;
+        color: rgba(224, 224, 255, 0.6);
+        font-family: 'Rajdhani', sans-serif;
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+    
+    .auth-toggle span {
+        color: var(--primary);
+        cursor: pointer;
+        font-weight: 700;
+        transition: all 0.3s ease;
+        letter-spacing: 1px;
+    }
+    
+    .auth-toggle span:hover {
+        text-decoration: underline;
+    }
+    
+    .auth-error {
+        color: #ff3366;
+        font-size: 1rem;
+        margin-top: -1rem;
+        margin-bottom: 0.5rem;
+        text-align: center;
+        font-family: 'Rajdhani', sans-serif;
+        font-weight: 600;
+    }
+    
+    /* Efectos de partículas para el fondo */
+    #particles-js {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        pointer-events: none;
+    }
+    
+    /* Responsive */
+    @media (max-width: 992px) {
+        .hero h1 {
+            font-size: 3.2rem;
+        }
+        
+        .features-grid {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .nav-links {
+            display: none;
+        }
+        
+        .hero {
+            padding: 6rem 0 4rem;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            padding: 0 15px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+        }
+        
+        .auth-container {
+            padding: 2.5rem 2rem;
+            margin: 0 20px;
+        }
+        
+        .footer-links {
+            flex-direction: column;
+            gap: 20px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .hero h1 {
+            font-size: 2rem;
+            letter-spacing: 2px;
+        }
+        
+        .hero p {
+            font-size: 1rem;
+        }
+        
+        .auth-buttons button {
+            padding: 8px 12px;
+            font-size: 0.9rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2rem;
+        }
+        
+        .feature-card {
+            padding: 2rem 1.5rem;
+        }
+        
+        .auth-container {
+            padding: 2rem 1.5rem;
+        }
+        
+        .auth-form input {
+            padding: 12px;
+        }
+    }
+    </style>
+</head>
+<body>
+    <div class="grid-overlay"></div>
+    <div id="particles-js"></div>
+    
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-crown"></i>
+                    <span>Beaver Trading</span>
+                </div>
+                <div class="nav-links">
+                    <a href="beneficio.html">Beneficios</a>
+                    <a href="contacto.html">Contacto</a>
+                </div>
+                <div class="auth-buttons">
+                    <button class="login-btn" id="openLogin">Iniciar Sesión</button>
+                    <button class="register-btn" id="openRegister">Registrarse</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Beaver Trading</h1>
+                <p>Accede a estrategias de trading de élite y lleva tus inversiones al siguiente nivel con nuestro exclusivo programa VIP.</p>
+                <button class="cta-button" id="heroCta">Acceder VIP</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Beneficios Exclusivos</h2>
+                <p>Nuestro programa VIP está diseñado para traders serios que buscan ventajas competitivas en los mercados financieros.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Señales en Tiempo Real</h3>
+                    <p>Recibe alertas instantáneas de trading con puntos de entrada, salida y stop loss precisos.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3>Estrategias Avanzadas</h3>
+                    <p>Acceso a metodologías probadas que los traders profesionales utilizan en mercados volátiles.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>Soporte Prioritario</h3>
+                    <p>Atención personalizada y respuestas rápidas a todas tus consultas sobre trading.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-crown"></i> Beaver Trading
+                </div>
+                <div class="footer-links">
+                    <a href="beneficio.html">Términos</a>
+                    <a href="contacto.html">Soporte</a>
+                </div>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/profile.php?id=61579696913394"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://t.me/+x8P5ya17Dek4YjBh"><i class="fab fa-telegram-plane"></i></a>
+                    <a href="https://www.instagram.com/weldingmiguel/"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.youtube.com/@OXOMAX-TRADING/shorts"><i class="fab fa-youtube"></i></a>
+                </div>
+                <div class="copyright">
+                    &copy; 2024 Beaver Trading. Todos los derechos reservados.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal de Autenticación -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-container">
+            <div class="auth-header">
+                <h2 id="authModalTitle">Iniciar Sesión</h2>
+                <button class="close-auth" id="closeAuth">&times;</button>
+            </div>
+            <form class="auth-form" id="loginForm">
+                <div id="authError" class="auth-error"></div>
+                <input type="email" id="loginEmail" placeholder="Correo electrónico" required>
+                <input type="password" id="loginPassword" placeholder="Contraseña" required>
+                <button type="submit" class="auth-submit">Acceder</button>
+            </form>
+            <form class="auth-form" id="registerForm" style="display: none;">
+                <div id="registerError" class="auth-error"></div>
+                <input type="text" id="registerName" placeholder="Nombre completo" required>
+                <input type="email" id="registerEmail" placeholder="Correo electrónico" required>
+                <input type="password" id="registerPassword" placeholder="Contraseña" required>
+                <input type="password" id="registerConfirmPassword" placeholder="Confirmar contraseña" required>
+                <button type="submit" class="auth-submit">Unirse a VIP</button>
+            </form>
+            <div class="auth-toggle">
+                <span id="toggleAuthForm">¿No tienes una cuenta? Únete a VIP</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script de partículas -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Inicializar partículas
+        document.addEventListener('DOMContentLoaded', function() {
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 60, density: { enable: true, value_area: 800 } },
+                    color: { value: "#00f0ff" },
+                    shape: {
+                        type: "circle",
+                        stroke: { width: 0, color: "#000000" },
+                        polygon: { nb_sides: 5 }
+                    },
+                    opacity: {
+                        value: 0.3,
+                        random: true,
+                        anim: { enable: true, speed: 1, opacity_min: 0.1, sync: false }
+                    },
+                    size: {
+                        value: 2,
+                        random: true,
+                        anim: { enable: true, speed: 2, size_min: 0.1, sync: false }
+                    },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#00f0ff",
+                        opacity: 0.2,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 1,
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false,
+                        attract: { enable: false, rotateX: 600, rotateY: 1200 }
+                    }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: { enable: true, mode: "grab" },
+                        onclick: { enable: true, mode: "push" },
+                        resize: true
+                    },
+                    modes: {
+                        grab: { distance: 140, line_linked: { opacity: 0.5 } },
+                        push: { particles_nb: 4 }
+                    }
+                },
+                retina_detect: true
+            });
+        });
+        
+        // Inicializar Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyB1Cs2os3tTfrMbYSAmDeJAGnP4tTtsFdw",
+            authDomain: "beaver-trading.firebaseapp.com",
+            databaseURL: "https://beaver-trading-default-rtdb.firebaseio.com",
+            projectId: "beaver-trading",
+            storageBucket: "beaver-trading.firebasestorage.app",
+            messagingSenderId: "926610131904",
+            appId: "1:926610131904:web:c147bd337bd12b4d085625",
+            measurementId: "G-1K51WWF2ZJ"
+        };
+        
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const database = firebase.database();
+        
+        // Elementos del DOM
+        const authModal = document.getElementById('authModal');
+        const openLogin = document.getElementById('openLogin');
+        const openRegister = document.getElementById('openRegister');
+        const closeAuth = document.getElementById('closeAuth');
+        const authModalTitle = document.getElementById('authModalTitle');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const toggleAuthForm = document.getElementById('toggleAuthForm');
+        const authError = document.getElementById('authError');
+        const registerError = document.getElementById('registerError');
+        const heroCta = document.getElementById('heroCta');
+        
+        // Mostrar modal de login
+        openLogin.addEventListener('click', () => {
+            authModal.style.display = 'flex';
+            loginForm.style.display = 'flex';
+            registerForm.style.display = 'none';
+            authModalTitle.textContent = 'Iniciar Sesión';
+            toggleAuthForm.textContent = '¿No tienes una cuenta? Únete a VIP';
+            authError.textContent = '';
+            document.body.style.overflow = 'hidden';
+        });
+        
+        // Mostrar modal de registro
+        openRegister.addEventListener('click', () => {
+            authModal.style.display = 'flex';
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'flex';
+            authModalTitle.textContent = 'Unirse a VIP';
+            toggleAuthForm.textContent = '¿Ya tienes una cuenta? Inicia Sesión';
+            registerError.textContent = '';
+            document.body.style.overflow = 'hidden';
+        });
+        
+        // Cerrar modal
+        closeAuth.addEventListener('click', () => {
+            authModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+        
+        // Alternar entre login y registro
+        toggleAuthForm.addEventListener('click', () => {
+            if (loginForm.style.display === 'none') {
+                loginForm.style.display = 'flex';
+                registerForm.style.display = 'none';
+                authModalTitle.textContent = 'Iniciar Sesión';
+                toggleAuthForm.textContent = '¿No tienes una cuenta? Únete a VIP';
+                authError.textContent = '';
+            } else {
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'flex';
+                authModalTitle.textContent = 'Unirse a VIP';
+                toggleAuthForm.textContent = '¿Ya tienes una cuenta? Inicia Sesión';
+                registerError.textContent = '';
+            }
+        });
+        
+        // Cerrar modal al hacer clic fuera
+        authModal.addEventListener('click', (e) => {
+            if (e.target === authModal) {
+                authModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Login
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // Login exitoso
+                    authModal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                    loginForm.reset();
+                    window.location.href = 'dashboard.html';
+                })
+                .catch((error) => {
+                    authError.textContent = error.message;
+                });
+        });
+        
+        // Registro
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerConfirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                registerError.textContent = 'Las contraseñas no coinciden';
+                return;
+            }
+            
+            if (password.length < 6) {
+                registerError.textContent = 'La contraseña debe tener al menos 6 caracteres';
+                return;
+            }
+            
+            auth.createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // Registro exitoso
+                    const user = userCredential.user;
+                    
+                    // Guardar datos adicionales en la base de datos
+                    const userRef = database.ref('users/' + user.uid);
+                    userRef.set({
+                        name: name,
+                        email: email,
+                        createdAt: firebase.database.ServerValue.TIMESTAMP,
+                        vipAccess: true,
+                        lastLogin: firebase.database.ServerValue.TIMESTAMP
+                    });
+                    
+                    authModal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                    registerForm.reset();
+                    window.location.href = 'dashboard.html';
+                })
+                .catch((error) => {
+                    registerError.textContent = error.message;
+                });
+        });
+        
+        // CTA button
+        heroCta.addEventListener('click', () => {
+            openRegister.click();
+        });
+        
+        // Verificar estado de autenticación
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                // Usuario logueado
+                openLogin.style.display = 'none';
+                openRegister.style.display = 'none';
+                // Aquí podrías mostrar un botón de perfil o logout
+            } else {
+                // Usuario no logueado
+                openLogin.style.display = 'inline-block';
+                openRegister.style.display = 'inline-block';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XAUUSD SELL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: url('https://raw.githubusercontent.com/welding30001994/vip/refs/heads/main/unnamed%20(1).jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        /* Capa oscura sobre la imagen de fondo */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Ajusta la opacidad según sea necesario */
+            z-index: -1;
+        }
+        
+        .document-container {
+            background-color: rgba(25, 251, 255, 0.1);
+            width: 100%;
+            max-width: 900px;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            margin: 40px auto;
+            color: white; /* Texto blanco en el área verde */
+        }
+        
+        .document-header {
+            background: rgb(21, 6, 21,0.65);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .document-header:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBkPSJNNTAuNjY3LDEwLjMzM2MzMC42NjcsMCwzMy4zMzMsNDAsMzMuMzMzLDQwYzAsMC0yLjY2Niw0MC0zMy4zMzMsNDBTMTcuMzM0LDUwLjMzMywxNy4zMzQsNTAuMzMzUzIwLDEwLjMzMyw1MC42NjcsMTAuMzMzeiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiIHN0cm9rZS13aWR0aD0iMSIvPjxwYXRoIGQ9Ik0zMy4zMzQsMzMuMzMzYzAsNS41MjMsMzAsMTEuMDQ3LDMzLjMzMywxMS4wNDdjMy4zMzMsMCwzMy4zMzMtNS41MjQsMzMuMzMzLTExLjA0NyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiIHN0cm9rZS13aWR0aD0iMSIvPjxwYXRoIGQ9Ik0zMy4zMzQsNjYuNjY2YzAtNS41MjMsMjguMTI1LTExLjA0NywzMy4zMzMtMTEuMDQ3YzUuMjA4LDAsMzMuMzMzLDUuNTI0LDMzLjMzMywxMS4wNDciIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjEpIiBzdHJva2Utd2lkdGg9IjEiLz48L3N2Zz4=') center/contain no-repeat;
+            opacity: 0.1;
+        }
+        
+        .document-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 15px rgba(67, 97, 238, 0.5);
+        }
+        
+        .document-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .vip-badge {
+            background: linear-gradient(145deg, #fca311, #ff5e00 );
+            color: black;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1rem;
+            display: inline-block;
+            margin-top: 15px;
+            box-shadow: 0 0 15px rgba(252, 163, 17, 0.7);
+        }
+        
+        .document-content {
+            padding: 50px;
+            color: white; /* Texto blanco en el área verde */
+        }
+        
+        .document-content * {
+            max-width: 100%;
+        }
+        
+        .document-content h1, 
+        .document-content h2, 
+        .document-content h3, 
+        .document-content h4, 
+        .document-content h5, 
+        .document-content h6 {
+            color: white; /* Cambiado a blanco */
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+        }
+      
+        
+        .document-content p {
+            margin-bottom: 1.2em;
+            line-height: 1.8;
+            text-align: justify;
+            color: white; /* Texto blanco en el área verde */
+        }
+        
+        .document-content img {
+            display: block;
+            margin: 2em auto;
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .document-content iframe {
+            display: block;
+            margin: 2em auto;
+            max-width: 100%;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .document-content video {
+            display: block;
+            margin: 2em auto;
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .document-footer {
+            background: rgb(21, 6, 21,0.65);
+            padding: 25px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: white;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .document-footer p {
+            margin: 0;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .document-container {
+                border-radius: 15px;
+                margin: 20px auto;
+            }
+            
+            .document-header {
+                padding: 25px;
+            }
+            
+            .document-header h1 {
+                font-size: 2rem;
+            }
+            
+            .document-content {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="document-container">
+        <div class="document-header">
+            <h1>XAUUSD SELL</h1>
+            <p>Beaver Trading </p>
+            <div class="vip-badge"> El trading no premia a los que se rinden rápido, sino a los que persisten, estudian y mejoran día tras día. Cada error es una lección, y cada acierto es una señal de que estás más cerca de tus metas. </div>
+        </div>
+        
+        <div class="document-content">
+            <div class="editable" style="text-align: center; padding: 30px; background: linear-gradient(145deg, rgba(67, 97, 238, 0.1), rgba(58, 12, 163, 0.1)); border-radius: 15px; left: 0px; top: 0px; color: rgb(59, 28, 28); font-size: 24px;">XAUUSD SELL&nbsp;</div><div class="editable selected" style="margin: 15px 0px; padding: 15px; background: rgba(67, 97, 238, 0.1); border-radius: 8px; left: 0px; top: -2px;"><span style="color: rgb(31, 25, 25);">SELL XAUUSD&nbsp;</span><br style="color: rgb(31, 25, 25);"><br style="color: rgb(31, 25, 25);"><span style="color: rgb(31, 25, 25);">* ENTRADA 3769&nbsp;</span><br style="color: rgb(31, 25, 25);"><br style="color: rgb(31, 25, 25);"><span style="color: rgb(31, 25, 25);">* SL 3777&nbsp;</span><br style="color: rgb(31, 25, 25);"><br style="color: rgb(31, 25, 25);"><span style="color: rgb(31, 25, 25);">* TP1 =&nbsp; &nbsp; &nbsp;3761</span><br style="color: rgb(31, 25, 25);"><span style="color: rgb(31, 25, 25);">* TP2 =&nbsp; &nbsp; 3754</span><br style="color: rgb(31, 25, 25);"><span style="color: rgb(31, 25, 25);">* TP3 =&nbsp; &nbsp; 3748&nbsp;</span><br style="color: rgb(31, 25, 25);"><br style="color: rgb(31, 25, 25);"><span style="color: rgb(31, 25, 25);">NOTA :&nbsp;</span><br style="color: rgb(31, 25, 25);"><br style="color: rgb(31, 25, 25);"><span style="color: rgb(31, 25, 25);">CADA 1000 DOLARES ARRIESGA UN 5 PORCIENTO&nbsp;</span><br style="color: rgb(31, 25, 25);"><br style="color: rgb(31, 25, 25);"><span style="color: rgb(31, 25, 25);">INTENTA ASER&nbsp; &nbsp;=&nbsp; 1:1 o&nbsp; 1:2 o 1:3</span><br style="color: rgb(31, 25, 25);"><span style="color: rgb(31, 25, 25);">recuerda beaver te ofrece las herramientas para&nbsp;</span><br style="color: rgb(31, 25, 25);"><span style="color: rgb(31, 25, 25);">poder gestionar tu riesgo y tu capital antes de operar&nbsp;</span><br style="color: rgb(31, 25, 25);"><span style="color: rgb(31, 25, 25);">revisa beavertrading1.vercel.app&nbsp;</span><br style="color: rgb(31, 25, 25);"><br style="color: rgb(31, 25, 25);"><span style="color: rgb(31, 25, 25);">recuerda poner tu capital y los pip corresponidente a los tp para</span><br style="color: rgb(31, 25, 25);"><span style="color: rgb(31, 25, 25);">calcular las ganancias requeridas&nbsp;</span><br style="color: rgb(31, 25, 25);"><br style="color: rgb(31, 25, 25);"><span style="color: rgb(31, 25, 25);">ingeniero miguel fonseca&nbsp; siempre recordando cuidar capital estar&nbsp;</span><br style="color: rgb(31, 25, 25);"><span style="color: rgb(31, 25, 25);">siempre operando de la mejor manera&nbsp;</span><br style="color: rgb(31, 25, 25);"><br style="color: rgb(31, 25, 25);"><span style="color: rgb(31, 25, 25);">la rentabilidad es la constancia y perseverancia y cada dia esfuerzate&nbsp;</span><br style="color: rgb(31, 25, 25);"><p><span style="color: rgb(31, 25, 25);">por ser el mejor . aprende lleva una buena gestion de riesgo&nbsp;</span>Nuevo texto 1 - haz clic para editar</p><div class="resize-handle nw"></div><div class="resize-handle ne"></div><div class="resize-handle sw"></div><div class="resize-handle se"></div></div>
+        </div>
+        
+        <div class="document-footer">
+            <p>© 2025 - Beaver trading - Todos los derechos reservados</p>
+        </div>
+    </div>
+</body>
+</html>

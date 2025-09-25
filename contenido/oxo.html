@@ -1,0 +1,2967 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vip Forex</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #7209b7;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #fca311;
+            --info: #4895ef;
+            --background: #0a0a1a;
+            --surface: #16162b;
+            --text: #e9ecef;
+            --neon: #00f3ff;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Exo 2', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(28, 28, 60, 0.3) 0%, transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(38, 38, 86, 0.3) 0%, transparent 25%);
+        }
+        
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Panel lateral de herramientas futurista */
+        .toolbar {
+            width: 300px;
+            background: linear-gradient(165deg, var(--surface) 0%, #1a1a3a 100%);
+            color: var(--text);
+            padding: 20px;
+            box-shadow: 0 0 25px rgba(67, 97, 238, 0.3);
+            overflow-y: auto;
+            transition: all 0.3s ease;
+            z-index: 100;
+            border-right: 1px solid rgba(67, 97, 238, 0.2);
+        }
+        
+        .toolbar.collapsed {
+            transform: translateX(-270px);
+        }
+        
+        .toggle-toolbar {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 101;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            cursor: pointer;
+            display: none;
+            box-shadow: 0 0 15px rgba(67, 97, 238, 0.7);
+            transition: all 0.3s ease;
+        }
+        
+        .toggle-toolbar:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(67, 97, 238, 0.9);
+        }
+        
+        .toolbar h2 {
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 1.6rem;
+            color: var(--neon);
+            position: relative;
+            padding-bottom: 15px;
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 10px rgba(76, 201, 240, 0.7);
+        }
+        
+        .toolbar h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--neon), transparent);
+            border-radius: 3px;
+        }
+        
+        .tool-section {
+            margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border: 1px solid rgba(67, 97, 238, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tool-section:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--accent));
+        }
+        
+        .tool-section h3 {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: var(--info);
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+        }
+        
+        .tool-section h3 i {
+            margin-right: 10px;
+            color: var(--neon);
+        }
+        
+        .tool-button {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background: linear-gradient(145deg, rgba(67, 97, 238, 0.2), rgba(58, 12, 163, 0.2));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(67, 97, 238, 0.3);
+        }
+        
+        .tool-button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.5s ease;
+        }
+        
+        .tool-button:hover:before {
+            left: 100%;
+        }
+        
+        .tool-button i {
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .tool-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15), 0 0 15px rgba(67, 97, 238, 0.4);
+            background: linear-gradient(145deg, rgba(67, 97, 238, 0.3), rgba(58, 12, 163, 0.3));
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 12px;
+            background-color: rgba(10, 10, 30, 0.6);
+            border: 1px solid rgba(67, 97, 238, 0.4);
+            border-radius: 6px;
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.3), 0 0 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        /* Área de edición futurista */
+        .editor-area {
+            flex-grow: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: var(--background);
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .editor-area:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(58, 12, 163, 0.1) 0%, transparent 15%),
+                radial-gradient(circle at 80% 70%, rgba(114, 9, 183, 0.1) 0%, transparent 15%);
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .editor-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        
+        .editor-header:after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--neon), transparent);
+            opacity: 0.5;
+        }
+        
+        .editor-header h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--neon));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 15px rgba(76, 201, 240, 0.5);
+            display: flex;
+            align-items: center;
+        }
+        
+        .editor-header h1 i {
+            margin-right: 15px;
+            font-size: 2rem;
+            color: var(--neon);
+            text-shadow: 0 0 10px var(--neon);
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo {
+            width: 60px;
+            height: 60px;
+            margin-right: 15px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(67, 97, 238, 0.7);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .logo:before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBkPSJNNTAuNjY3LDEwLjMzM2MzMC42NjcsMCwzMy4zMzMsNDAsMzMuMzMzLDQwYzAsMC0yLjY2Niw0MC0zMy4zMzMsNDBTMTcuMzM0LDUwLjMzMywxNy4zMzQsNTAuMzMzUzIwLDEwLjMzMyw1MC42NjcsMTAuMzMzeiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjUiLz48cGF0aCBkPSJNMzMuMzM0LDMzLjMzM2MwLDUuNTIzLDMwLDExLjA0NywzMy4zMzMsMTEuMDQ3YzMuMzMzLDAsMzMuMzMzLTUuNTI0LDMzLjMzMy0xMS4wNDciIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIzIi8+PHBhdGggZD0iTTMzLjMzNCw2Ni42NjZjMC01LjUyMywyOC4xMjUtMTEuMDQ3LDMzLjMzMy0xMS4wNDdjNS4yMDgsMCwzMy4zMzMsNS41MjQsMzMuMzMzLDExLjA0NyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiLz48L3N2Zz4=') center/70% no-repeat;
+        }
+        
+        .vip-badge {
+            background: linear-gradient(145deg, var(--warning), #ff5e00);
+            color: black;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-left: 15px;
+            box-shadow: 0 0 15px rgba(252, 163, 17, 0.7);
+            animation: pulse 2s infinite;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .action-button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .action-button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: all 0.5s ease;
+        }
+        
+        .action-button:hover:before {
+            left: 100%;
+        }
+        
+        .action-button i {
+            margin-right: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .save-btn {
+            background: linear-gradient(145deg, var(--success), #3a86ff);
+            color: white;
+        }
+        
+        .share-btn {
+            background: linear-gradient(145deg, var(--accent), #560bad);
+            color: white;
+        }
+        
+        .reset-btn {
+            background: linear-gradient(145deg, var(--danger), #d90429);
+            color: white;
+        }
+        
+        .links-btn {
+            background: linear-gradient(145deg, var(--warning), #f3722c);
+            color: white;
+        }
+        
+        .download-btn {
+            background: linear-gradient(145deg, var(--info), #277da1);
+            color: white;
+        }
+        
+        .action-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        
+        /* Pestañas de páginas futuristas */
+        .page-tabs {
+            display: flex;
+            width: 850px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            background: rgba(22, 22, 43, 0.8);
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border: 1px solid rgba(67, 97, 238, 0.2);
+        }
+        
+        .page-tab {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            margin-right: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        
+        .page-tab:hover {
+            background: rgba(67, 97, 238, 0.2);
+        }
+        
+        .page-tab.active {
+            background: linear-gradient(145deg, var(--primary), var(--secondary));
+            box-shadow: 0 0 15px rgba(67, 97, 238, 0.5);
+        }
+        
+        .page-tab i {
+            margin-left: 8px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .page-tab:hover i {
+            color: var(--danger);
+        }
+        
+        .add-page {
+            padding: 10px 15px;
+            background: var(--success);
+            border-radius: 8px;
+            cursor: pointer;
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .add-page:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(76, 201, 240, 0.7);
+        }
+        
+        /* Canvas de edición futurista */
+        .canvas-container {
+            position: relative;
+            width: 850px;
+            min-height: 650px;
+            overflow: auto;
+            background: var(--surface);
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            border: 1px solid rgba(67, 97, 238, 0.3);
+        }
+        
+        .canvas-container:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 15px;
+            padding: 2px;
+            background: linear-gradient(135deg, var(--primary), transparent, var(--accent), transparent, var(--primary));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        
+        .canvas {
+            width: 100%;
+            min-height: 650px;
+            background-color: white;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            background-image: 
+                linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+            background-size: 25px 25px;
+        }
+        
+        .editable {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 2px dashed transparent;
+            transition: all 0.3s ease;
+            cursor: move;
+            position: relative;
+            border-radius: 8px;
+        }
+        
+        .editable:hover {
+            border-color: var(--primary);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.2);
+        }
+        
+        .editable.selected {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(114, 9, 183, 0.3), 0 5px 20px rgba(114, 9, 183, 0.2);
+        }
+        
+        .editable img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        
+        .resize-handle {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background: var(--primary);
+            border-radius: 50%;
+            z-index: 10;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+            border: 2px solid white;
+        }
+        
+        .resize-handle.nw {
+            top: -7px;
+            left: -7px;
+            cursor: nw-resize;
+        }
+        
+        .resize-handle.ne {
+            top: -7px;
+            right: -7px;
+            cursor: ne-resize;
+        }
+        
+        .resize-handle.sw {
+            bottom: -7px;
+            left: -7px;
+            cursor: sw-resize;
+        }
+        
+        .resize-handle.se {
+            bottom: -7px;
+            right: -7px;
+            cursor: se-resize;
+        }
+        
+        .element-actions {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: var(--surface);
+            border-radius: 8px;
+            padding: 8px;
+            display: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border: 1px solid rgba(67, 97, 238, 0.2);
+            z-index: 20;
+        }
+        
+        .editable.selected .element-actions {
+            display: flex;
+        }
+        
+        .element-actions button {
+            background: transparent;
+            border: none;
+            color: var(--text);
+            cursor: pointer;
+            padding: 5px 8px;
+            font-size: 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .element-actions button:hover {
+            background: rgba(67, 97, 238, 0.2);
+            color: var(--primary);
+        }
+        
+        /* Modal para compartir futurista */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: linear-gradient(145deg, #1a1a3a, var(--surface));
+            padding: 35px;
+            border-radius: 20px;
+            width: 550px;
+            max-width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            border: 1px solid rgba(67, 97, 238, 0.3);
+            position: relative;
+        }
+        
+        .modal-content:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 20px;
+            padding: 2px;
+            background: linear-gradient(135deg, var(--primary), transparent, var(--accent));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        
+        .modal h2 {
+            margin-bottom: 20px;
+            color: var(--success);
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
+        }
+        
+        .modal input {
+            margin-bottom: 20px;
+            background-color: rgba(10, 10, 30, 0.7);
+            border: 1px solid rgba(67, 97, 238, 0.5);
+        }
+        
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        /* Lista de enlaces futurista */
+        .links-list {
+            margin-top: 25px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .link-item {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            background: rgba(10, 10, 30, 0.5);
+        }
+        
+        .link-item:hover {
+            background: rgba(67, 97, 238, 0.2);
+        }
+        
+        .link-item a {
+            color: var(--info);
+            text-decoration: none;
+            flex-grow: 1;
+            margin-right: 10px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+        
+        .link-item a:hover {
+            color: var(--neon);
+            text-shadow: 0 0 5px rgba(76, 201, 240, 0.5);
+        }
+        
+        .link-item button {
+            background: linear-gradient(145deg, var(--danger), #d90429);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .link-item button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(247, 37, 133, 0.4);
+        }
+        
+        /* Notificaciones futuristas */
+        .notification {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            padding: 18px 28px;
+            background: linear-gradient(145deg, var(--success), #3a86ff);
+            color: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            display: none;
+            z-index: 1001;
+            animation: slideIn 0.4s ease;
+            border-left: 5px solid var(--neon);
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .notification.error {
+            background: linear-gradient(145deg, var(--danger), #d90429);
+            border-left: 5px solid #ff0055;
+        }
+        
+        /* Vista de enlaces guardados futurista */
+        .saved-links-view {
+            display: none;
+            width: 100%;
+            margin-top: 25px;
+        }
+        
+        .saved-links-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .saved-links-header h2 {
+            color: var(--success);
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
+        }
+        
+        .saved-links-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+        
+        .saved-link-card {
+            background: linear-gradient(145deg, #1a1a3a, var(--surface));
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(67, 97, 238, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .saved-link-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 15px;
+            padding: 2px;
+            background: linear-gradient(135deg, var(--primary), transparent, var(--accent));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        
+        .saved-link-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+        
+        .saved-link-card h3 {
+            margin-bottom: 15px;
+            color: var(--success);
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .saved-link-card a {
+            color: var(--info);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 20px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+        
+        .saved-link-card a:hover {
+            color: var(--neon);
+        }
+        
+        .saved-link-card button {
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-right: 10px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .saved-link-card .view-btn {
+            background: linear-gradient(145deg, var(--success), #3a86ff);
+            color: white;
+        }
+        
+        .saved-link-card .download-btn {
+            background: linear-gradient(145deg, var(--info), #277da1);
+            color: white;
+        }
+        
+        .saved-link-card .delete-btn {
+            background: linear-gradient(145deg, var(--danger), #d90429);
+            color: white;
+        }
+        
+        .saved-link-card button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        /* Modo visualización futurista */
+        .view-mode .toolbar,
+        .view-mode .editor-header,
+        .view-mode .page-tabs {
+            display: none;
+        }
+        
+        .view-mode .editor-area {
+            width: 100%;
+            padding: 0;
+        }
+        
+        .view-mode .canvas-container {
+            width: 100%;
+            max-width: 100%;
+            border-radius: 0;
+        }
+        
+        .view-mode .canvas {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            box-shadow: none;
+            border: none;
+            background-image: none;
+        }
+        
+        .view-mode .editable {
+            border: none !important;
+            pointer-events: none;
+        }
+        
+        .view-actions {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1300px) {
+            .canvas-container, .page-tabs {
+                width: 750px;
+            }
+        }
+        
+        @media (max-width: 1100px) {
+            .canvas-container, .page-tabs {
+                width: 650px;
+            }
+            
+            .toolbar {
+                width: 260px;
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .toolbar {
+                width: 100%;
+                position: fixed;
+                height: 100vh;
+                z-index: 100;
+                transform: translateX(-100%);
+            }
+            
+            .toolbar.open {
+                transform: translateX(0);
+            }
+            
+            .toggle-toolbar {
+                display: block;
+            }
+            
+            .editor-area {
+                padding: 80px 20px 20px 20px;
+            }
+            
+            .editor-header {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .canvas-container, .page-tabs {
+                width: 100%;
+            }
+            
+            .page-tabs {
+                overflow-x: auto;
+            }
+            
+            .action-buttons {
+                justify-content: center;
+            }
+            
+            .logo-container {
+                margin-bottom: 15px;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .action-button {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .action-button i {
+                margin-right: 5px;
+            }
+            
+            .modal-content {
+                padding: 25px;
+            }
+            
+            .saved-links-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .editor-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .vip-badge {
+                font-size: 0.8rem;
+                padding: 4px 10px;
+            }
+        }
+        
+        /* Animaciones y efectos futuristas */
+        .glow-effect {
+            box-shadow: 0 0 20px rgba(67, 97, 238, 0.7);
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(67, 97, 238, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(67, 97, 238, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(67, 97, 238, 0); }
+        }
+        
+        .neon-text {
+            text-shadow: 0 0 5px var(--neon), 0 0 10px var(--neon), 0 0 15px var(--neon);
+            color: white;
+        }
+        
+        /* Scrollbar personalizado futurista */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, var(--primary), var(--accent));
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(to bottom, var(--accent), var(--primary));
+        }
+        
+        /* Efectos de partículas para el fondo */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(67, 97, 238, 0.5);
+            box-shadow: 0 0 10px rgba(67, 97, 238, 0.7);
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+        
+        /* Indicador de carga futurista */
+        .loader {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 26, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        
+        .loader-content {
+            text-align: center;
+        }
+        
+        .spinner {
+            width: 70px;
+            height: 70px;
+            border: 5px solid rgba(67, 97, 238, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Estadísticas en tiempo real */
+        .stats-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(22, 22, 43, 0.9);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            border: 1px solid rgba(67, 97, 238, 0.3);
+            z-index: 99;
+            display: none;
+        }
+        
+        .stats-panel h3 {
+            color: var(--neon);
+            margin-bottom: 10px;
+            font-size: 1rem;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .stat-value {
+            color: var(--success);
+            font-weight: bold;
+        }
+        
+        /* Tutorial interactivo */
+        .tutorial {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(22, 22, 43, 0.9);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            border: 1px solid rgba(67, 97, 238, 0.3);
+            z-index: 99;
+            max-width: 300px;
+            display: none;
+        }
+        
+        .tutorial h3 {
+            color: var(--neon);
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+        
+        .tutorial p {
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .tutorial-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: transparent;
+            border: none;
+            color: var(--text);
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="spinner"></div>
+            <p class="neon-text">Procesando...</p>
+        </div>
+    </div>
+    
+    <div class="stats-panel" id="stats-panel">
+        <h3><i class="fas fa-chart-line"></i> ESTADÍSTICAS</h3>
+        <div class="stat-item">
+            <span>Elementos:</span>
+            <span class="stat-value" id="stat-elements">0</span>
+        </div>
+        <div class="stat-item">
+            <span>Páginas:</span>
+            <span class="stat-value" id="stat-pages">1</span>
+        </div>
+        <div class="stat-item">
+            <span>Proyectos guardados:</span>
+            <span class="stat-value" id="stat-projects">0</span>
+        </div>
+    </div>
+    
+    <div class="tutorial" id="tutorial">
+        <button class="tutorial-close" id="tutorial-close"><i class="fas fa-times"></i></button>
+        <h3><i class="fas fa-graduation-cap"></i> CONSEJO RÁPIDO</h3>
+        <p>Haz doble clic en cualquier elemento de texto para editarlo directamente. Usa los controles laterales para personalizar aún más.</p>
+    </div>
+    
+    <button class="toggle-toolbar" id="toggle-toolbar">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <div class="container" id="main-container">
+        <!-- Panel de herramientas lateral futurista -->
+        <div class="toolbar" id="toolbar">
+            <h2><i class="fas fa-palette"></i> HERRAMIENTAS VIP</h2>
+            
+            <div class="tool-section">
+                <h3><i class="fas fa-cube"></i> ELEMENTOS</h3>
+                <button class="tool-button" id="add-text-btn">
+                    <i class="fas fa-font"></i> Agregar Texto
+                </button>
+                <button class="tool-button" id="add-image-btn">
+                    <i class="fas fa-image"></i> Agregar Imagen
+                </button>
+                <button class="tool-button" id="add-image-url-btn">
+                    <i class="fas fa-link"></i> Imagen desde URL
+                </button>
+                <button class="tool-button" id="add-video-btn">
+                    <i class="fas fa-video"></i> Agregar Video
+                </button>
+                <button class="tool-button" id="add-youtube-btn">
+                    <i class="fab fa-youtube"></i> Insertar YouTube
+                </button>
+                <button class="tool-button" id="add-chart-btn">
+                    <i class="fas fa-chart-bar"></i> Gráfico Trading
+                </button>
+            </div>
+            
+            <div class="tool-section">
+                <h3><i class="fas fa-sliders-h"></i> PROPIEDADES</h3>
+                <input type="text" id="edit-text" placeholder="Editar texto...">
+                <input type="color" id="color-picker" value="#000000">
+                <select id="font-family">
+                    <option value="Arial">Arial</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                    <option value="Courier New">Courier New</option>
+                    <option value="Verdana">Verdana</option>
+                    <option value="Georgia">Georgia</option>
+                    <option value="Poppins">Poppins</option>
+                    <option value="Montserrat">Montserrat</option>
+                    <option value="Orbitron">Orbitron</option>
+                    <option value="Exo 2">Exo 2</option>
+                </select>
+                <select id="font-size">
+                    <option value="12px">Pequeño (12px)</option>
+                    <option value="16px" selected>Mediano (16px)</option>
+                    <option value="24px">Grande (24px)</option>
+                    <option value="32px">Muy Grande (32px)</option>
+                    <option value="48px">Extra Grande (48px)</option>
+                </select>
+                <div style="display: flex; gap: 10px;">
+                    <input type="number" id="element-width" placeholder="Ancho (px)">
+                    <input type="number" id="element-height" placeholder="Alto (px)">
+                </div>
+            </div>
+            
+            <div class="tool-section">
+                <h3><i class="fas fa-align-left"></i> ALINEACIÓN</h3>
+                <button class="tool-button" id="align-left">
+                    <i class="fas fa-align-left"></i> Alinear Izquierda
+                </button>
+                <button class="tool-button" id="align-center">
+                    <i class="fas fa-align-center"></i> Alinear Centro
+                </button>
+                <button class="tool-button" id="align-right">
+                    <i class="fas fa-align-right"></i> Alinear Derecha
+                </button>
+            </div>
+            
+            <div class="tool-section">
+                <h3><i class="fas fa-layer-group"></i> CAPAS</h3>
+                <button class="tool-button" id="bring-to-front">
+                    <i class="fas fa-arrow-to-top"></i> Traer al Frente
+                </button>
+                <button class="tool-button" id="send-to-back">
+                    <i class="fas fa-arrow-to-bottom"></i> Enviar al Fondo
+                </button>
+            </div>
+            
+            <div class="tool-section">
+                <h3><i class="fas fa-magic"></i> EFECTOS</h3>
+                <button class="tool-button" id="add-shadow">
+                    <i class="fas fa-box-shadow"></i> Añadir Sombra
+                </button>
+                <button class="tool-button" id="add-gradient">
+                    <i class="fas fa-fill-drip"></i> Gradiente de Fondo
+                </button>
+                <button class="tool-button" id="add-animation">
+                    <i class="fas fa-film"></i> Añadir Animación
+                </button>
+            </div>
+            
+            <div class="tool-section">
+                <h3><i class="fas fa-trash-alt"></i> ACCIONES</h3>
+                <button class="tool-button" id="delete-element">
+                    <i class="fas fa-trash"></i> Eliminar Elemento
+                </button>
+                <button class="tool-button" id="crop-image">
+                    <i class="fas fa-crop-alt"></i> Recortar Imagen
+                </button>
+                <button class="tool-button" id="duplicate-element">
+                    <i class="fas fa-copy"></i> Duplicar Elemento
+                </button>
+            </div>
+        </div>
+        
+        <!-- Área principal de edición futurista -->
+        <div class="editor-area">
+            <div class="editor-header">
+                <div class="logo-container">
+                    <div class="logo"></div>
+                    <h1><i class="fas fa-globe">Beaver</i><span class="vip-badge">Trading</span></h1>
+                </div>
+                <div class="action-buttons">
+                    <button class="action-button save-btn" id="save-btn">
+                        <i class="fas fa-save"></i> Guardar
+                    </button>
+                    <button class="action-button share-btn" id="share-btn">
+                        <i class="fas fa-share-alt"></i> Compartir
+                    </button>
+                    <button class="action-button download-btn" id="download-btn">
+                        <i class="fas fa-download"></i> Descargar
+                    </button>
+                    <button class="action-button links-btn" id="links-btn">
+                        <i class="fas fa-link"></i> Mis Enlaces
+                    </button>
+                    <button class="action-button reset-btn" id="reset-btn">
+                        <i class="fas fa-plus"></i> Nuevo
+                    </button>
+                    <button class="action-button" id="stats-btn" style="background: linear-gradient(145deg, #7209b7, #560bad);">
+                        <i class="fas fa-chart-bar"></i> Stats
+                    </button>
+                    <button class="action-button" id="tutorial-btn" style="background: linear-gradient(145deg, #4cc9f0, #3a86ff);">
+                        <i class="fas fa-question"></i> Ayuda
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Pestañas de páginas futuristas -->
+            <div class="page-tabs" id="page-tabs">
+                <div class="page-tab active" data-page="1">
+                    Página 1 <i class="fas fa-times" data-page="1"></i>
+                </div>
+                <div class="add-page" id="add-page">
+                    <i class="fas fa-plus"></i>
+                </div>
+            </div>
+            
+            <!-- Canvas de edición futurista -->
+            <div class="canvas-container">
+                <div class="canvas" id="canvas">
+                    <!-- Contenido inicial con estilo futurista -->
+                    <div class="editable" style="text-align: center; padding: 30px; background: linear-gradient(145deg, rgba(67, 97, 238, 0.1), rgba(58, 12, 163, 0.1)); border-radius: 15px;">
+                        <h2 style="color: #4361ee; font-family: 'Orbitron', sans-serif; text-shadow: 0 0 10px rgba(67, 97, 238, 0.5);">Beaver Trading</h2>
+                        <p style="font-size: 1.2rem; color: #4cc9f0;">La plataforma de edición más avanzada para traders profesionales</p>
+                        <div style="margin-top: 20px; padding: 15px; background: rgba(10, 10, 30, 0.5); border-radius: 10px; border-left: 4px solid var(--neon);">
+                            <p style="margin: 0; font-style: italic;">Haz clic para editar este texto. Personaliza tu contenido con nuestras herramientas avanzadas.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="editable" style="text-align: center; margin-top: 30px;">
+                        <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                            <div style="padding: 20px; background: rgba(67, 97, 238, 0.1); border-radius: 10px; min-width: 200px;">
+                                <h3 style="color: var(--success);">ANÁLISIS TÉCNICO</h3>
+                                <p>Herramientas profesionales para el análisis de mercados</p>
+                            </div>
+                            <div style="padding: 20px; background: rgba(114, 9, 183, 0.1); border-radius: 10px; min-width: 200px;">
+                                <h3 style="color: var(--warning);">SEÑALES EN TIEMPO REAL</h3>
+                                <p>Recibe alertas instantáneas de trading</p>
+                            </div>
+                            <div style="padding: 20px; background: rgba(76, 201, 240, 0.1); border-radius: 10px; min-width: 200px;">
+                                <h3 style="color: var(--danger);">FORMACIÓN AVANZADA</h3>
+                                <p>Cursos exclusivos para miembros VIP</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Vista de enlaces guardados futurista -->
+            <div class="saved-links-view" id="saved-links-view">
+                <div class="saved-links-header">
+                    <h2><i class="fas fa-bookmark"></i> MIS PÁGINAS GUARDADAS</h2>
+                    <button class="action-button" id="back-to-editor">
+                        <i class="fas fa-arrow-left"></i> Volver al Editor
+                    </button>
+                </div>
+                <div class="saved-links-list" id="saved-links-list">
+                    <!-- Los enlaces se cargarán aquí -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal para compartir futurista -->
+    <div class="modal" id="share-modal">
+        <div class="modal-content">
+            <h2><i class="fas fa-share-alt"></i> COMPARTIR TU CREACIÓN</h2>
+            <p>Tu proyecto se ha guardado. Comparte este enlace con otras personas:</p>
+            <input type="text" id="share-link" readonly>
+            
+            <h3 style="margin-top: 20px;"><i class="fas fa-history"></i> Tus páginas guardadas:</h3>
+            <div class="links-list" id="links-list">
+                <!-- Los enlaces se cargarán aquí -->
+            </div>
+            
+            <div class="modal-buttons">
+                <button class="tool-button" id="copy-link">
+                    <i class="fas fa-copy"></i> Copiar Enlace
+                </button>
+                <button class="tool-button" style="background: var(--secondary);" id="close-modal">
+                    <i class="fas fa-times"></i> Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal para YouTube futurista -->
+    <div class="modal" id="youtube-modal">
+        <div class="modal-content">
+            <h2><i class="fab fa-youtube"></i> INSERTAR VIDEO DE YOUTUBE</h2>
+            <p>Pega la URL del video de YouTube:</p>
+            <input type="text" id="youtube-url" placeholder="https://www.youtube.com/watch?v=...">
+            <div style="display: flex; gap: 10px;">
+                <input type="number" id="video-width" placeholder="Ancho (px)" value="560">
+                <input type="number" id="video-height" placeholder="Alto (px)" value="315">
+            </div>
+            
+            <div class="modal-buttons">
+                <button class="tool-button" id="insert-youtube">
+                    <i class="fas fa-plus"></i> Insertar
+                </button>
+                <button class="tool-button" style="background: var(--secondary);" id="close-youtube-modal">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal para imagen desde URL futurista -->
+    <div class="modal" id="image-url-modal">
+        <div class="modal-content">
+            <h2><i class="fas fa-link"></i> INSERTAR IMAGEN DESDE URL</h2>
+            <p>Pega la URL de la imagen:</p>
+            <input type="text" id="image-url" placeholder="https://ejemplo.com/imagen.jpg">
+            <div style="display: flex; gap: 10px;">
+                <input type="number" id="image-width" placeholder="Ancho (px)">
+                <input type="number" id="image-height" placeholder="Alto (px)">
+            </div>
+            
+            <div class="modal-buttons">
+                <button class="tool-button" id="insert-image-url">
+                    <i class="fas fa-plus"></i> Insertar
+                </button>
+                <button class="tool-button" style="background: var(--secondary);" id="close-image-url-modal">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal para gráficos de trading -->
+    <div class="modal" id="chart-modal">
+        <div class="modal-content">
+            <h2><i class="fas fa-chart-bar"></i> INSERTAR GRÁFICO DE TRADING</h2>
+            <p>Selecciona el tipo de gráfico:</p>
+            <select id="chart-type">
+                <option value="line">Gráfico de Líneas</option>
+                <option value="candlestick">Velas Japonesas</option>
+                <option value="bar">Barras</option>
+                <option value="area">Área</option>
+            </select>
+            
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <input type="number" id="chart-width" placeholder="Ancho (px)" value="600">
+                <input type="number" id="chart-height" placeholder="Alto (px)" value="400">
+            </div>
+            
+            <div class="modal-buttons">
+                <button class="tool-button" id="insert-chart">
+                    <i class="fas fa-plus"></i> Insertar
+                </button>
+                <button class="tool-button" style="background: var(--secondary);" id="close-chart-modal">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal para recortar imagen futurista -->
+    <div class="modal" id="crop-modal">
+        <div class="modal-content">
+            <h2><i class="fas fa-crop-alt"></i> RECORTAR IMAGEN</h2>
+            <div id="crop-container" style="margin-bottom: 20px; max-height: 300px; overflow: auto;">
+                <!-- Aquí se mostrará la imagen para recortar -->
+            </div>
+            
+            <div class="modal-buttons">
+                <button class="tool-button" id="apply-crop">
+                    <i class="fas fa-check"></i> Aplicar
+                </button>
+                <button class="tool-button" style="background: var(--secondary);" id="close-crop-modal">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Notificación futurista -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i> ¡Cambios guardados exitosamente!
+    </div>
+    
+    <!-- Acciones en modo visualización futurista -->
+    <div class="view-actions" id="view-actions" style="display: none;">
+        <button class="action-button download-btn" id="view-download-btn">
+            <i class="fas fa-download"></i> Descargar
+        </button>
+        <button class="action-button" id="view-html-btn" style="background: var(--accent);">
+            <i class="fas fa-code"></i> Obtener HTML
+        </button>
+    </div>
+
+    <script>
+        // Simulación de base de datos en la nube
+        const cloudDatabase = {
+            projects: {},
+            saveProject: function(id, data) {
+                this.projects[id] = data;
+                // Guardar en localStorage como respaldo
+                localStorage.setItem('cloudProjects', JSON.stringify(this.projects));
+                return true;
+            },
+            getProject: function(id) {
+                return this.projects[id];
+            },
+            getAllProjects: function() {
+                return this.projects;
+            },
+            deleteProject: function(id) {
+                if (this.projects[id]) {
+                    delete this.projects[id];
+                    localStorage.setItem('cloudProjects', JSON.stringify(this.projects));
+                    return true;
+                }
+                return false;
+            }
+        };
+
+        // Cargar proyectos guardados en localStorage al iniciar
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedCloudProjects = localStorage.getItem('cloudProjects');
+            if (savedCloudProjects) {
+                cloudDatabase.projects = JSON.parse(savedCloudProjects);
+            }
+            
+            // Variables globales
+            let selectedElement = null;
+            let elementCount = 0;
+            let isDragging = false;
+            let isResizing = false;
+            let resizeDirection = null;
+            let startX, startY, initialLeft, initialTop, initialWidth, initialHeight;
+            let currentPage = 1;
+            let pages = {
+                1: document.getElementById('canvas').innerHTML
+            };
+            
+            // Referencias a elementos DOM
+            const canvas = document.getElementById('canvas');
+            const addTextBtn = document.getElementById('add-text-btn');
+            const addImageBtn = document.getElementById('add-image-btn');
+            const addImageUrlBtn = document.getElementById('add-image-url-btn');
+            const addVideoBtn = document.getElementById('add-video-btn');
+            const addYoutubeBtn = document.getElementById('add-youtube-btn');
+            const addChartBtn = document.getElementById('add-chart-btn');
+            const editTextInput = document.getElementById('edit-text');
+            const colorPicker = document.getElementById('color-picker');
+            const fontFamily = document.getElementById('font-family');
+            const fontSize = document.getElementById('font-size');
+            const elementWidth = document.getElementById('element-width');
+            const elementHeight = document.getElementById('element-height');
+            const alignLeft = document.getElementById('align-left');
+            const alignCenter = document.getElementById('align-center');
+            const alignRight = document.getElementById('align-right');
+            const deleteElement = document.getElementById('delete-element');
+            const bringToFront = document.getElementById('bring-to-front');
+            const sendToBack = document.getElementById('send-to-back');
+            const addShadow = document.getElementById('add-shadow');
+            const addGradient = document.getElementById('add-gradient');
+            const addAnimation = document.getElementById('add-animation');
+            const duplicateElement = document.getElementById('duplicate-element');
+            const cropImageBtn = document.getElementById('crop-image');
+            const saveBtn = document.getElementById('save-btn');
+            const shareBtn = document.getElementById('share-btn');
+            const downloadBtn = document.getElementById('download-btn');
+            const linksBtn = document.getElementById('links-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            const statsBtn = document.getElementById('stats-btn');
+            const tutorialBtn = document.getElementById('tutorial-btn');
+            const shareModal = document.getElementById('share-modal');
+            const shareLink = document.getElementById('share-link');
+            const linksList = document.getElementById('links-list');
+            const copyLink = document.getElementById('copy-link');
+            const closeModal = document.getElementById('close-modal');
+            const youtubeModal = document.getElementById('youtube-modal');
+            const youtubeUrl = document.getElementById('youtube-url');
+            const videoWidth = document.getElementById('video-width');
+            const videoHeight = document.getElementById('video-height');
+            const insertYoutubeBtn = document.getElementById('insert-youtube');
+            const closeYoutubeModal = document.getElementById('close-youtube-modal');
+            const chartModal = document.getElementById('chart-modal');
+            const chartType = document.getElementById('chart-type');
+            const chartWidth = document.getElementById('chart-width');
+            const chartHeight = document.getElementById('chart-height');
+            const insertChartBtn = document.getElementById('insert-chart');
+            const closeChartModal = document.getElementById('close-chart-modal');
+            const imageUrlModal = document.getElementById('image-url-modal');
+            const imageUrl = document.getElementById('image-url');
+            const imageWidth = document.getElementById('image-width');
+            const imageHeight = document.getElementById('image-height');
+            const insertImageUrlBtn = document.getElementById('insert-image-url');
+            const closeImageUrlModal = document.getElementById('close-image-url-modal');
+            const cropModal = document.getElementById('crop-modal');
+            const cropContainer = document.getElementById('crop-container');
+            const applyCropBtn = document.getElementById('apply-crop');
+            const closeCropModal = document.getElementById('close-crop-modal');
+            const notification = document.getElementById('notification');
+            const savedLinksView = document.getElementById('saved-links-view');
+            const savedLinksList = document.getElementById('saved-links-list');
+            const backToEditor = document.getElementById('back-to-editor');
+            const mainContainer = document.getElementById('main-container');
+            const viewActions = document.getElementById('view-actions');
+            const viewDownloadBtn = document.getElementById('view-download-btn');
+            const viewHtmlBtn = document.getElementById('view-html-btn');
+            const pageTabs = document.getElementById('page-tabs');
+            const addPageBtn = document.getElementById('add-page');
+            const toggleToolbarBtn = document.getElementById('toggle-toolbar');
+            const toolbar = document.getElementById('toolbar');
+            const statsPanel = document.getElementById('stats-panel');
+            const statElements = document.getElementById('stat-elements');
+            const statPages = document.getElementById('stat-pages');
+            const statProjects = document.getElementById('stat-projects');
+            const tutorialPanel = document.getElementById('tutorial');
+            const tutorialClose = document.getElementById('tutorial-close');
+            const loader = document.getElementById('loader');
+            const particlesContainer = document.getElementById('particles');
+            
+            // Crear partículas de fondo
+            function createParticles() {
+                for (let i = 0; i < 30; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.width = Math.random() * 5 + 2 + 'px';
+                    particle.style.height = particle.style.width;
+                    particle.style.left = Math.random() * 100 + 'vw';
+                    particle.style.top = Math.random() * 100 + 'vh';
+                    particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                    particle.style.animationDelay = Math.random() * 5 + 's';
+                    particlesContainer.appendChild(particle);
+                }
+            }
+            
+            // Actualizar estadísticas
+            function updateStats() {
+                statElements.textContent = document.querySelectorAll('.editable').length;
+                statPages.textContent = Object.keys(pages).length;
+                statProjects.textContent = Object.keys(cloudDatabase.getAllProjects()).length;
+            }
+            
+            // Mostrar/ocultar loader
+            function showLoader(show) {
+                loader.style.display = show ? 'flex' : 'none';
+            }
+            
+            // Inicializar con el primer elemento seleccionado
+            selectElement(document.querySelector('.editable'));
+            createParticles();
+            updateStats();
+            
+            // Función para seleccionar un elemento
+            function selectElement(element) {
+                // Deseleccionar elemento anterior
+                if (selectedElement) {
+                    selectedElement.classList.remove('selected');
+                    selectedElement.removeAttribute('contenteditable');
+                }
+                
+                // Seleccionar nuevo elemento
+                selectedElement = element;
+                if (selectedElement) {
+                    selectedElement.classList.add('selected');
+                    
+                    // Actualizar controles con las propiedades del elemento
+                    if (selectedElement.tagName === 'IMG' || selectedElement.tagName === 'VIDEO' || selectedElement.tagName === 'IFRAME') {
+                        editTextInput.value = '';
+                        editTextInput.disabled = true;
+                    } else {
+                        editTextInput.disabled = false;
+                        editTextInput.value = selectedElement.innerText;
+                        colorPicker.value = rgbToHex(selectedElement.style.color || '#000000');
+                        fontFamily.value = selectedElement.style.fontFamily || 'Arial';
+                        fontSize.value = selectedElement.style.fontSize || '16px';
+                    }
+                    
+                    // Actualizar controles de tamaño
+                    elementWidth.value = parseInt(selectedElement.style.width) || selectedElement.offsetWidth;
+                    elementHeight.value = parseInt(selectedElement.style.height) || selectedElement.offsetHeight;
+                } else {
+                    editTextInput.value = '';
+                    elementWidth.value = '';
+                    elementHeight.value = '';
+                }
+                
+                updateStats();
+            }
+            
+            // Convertir RGB a HEX (para el selector de color)
+            function rgbToHex(rgb) {
+                if (!rgb || rgb === '') return '#000000';
+                
+                if (rgb.indexOf('rgb') === -1) return rgb;
+                
+                const rgbValues = rgb.match(/\d+/g);
+                return '#' + ((1 << 24) + (parseInt(rgbValues[0]) << 16) + 
+                            (parseInt(rgbValues[1]) << 8) + parseInt(rgbValues[2])).toString(16).slice(1);
+            }
+            
+            // Agregar texto editable
+            addTextBtn.addEventListener('click', function() {
+                elementCount++;
+                const newText = document.createElement('div');
+                newText.className = 'editable';
+                newText.innerHTML = '<p>Nuevo texto ' + elementCount + ' - haz clic para editar</p>';
+                newText.style.margin = '15px 0';
+                newText.style.padding = '15px';
+                newText.style.background = 'rgba(67, 97, 238, 0.1)';
+                newText.style.borderRadius = '8px';
+                
+                canvas.appendChild(newText);
+                selectElement(newText);
+                
+                // Hacer el nuevo texto editable inmediatamente
+                makeElementEditable(newText);
+                makeElementDraggable(newText);
+                addResizeHandles(newText);
+                updateStats();
+            });
+            
+            // Agregar imagen
+            addImageBtn.addEventListener('click', function() {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = 'image/*';
+                
+                input.onchange = function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        showLoader(true);
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            elementCount++;
+                            const newImage = document.createElement('img');
+                            newImage.src = event.target.result;
+                            newImage.className = 'editable';
+                            newImage.style.maxWidth = '100%';
+                            newImage.style.margin = '15px 0';
+                            newImage.style.borderRadius = '8px';
+                            
+                            canvas.appendChild(newImage);
+                            selectElement(newImage);
+                            
+                            // Hacer la imagen arrastrable y seleccionable
+                            makeElementEditable(newImage);
+                            makeElementDraggable(newImage);
+                            addResizeHandles(newImage);
+                            showLoader(false);
+                            updateStats();
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                };
+                
+                input.click();
+            });
+            
+            // Agregar imagen desde URL
+            addImageUrlBtn.addEventListener('click', function() {
+                imageUrlModal.style.display = 'flex';
+            });
+            
+            // Insertar imagen desde URL
+            insertImageUrlBtn.addEventListener('click', function() {
+                const url = imageUrl.value;
+                if (!url) {
+                    showNotification('Por favor ingresa una URL de imagen', true);
+                    return;
+                }
+                
+                showLoader(true);
+                elementCount++;
+                const newImage = document.createElement('img');
+                newImage.src = url;
+                newImage.className = 'editable';
+                newImage.style.maxWidth = '100%';
+                newImage.style.margin = '15px 0';
+                newImage.style.borderRadius = '8px';
+                
+                // Aplicar dimensiones si se especificaron
+                if (imageWidth.value) {
+                    newImage.style.width = imageWidth.value + 'px';
+                }
+                if (imageHeight.value) {
+                    newImage.style.height = imageHeight.value + 'px';
+                }
+                
+                // Verificar si la imagen se carga correctamente
+                newImage.onload = function() {
+                    canvas.appendChild(newImage);
+                    selectElement(newImage);
+                    
+                    // Hacer la imagen arrastrable y seleccionable
+                    makeElementEditable(newImage);
+                    makeElementDraggable(newImage);
+                    addResizeHandles(newImage);
+                    
+                    imageUrlModal.style.display = 'none';
+                    imageUrl.value = '';
+                    imageWidth.value = '';
+                    imageHeight.value = '';
+                    showLoader(false);
+                    updateStats();
+                };
+                
+                newImage.onerror = function() {
+                    showNotification('Error al cargar la imagen. Verifica la URL.', true);
+                    newImage.remove();
+                    showLoader(false);
+                };
+            });
+            
+            // Cerrar modal de imagen URL
+            closeImageUrlModal.addEventListener('click', function() {
+                imageUrlModal.style.display = 'none';
+            });
+            
+            // Agregar video
+            addVideoBtn.addEventListener('click', function() {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = 'video/*';
+                
+                input.onchange = function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        showLoader(true);
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            elementCount++;
+                            const newVideo = document.createElement('video');
+                            newVideo.src = event.target.result;
+                            newVideo.className = 'editable';
+                            newVideo.controls = true;
+                            newVideo.style.maxWidth = '100%';
+                            newVideo.style.margin = '15px 0';
+                            newVideo.style.borderRadius = '8px';
+                            
+                            canvas.appendChild(newVideo);
+                            selectElement(newVideo);
+                            
+                            // Hacer el video arrastrable y seleccionable
+                            makeElementEditable(newVideo);
+                            makeElementDraggable(newVideo);
+                            addResizeHandles(newVideo);
+                            showLoader(false);
+                            updateStats();
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                };
+                
+                input.click();
+            });
+            
+            // Abrir modal de YouTube
+            addYoutubeBtn.addEventListener('click', function() {
+                youtubeModal.style.display = 'flex';
+            });
+            
+            // Insertar video de YouTube
+            insertYoutubeBtn.addEventListener('click', function() {
+                const url = youtubeUrl.value;
+                if (!url) {
+                    showNotification('Por favor ingresa una URL de YouTube', true);
+                    return;
+                }
+                
+                // Extraer el ID del video
+                const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+                const match = url.match(regExp);
+                
+                if (match && match[2].length === 11) {
+                    const videoId = match[2];
+                    const width = videoWidth.value || 560;
+                    const height = videoHeight.value || 315;
+                    
+                    elementCount++;
+                    const iframe = document.createElement('iframe');
+                    iframe.className = 'editable';
+                    iframe.width = width;
+                    iframe.height = height;
+                    iframe.src = `https://www.youtube.com/embed/${videoId}`;
+                    iframe.frameBorder = 0;
+                    iframe.allowFullscreen = true;
+                    iframe.style.margin = '15px 0';
+                    iframe.style.borderRadius = '8px';
+                    
+                    canvas.appendChild(iframe);
+                    selectElement(iframe);
+                    
+                    // Hacer el iframe arrastrable y seleccionable
+                    makeElementEditable(iframe);
+                    makeElementDraggable(iframe);
+                    addResizeHandles(iframe);
+                    
+                    youtubeModal.style.display = 'none';
+                    youtubeUrl.value = '';
+                    updateStats();
+                } else {
+                    showNotification('URL de YouTube no válida', true);
+                }
+            });
+            
+            // Cerrar modal de YouTube
+            closeYoutubeModal.addEventListener('click', function() {
+                youtubeModal.style.display = 'none';
+            });
+            
+            // Abrir modal de gráficos
+            addChartBtn.addEventListener('click', function() {
+                chartModal.style.display = 'flex';
+            });
+            
+            // Insertar gráfico de trading
+            insertChartBtn.addEventListener('click', function() {
+                const type = chartType.value;
+                const width = chartWidth.value || 600;
+                const height = chartHeight.value || 400;
+                
+                elementCount++;
+                const chartContainer = document.createElement('div');
+                chartContainer.className = 'editable';
+                chartContainer.style.margin = '15px 0';
+                chartContainer.style.padding = '15px';
+                chartContainer.style.background = 'rgba(10, 10, 30, 0.7)';
+                chartContainer.style.borderRadius = '8px';
+                chartContainer.style.textAlign = 'center';
+                chartContainer.style.border = '1px solid rgba(67, 97, 238, 0.3)';
+                
+                // Crear un canvas para el gráfico simulado
+                const canvasEl = document.createElement('canvas');
+                canvasEl.width = width;
+                canvasEl.height = height;
+                canvasEl.style.borderRadius = '5px';
+                canvasEl.style.boxShadow = '0 5px 15px rgba(0,0,0,0.2)';
+                
+                // Simular un gráfico (en una implementación real, usarías una biblioteca como Chart.js)
+                const ctx = canvasEl.getContext('2d');
+                ctx.fillStyle = '#0a0a1a';
+                ctx.fillRect(0, 0, width, height);
+                
+                // Dibujar líneas de precios simuladas
+                ctx.beginPath();
+                ctx.moveTo(50, 300);
+                ctx.lineTo(100, 250);
+                ctx.lineTo(150, 280);
+                ctx.lineTo(200, 200);
+                ctx.lineTo(250, 220);
+                ctx.lineTo(300, 150);
+                ctx.lineTo(350, 180);
+                ctx.lineTo(400, 100);
+                ctx.lineTo(450, 120);
+                ctx.lineTo(500, 80);
+                ctx.strokeStyle = '#4361ee';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+                
+                // Añadir texto
+                ctx.fillStyle = '#4cc9f0';
+                ctx.font = '16px Orbitron';
+                ctx.fillText('GRÁFICO DE TRADING VIP', 150, 30);
+                
+                ctx.fillStyle = '#e9ecef';
+                ctx.font = '12px Arial';
+                ctx.fillText('Simulación de gráfico ' + type, 200, 50);
+                
+                chartContainer.appendChild(canvasEl);
+                chartContainer.innerHTML += '<p style="margin-top: 10px; color: #4cc9f0; font-style: italic;">Gráfico interactivo de trading</p>';
+                
+                canvas.appendChild(chartContainer);
+                selectElement(chartContainer);
+                
+                // Hacer el gráfico arrastrable y seleccionable
+                makeElementEditable(chartContainer);
+                makeElementDraggable(chartContainer);
+                addResizeHandles(chartContainer);
+                
+                chartModal.style.display = 'none';
+                updateStats();
+            });
+            
+            // Cerrar modal de gráficos
+            closeChartModal.addEventListener('click', function() {
+                chartModal.style.display = 'none';
+            });
+            
+            // Añadir sombra al elemento
+            addShadow.addEventListener('click', function() {
+                if (!selectedElement) {
+                    showNotification('Selecciona un elemento primero', true);
+                    return;
+                }
+                
+                selectedElement.style.boxShadow = '0 10px 30px rgba(0,0,0,0.3)';
+                showNotification('Sombra añadida al elemento');
+            });
+            
+            // Añadir gradiente de fondo
+            addGradient.addEventListener('click', function() {
+                if (!selectedElement) {
+                    showNotification('Selecciona un elemento primero', true);
+                    return;
+                }
+                
+                selectedElement.style.background = 'linear-gradient(145deg, rgba(67, 97, 238, 0.2), rgba(58, 12, 163, 0.2))';
+                showNotification('Gradiente aplicado al elemento');
+            });
+            
+            // Duplicar elemento
+            duplicateElement.addEventListener('click', function() {
+                if (!selectedElement) {
+                    showNotification('Selecciona un elemento primero', true);
+                    return;
+                }
+                
+                const clonedElement = selectedElement.cloneNode(true);
+                canvas.appendChild(clonedElement);
+                
+                // Ajustar posición ligeramente
+                const rect = selectedElement.getBoundingClientRect();
+                clonedElement.style.position = 'absolute';
+                clonedElement.style.left = (rect.left + 20) + 'px';
+                clonedElement.style.top = (rect.top + 20) + 'px';
+                
+                // Hacer el elemento clonado editable y seleccionable
+                makeElementEditable(clonedElement);
+                makeElementDraggable(clonedElement);
+                addResizeHandles(clonedElement);
+                
+                selectElement(clonedElement);
+                showNotification('Elemento duplicado');
+                updateStats();
+            });
+            
+            // Recortar imagen
+            cropImageBtn.addEventListener('click', function() {
+                if (!selectedElement || selectedElement.tagName !== 'IMG') {
+                    showNotification('Selecciona una imagen para recortar', true);
+                    return;
+                }
+                
+                // Aquí iría la lógica para recortar la imagen
+                // Por ahora, mostramos un mensaje
+                showNotification('Funcionalidad de recorte en desarrollo');
+            });
+            
+            // Hacer elementos editables y seleccionables
+            function makeElementEditable(element) {
+                element.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    selectElement(element);
+                });
+                
+                // Hacer texto editable al hacer doble clic
+                if (element.tagName !== 'IMG' && element.tagName !== 'VIDEO' && element.tagName !== 'IFRAME') {
+                    element.addEventListener('dblclick', function() {
+                        this.setAttribute('contenteditable', 'true');
+                        this.focus();
+                    });
+                    
+                    element.addEventListener('blur', function() {
+                        this.removeAttribute('contenteditable');
+                    });
+                }
+            }
+            
+            // Hacer elementos arrastrables
+            function makeElementDraggable(element) {
+                element.addEventListener('mousedown', function(e) {
+                    if (e.target !== element && !element.contains(e.target) && 
+                        !e.target.classList.contains('resize-handle')) {
+                        return;
+                    }
+                    
+                    if (e.target.classList.contains('resize-handle')) {
+                        isResizing = true;
+                        resizeDirection = e.target.classList[1];
+                        selectedElement = element;
+                        selectElement(element);
+                        
+                        // Guardar tamaño inicial
+                        initialWidth = element.offsetWidth;
+                        initialHeight = element.offsetHeight;
+                    } else {
+                        isDragging = true;
+                        selectedElement = element;
+                        selectElement(element);
+                        
+                        // Guardar posición inicial
+                        startX = e.clientX;
+                        startY = e.clientY;
+                        initialLeft = parseInt(window.getComputedStyle(element).left) || 0;
+                        initialTop = parseInt(window.getComputedStyle(element).top) || 0;
+                        
+                        // Establecer posición absoluta si no está establecida
+                        if (window.getComputedStyle(element).position === 'static') {
+                            element.style.position = 'absolute';
+                        }
+                    }
+                    
+                    document.addEventListener('mousemove', handleMove);
+                    document.addEventListener('mouseup', stopMove);
+                    
+                    e.preventDefault();
+                });
+            }
+            
+            function handleMove(e) {
+                if (isDragging) {
+                    const dx = e.clientX - startX;
+                    const dy = e.clientY - startY;
+                    
+                    selectedElement.style.left = (initialLeft + dx) + 'px';
+                    selectedElement.style.top = (initialTop + dy) + 'px';
+                } else if (isResizing) {
+                    const dx = e.clientX - startX;
+                    const dy = e.clientY - startY;
+                    
+                    switch(resizeDirection) {
+                        case 'se':
+                            selectedElement.style.width = (initialWidth + dx) + 'px';
+                            selectedElement.style.height = (initialHeight + dy) + 'px';
+                            break;
+                        case 'sw':
+                            selectedElement.style.width = (initialWidth - dx) + 'px';
+                            selectedElement.style.height = (initialHeight + dy) + 'px';
+                            selectedElement.style.left = (initialLeft + dx) + 'px';
+                            break;
+                        case 'ne':
+                            selectedElement.style.width = (initialWidth + dx) + 'px';
+                            selectedElement.style.height = (initialHeight - dy) + 'px';
+                            selectedElement.style.top = (initialTop + dy) + 'px';
+                            break;
+                        case 'nw':
+                            selectedElement.style.width = (initialWidth - dx) + 'px';
+                            selectedElement.style.height = (initialHeight - dy) + 'px';
+                            selectedElement.style.left = (initialLeft + dx) + 'px';
+                            selectedElement.style.top = (initialTop + dy) + 'px';
+                            break;
+                    }
+                    
+                    // Actualizar controles de tamaño
+                    elementWidth.value = parseInt(selectedElement.style.width) || selectedElement.offsetWidth;
+                    elementHeight.value = parseInt(selectedElement.style.height) || selectedElement.offsetHeight;
+                }
+            }
+            
+            function stopMove() {
+                isDragging = false;
+                isResizing = false;
+                document.removeEventListener('mousemove', handleMove);
+                document.removeEventListener('mouseup', stopMove);
+            }
+            
+            // Agregar handles para redimensionar
+            function addResizeHandles(element) {
+                // Eliminar handles existentes
+                const existingHandles = element.querySelectorAll('.resize-handle');
+                existingHandles.forEach(handle => handle.remove());
+                
+                // Crear nuevos handles
+                const directions = ['nw', 'ne', 'sw', 'se'];
+                directions.forEach(dir => {
+                    const handle = document.createElement('div');
+                    handle.className = `resize-handle ${dir}`;
+                    element.appendChild(handle);
+                });
+            }
+            
+            // Inicializar elementos existentes
+            document.querySelectorAll('.editable').forEach(function(element) {
+                makeElementEditable(element);
+                makeElementDraggable(element);
+                addResizeHandles(element);
+            });
+            
+            // Permitir hacer clic en el canvas para deseleccionar
+            canvas.addEventListener('click', function(e) {
+                if (e.target === canvas) {
+                    selectElement(null);
+                }
+            });
+            
+            // Actualizar texto del elemento seleccionado
+            editTextInput.addEventListener('input', function() {
+                if (selectedElement && selectedElement.tagName !== 'IMG' && 
+                    selectedElement.tagName !== 'VIDEO' && selectedElement.tagName !== 'IFRAME') {
+                    selectedElement.innerText = editTextInput.value;
+                }
+            });
+            
+            // Cambiar color del texto
+            colorPicker.addEventListener('input', function() {
+                if (selectedElement && selectedElement.tagName !== 'IMG' && 
+                    selectedElement.tagName !== 'VIDEO' && selectedElement.tagName !== 'IFRAME') {
+                    selectedElement.style.color = colorPicker.value;
+                }
+            });
+            
+            // Cambiar fuente
+            fontFamily.addEventListener('change', function() {
+                if (selectedElement && selectedElement.tagName !== 'IMG' && 
+                    selectedElement.tagName !== 'VIDEO' && selectedElement.tagName !== 'IFRAME') {
+                    selectedElement.style.fontFamily = fontFamily.value;
+                }
+            });
+            
+            // Cambiar tamaño de fuente
+            fontSize.addEventListener('change', function() {
+                if (selectedElement && selectedElement.tagName !== 'IMG' && 
+                    selectedElement.tagName !== 'VIDEO' && selectedElement.tagName !== 'IFRAME') {
+                    selectedElement.style.fontSize = fontSize.value;
+                }
+            });
+            
+            // Cambiar ancho del elemento
+            elementWidth.addEventListener('input', function() {
+                if (selectedElement) {
+                    selectedElement.style.width = elementWidth.value + 'px';
+                }
+            });
+            
+            // Cambiar alto del elemento
+            elementHeight.addEventListener('input', function() {
+                if (selectedElement) {
+                    selectedElement.style.height = elementHeight.value + 'px';
+                }
+            });
+            
+            // Alineación de texto
+            alignLeft.addEventListener('click', function() {
+                if (selectedElement && selectedElement.tagName !== 'IMG' && 
+                    selectedElement.tagName !== 'VIDEO' && selectedElement.tagName !== 'IFRAME') {
+                    selectedElement.style.textAlign = 'left';
+                }
+            });
+            
+            alignCenter.addEventListener('click', function() {
+                if (selectedElement && selectedElement.tagName !== 'IMG' && 
+                    selectedElement.tagName !== 'VIDEO' && selectedElement.tagName !== 'IFRAME') {
+                    selectedElement.style.textAlign = 'center';
+                }
+            });
+            
+            alignRight.addEventListener('click', function() {
+                if (selectedElement && selectedElement.tagName !== 'IMG' && 
+                    selectedElement.tagName !== 'VIDEO' && selectedElement.tagName !== 'IFRAME') {
+                    selectedElement.style.textAlign = 'right';
+                }
+            });
+            
+            // Eliminar elemento
+            deleteElement.addEventListener('click', function() {
+                if (selectedElement) {
+                    selectedElement.remove();
+                    selectElement(null);
+                    updateStats();
+                }
+            });
+            
+            // Traer al frente
+            bringToFront.addEventListener('click', function() {
+                if (selectedElement) {
+                    canvas.appendChild(selectedElement);
+                }
+            });
+            
+            // Enviar al fondo
+            sendToBack.addEventListener('click', function() {
+                if (selectedElement) {
+                    canvas.insertBefore(selectedElement, canvas.firstChild);
+                }
+            });
+            
+            // Plantilla elegante para exportación
+            function createElegantTemplate(content, title) {
+                return `<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${title}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: url('https://raw.githubusercontent.com/welding30001994/vip/refs/heads/main/unnamed%20(1).jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        /* Capa oscura sobre la imagen de fondo */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Ajusta la opacidad según sea necesario */
+            z-index: -1;
+        }
+        
+        .document-container {
+            background-color: rgba(25, 251, 255, 0.1);
+            width: 100%;
+            max-width: 900px;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            margin: 40px auto;
+            color: white; /* Texto blanco en el área verde */
+        }
+        
+        .document-header {
+            background: rgb(21, 6, 21,0.65);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .document-header:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBkPSJNNTAuNjY3LDEwLjMzM2MzMC42NjcsMCwzMy4zMzMsNDAsMzMuMzMzLDQwYzAsMC0yLjY2Niw0MC0zMy4zMzMsNDBTMTcuMzM0LDUwLjMzMywxNy4zMzQsNTAuMzMzUzIwLDEwLjMzMyw1MC42NjcsMTAuMzMzeiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiIHN0cm9rZS13aWR0aD0iMSIvPjxwYXRoIGQ9Ik0zMy4zMzQsMzMuMzMzYzAsNS41MjMsMzAsMTEuMDQ3LDMzLjMzMywxMS4wNDdjMy4zMzMsMCwzMy4zMzMtNS41MjQsMzMuMzMzLTExLjA0NyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiIHN0cm9rZS13aWR0aD0iMSIvPjxwYXRoIGQ9Ik0zMy4zMzQsNjYuNjY2YzAtNS41MjMsMjguMTI1LTExLjA0NywzMy4zMzMtMTEuMDQ3YzUuMjA4LDAsMzMuMzMzLDUuNTI0LDMzLjMzMywxMS4wNDciIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjEpIiBzdHJva2Utd2lkdGg9IjEiLz48L3N2Zz4=') center/contain no-repeat;
+            opacity: 0.1;
+        }
+        
+        .document-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 15px rgba(67, 97, 238, 0.5);
+        }
+        
+        .document-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .vip-badge {
+            background: linear-gradient(145deg, #fca311, #ff5e00 );
+            color: black;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1rem;
+            display: inline-block;
+            margin-top: 15px;
+            box-shadow: 0 0 15px rgba(252, 163, 17, 0.7);
+        }
+        
+        .document-content {
+            padding: 50px;
+            background-color: white; /* Fondo blanco para el contenido */
+            color: black; /* Texto negro en el área blanca */
+        }
+        
+        .document-content * {
+            max-width: 100%;
+        }
+        
+        .document-content h1, 
+        .document-content h2, 
+        .document-content h3, 
+        .document-content h4, 
+        .document-content h5, 
+        .document-content h6 {
+            color: black; /* Cambiado a negro */
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+        }
+      
+        
+        .document-content p {
+            margin-bottom: 1.2em;
+            line-height: 1.8;
+            text-align: justify;
+            color: black; /* Texto negro en el área blanca */
+        }
+        
+        .document-content img {
+            display: block;
+            margin: 2em auto;
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .document-content iframe {
+            display: block;
+            margin: 2em auto;
+            max-width: 100%;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .document-content video {
+            display: block;
+            margin: 2em auto;
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .document-footer {
+            background: rgb(21, 6, 21,0.65);
+            padding: 25px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: white;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .document-footer p {
+            margin: 0;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .document-container {
+                border-radius: 15px;
+                margin: 20px auto;
+            }
+            
+            .document-header {
+                padding: 25px;
+            }
+            
+            .document-header h1 {
+                font-size: 2rem;
+            }
+            
+            .document-content {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="document-container">
+        <div class="document-header">
+            <h1>${title}</h1>
+            <p>Beaver Trading </p>
+            <div class="vip-badge"> El trading no premia a los que se rinden rápido, sino a los que persisten, estudian y mejoran día tras día. Cada error es una lección, y cada acierto es una señal de que estás más cerca de tus metas. </div>
+        </div>
+        
+        <div class="document-content">
+            ${content}
+        </div>
+        
+        <div class="document-footer">
+            <p>© ${new Date().getFullYear()} - Beaver trading - Todos los derechos reservados</p>
+        </div>
+    </div>
+</body>
+</html>`;
+            }
+            
+            // Guardar proyecto en la nube simulada
+            saveBtn.addEventListener('click', function() {
+                const projectName = prompt("¿Cómo quieres llamar a tu proyecto?", "Mi Proyecto VIP") || "Mi Proyecto VIP";
+                
+                const projectData = {
+                    content: canvas.innerHTML,
+                    timestamp: Date.now(),
+                    title: projectName
+                };
+                
+                // Guardar en la nube simulada
+                const projectId = 'project_' + Date.now();
+                const shareUrl = `${window.location.origin}${window.location.pathname}?view=${projectId}`;
+                
+                // Guardar en la base de datos en la nube
+                cloudDatabase.saveProject(projectId, { 
+                    title: projectData.title, 
+                    url: shareUrl,
+                    timestamp: projectData.timestamp,
+                    content: projectData.content
+                });
+                
+                showNotification('¡Proyecto VIP guardado exitosamente! Enlace disponible para compartir.');
+                updateStats();
+            });
+            
+            // Descargar proyecto
+            downloadBtn.addEventListener('click', function() {
+                const projectName = prompt("Nombre del proyecto:", "Mi Proyecto VIP") || "Mi Proyecto VIP";
+                
+                // Crear un archivo HTML con la plantilla elegante
+                const htmlContent = createElegantTemplate(canvas.innerHTML, projectName);
+                
+                // Crear un blob con el contenido
+                const blob = new Blob([htmlContent], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                
+                // Crear un enlace de descarga
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${projectName.toLowerCase().replace(/\s+/g, '-')}.html`;
+                document.body.appendChild(a);
+                a.click();
+                
+                // Limpiar
+                setTimeout(function() {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 100);
+                
+                showNotification('¡Proyecto VIP descargado exitosamente!');
+            });
+            
+            // Obtener HTML del proyecto
+            viewHtmlBtn.addEventListener('click', function() {
+                const projectName = prompt("Nombre del proyecto:", "Mi Proyecto VIP") || "Mi Proyecto VIP";
+                const htmlContent = createElegantTemplate(canvas.innerHTML, projectName);
+                
+                // Crear un blob con el contenido
+                const blob = new Blob([htmlContent], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                
+                // Crear un enlace de descarga
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${projectName.toLowerCase().replace(/\s+/g, '-')}.html`;
+                document.body.appendChild(a);
+                a.click();
+                
+                // Limpiar
+                setTimeout(function() {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 100);
+                
+                showNotification('¡Código HTML VIP descargado exitosamente!');
+            });
+            
+            // Cargar proyectos guardados desde la nube
+            function loadSavedProjects() {
+                return cloudDatabase.getAllProjects();
+            }
+            
+            // Compartir proyecto
+            shareBtn.addEventListener('click', function() {
+                const savedProjects = loadSavedProjects();
+                const linksList = document.getElementById('links-list');
+                linksList.innerHTML = '';
+                
+                if (Object.keys(savedProjects).length === 0) {
+                    linksList.innerHTML = '<p>No tienes proyectos guardados todavía.</p>';
+                } else {
+                    for (const [id, project] of Object.entries(savedProjects)) {
+                        const linkItem = document.createElement('div');
+                        linkItem.className = 'link-item';
+                        linkItem.innerHTML = `
+                            <a href="${project.url}" target="_blank">${project.title}</a>
+                            <button class="delete-link" data-id="${id}">Eliminar</button>
+                        `;
+                        linksList.appendChild(linkItem);
+                    }
+                    
+                    // Agregar event listeners para botones de eliminar
+                    document.querySelectorAll('.delete-link').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const projectId = this.getAttribute('data-id');
+                            deleteProject(projectId);
+                        });
+                    });
+                }
+                
+                shareModal.style.display = 'flex';
+            });
+            
+            // Eliminar proyecto
+            function deleteProject(projectId) {
+                // Eliminar de la nube
+                if (cloudDatabase.deleteProject(projectId)) {
+                    showNotification('Proyecto eliminado');
+                    updateStats();
+                    shareBtn.click(); // Recargar la lista
+                } else {
+                    showNotification('Error al eliminar el proyecto', true);
+                }
+            }
+            
+            // Mostrar mis enlaces
+            linksBtn.addEventListener('click', function() {
+                const savedProjects = loadSavedProjects();
+                const savedLinksList = document.getElementById('saved-links-list');
+                savedLinksList.innerHTML = '';
+                
+                if (Object.keys(savedProjects).length === 0) {
+                    savedLinksList.innerHTML = '<p>No tienes proyectos guardados todavía.</p>';
+                } else {
+                    for (const [id, project] of Object.entries(savedProjects)) {
+                        const linkCard = document.createElement('div');
+                        linkCard.className = 'saved-link-card';
+                        linkCard.innerHTML = `
+                            <h3>${project.title}</h3>
+                            <a href="${project.url}" target="_blank">Abrir en nueva pestaña</a>
+                            <div>
+                                <button class="view-btn" data-id="${id}">Ver</button>
+                                <button class="download-btn" data-id="${id}">Descargar</button>
+                                <button class="delete-btn" data-id="${id}">Eliminar</button>
+                            </div>
+                        `;
+                        savedLinksList.appendChild(linkCard);
+                    }
+                    
+                    // Agregar event listeners
+                    document.querySelectorAll('.view-btn').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const projectId = this.getAttribute('data-id');
+                            window.location.href = `?view=${projectId}`;
+                        });
+                    });
+                    
+                    document.querySelectorAll('.download-btn').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const projectId = this.getAttribute('data-id');
+                            downloadSavedProject(projectId);
+                        });
+                    });
+                    
+                    document.querySelectorAll('.delete-btn').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const projectId = this.getAttribute('data-id');
+                            deleteProject(projectId);
+                            linksBtn.click(); // Recargar la lista
+                        });
+                    });
+                }
+                
+                // Mostrar vista de enlaces
+                canvas.style.display = 'none';
+                pageTabs.style.display = 'none';
+                savedLinksView.style.display = 'block';
+            });
+            
+            // Descargar proyecto específico
+            function downloadSavedProject(projectId) {
+                const savedProjects = loadSavedProjects();
+                const project = savedProjects[projectId];
+                
+                if (project) {
+                    // Crear un archivo HTML con la plantilla elegante
+                    const htmlContent = createElegantTemplate(project.content, project.title);
+                    
+                    // Crear un blob con el contenido
+                    const blob = new Blob([htmlContent], { type: 'text/html' });
+                    const url = URL.createObjectURL(blob);
+                    
+                    // Crear un enlace de descarga
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `${project.title.toLowerCase().replace(/\s+/g, '-')}.html`;
+                    document.body.appendChild(a);
+                    a.click();
+                    
+                    // Limpiar
+                    setTimeout(function() {
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                    }, 100);
+                    
+                    showNotification('¡Proyecto VIP descargado exitosamente!');
+                }
+            }
+            
+            // Volver al editor
+            backToEditor.addEventListener('click', function() {
+                savedLinksView.style.display = 'none';
+                canvas.style.display = 'block';
+                pageTabs.style.display = 'flex';
+            });
+            
+            // Nuevo proyecto
+            resetBtn.addEventListener('click', function() {
+                if (confirm('¿Estás seguro de que quieres comenzar un nuevo proyecto? Se perderán todos los cambios no guardados.')) {
+                    canvas.innerHTML = '';
+                    selectElement(null);
+                    editTextInput.value = '';
+                    
+                    // Agregar elemento inicial
+                    const initialElement = document.createElement('div');
+                    initialElement.className = 'editable';
+                    initialElement.innerHTML = '<h2 style="color: #4361ee; text-align: center; font-family: \'Orbitron\', sans-serif;">BIENVENIDO A OXXOMAX TRADING VIP</h2><p style="text-align: center; color: #4cc9f0;">La plataforma de edición más avanzada para traders profesionales</p>';
+                    initialElement.style.padding = '30px';
+                    initialElement.style.background = 'linear-gradient(145deg, rgba(67, 97, 238, 0.1), rgba(58, 12, 163, 0.1))';
+                    initialElement.style.borderRadius = '15px';
+                    
+                    canvas.appendChild(initialElement);
+                    makeElementEditable(initialElement);
+                    makeElementDraggable(initialElement);
+                    addResizeHandles(initialElement);
+                    selectElement(initialElement);
+                    
+                    // Reiniciar páginas
+                    currentPage = 1;
+                    pages = {1: canvas.innerHTML};
+                    updatePageTabs();
+                    updateStats();
+                }
+            });
+            
+            // Copiar enlace
+            copyLink.addEventListener('click', function() {
+                shareLink.select();
+                document.execCommand('copy');
+                showNotification('¡Enlace copiado al portapapeles!');
+            });
+            
+            // Cerrar modal
+            closeModal.addEventListener('click', function() {
+                shareModal.style.display = 'none';
+            });
+            
+            // Mostrar/ocultar estadísticas
+            statsBtn.addEventListener('click', function() {
+                statsPanel.style.display = statsPanel.style.display === 'block' ? 'none' : 'block';
+                updateStats();
+            });
+            
+            // Mostrar/ocultar tutorial
+            tutorialBtn.addEventListener('click', function() {
+                tutorialPanel.style.display = tutorialPanel.style.display === 'block' ? 'none' : 'block';
+            });
+            
+            tutorialClose.addEventListener('click', function() {
+                tutorialPanel.style.display = 'none';
+            });
+            
+            // Mostrar notificación
+            function showNotification(message, isError = false) {
+                notification.innerHTML = `<i class="fas ${isError ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i> ${message}`;
+                notification.className = isError ? 'notification error' : 'notification';
+                notification.style.display = 'block';
+                
+                setTimeout(function() {
+                    notification.style.display = 'none';
+                }, 3000);
+            }
+            
+            // Agregar nueva página
+            addPageBtn.addEventListener('click', function() {
+                const pageId = Object.keys(pages).length + 1;
+                pages[pageId] = '<div class="editable" style="text-align: center; padding: 30px; background: linear-gradient(145deg, rgba(67, 97, 238, 0.1), rgba(58, 12, 163, 0.1)); border-radius: 15px;"><h2 style="font-family: \'Orbitron\', sans-serif;">PÁGINA VIP ' + pageId + '</h2><p style="color: #4cc9f0;">Contenido exclusivo para miembros premium</p></div>';
+                
+                // Agregar pestaña
+                const pageTab = document.createElement('div');
+                pageTab.className = 'page-tab';
+                pageTab.setAttribute('data-page', pageId);
+                pageTab.innerHTML = `Página ${pageId} <i class="fas fa-times" data-page="${pageId}"></i>`;
+                
+                pageTabs.insertBefore(pageTab, addPageBtn);
+                
+                // Hacer la nueva pestaña activa
+                switchPage(pageId);
+                
+                // Agregar event listener para cerrar página
+                pageTab.querySelector('.fa-times').addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const pageToClose = this.getAttribute('data-page');
+                    closePage(pageToClose);
+                });
+                
+                // Agregar event listener para cambiar de página
+                pageTab.addEventListener('click', function() {
+                    const pageId = this.getAttribute('data-page');
+                    switchPage(pageId);
+                });
+                
+                updateStats();
+            });
+            
+            // Cambiar de página
+            function switchPage(pageId) {
+                // Guardar contenido de la página actual
+                pages[currentPage] = canvas.innerHTML;
+                
+                // Cambiar a la nueva página
+                currentPage = parseInt(pageId);
+                canvas.innerHTML = pages[currentPage] || '';
+                
+                // Actualizar pestañas
+                document.querySelectorAll('.page-tab').forEach(tab => {
+                    if (tab.getAttribute('data-page') == pageId) {
+                        tab.classList.add('active');
+                    } else {
+                        tab.classList.remove('active');
+                    }
+                });
+                
+                // Reinicializar elementos en la nueva página
+                document.querySelectorAll('.editable').forEach(function(element) {
+                    makeElementEditable(element);
+                    makeElementDraggable(element);
+                    addResizeHandles(element);
+                });
+                
+                // Deseleccionar cualquier elemento
+                selectElement(null);
+                updateStats();
+            }
+            
+            // Cerrar página
+            function closePage(pageId) {
+                if (Object.keys(pages).length <= 1) {
+                    showNotification('No puedes cerrar la única página', true);
+                    return;
+                }
+                
+                delete pages[pageId];
+                
+                // Si estamos en la página que se va a cerrar, cambiar a otra
+                if (currentPage == pageId) {
+                    const firstAvailablePage = Object.keys(pages)[0];
+                    switchPage(firstAvailablePage);
+                }
+                
+                // Actualizar pestañas
+                updatePageTabs();
+                updateStats();
+            }
+            
+            // Actualizar pestañas
+            function updatePageTabs() {
+                // Limpiar pestañas existentes (excepto el botón de agregar)
+                const tabs = Array.from(pageTabs.querySelectorAll('.page-tab'));
+                tabs.forEach(tab => tab.remove());
+                
+                // Agregar pestañas actualizadas
+                Object.keys(pages).forEach(pageId => {
+                    const pageTab = document.createElement('div');
+                    pageTab.className = 'page-tab';
+                    if (pageId == currentPage) pageTab.classList.add('active');
+                    pageTab.setAttribute('data-page', pageId);
+                    pageTab.innerHTML = `Página ${pageId} <i class="fas fa-times" data-page="${pageId}"></i>`;
+                    
+                    pageTabs.insertBefore(pageTab, addPageBtn);
+                    
+                    // Agregar event listener para cerrar página
+                    pageTab.querySelector('.fa-times').addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const pageToClose = this.getAttribute('data-page');
+                        closePage(pageToClose);
+                    });
+                    
+                    // Agregar event listener para cambiar de página
+                    pageTab.addEventListener('click', function() {
+                        const pageId = this.getAttribute('data-page');
+                        switchPage(pageId);
+                    });
+                });
+            }
+            
+            // Alternar visibilidad del panel de herramientas en móviles
+            toggleToolbarBtn.addEventListener('click', function() {
+                toolbar.classList.toggle('open');
+            });
+            
+            // Comprobar si estamos en modo visualización
+            const urlParams = new URLSearchParams(window.location.search);
+            const viewParam = urlParams.get('view');
+            
+            if (viewParam) {
+                // Cambiar a modo visualización
+                mainContainer.classList.add('view-mode');
+                viewActions.style.display = 'flex';
+                
+                // Cargar el proyecto desde la nube
+                const savedProjects = loadSavedProjects();
+                const projectData = savedProjects[viewParam];
+                
+                if (projectData) {
+                    // Usar la plantilla elegante para mostrar el contenido
+                    const elegantTemplate = createElegantTemplate(projectData.content, projectData.title);
+                    
+                    // Crear un documento temporal para extraer solo el contenido
+                    const tempDoc = new DOMParser().parseFromString(elegantTemplate, 'text/html');
+                    const contentElement = tempDoc.querySelector('.document-content');
+                    
+                    canvas.innerHTML = contentElement ? contentElement.innerHTML : projectData.content;
+                    document.title = projectData.title;
+                    
+                    // Deshabilitar edición
+                    document.querySelectorAll('.editable').forEach(element => {
+                        element.style.pointerEvents = 'none';
+                    });
+                } else {
+                    canvas.innerHTML = '<p>El proyecto no existe o ha sido eliminado.</p>';
+                }
+                
+                // Configurar botones de descarga
+                viewDownloadBtn.addEventListener('click', function() {
+                    if (projectData) {
+                        downloadSavedProject(viewParam);
+                    }
+                });
+                
+                viewHtmlBtn.addEventListener('click', function() {
+                    if (projectData) {
+                        const htmlContent = createElegantTemplate(projectData.content, projectData.title);
+                        
+                        // Crear un blob con el contenido
+                        const blob = new Blob([htmlContent], { type: 'text/html' });
+                        const url = URL.createObjectURL(blob);
+                        
+                        // Crear un enlace de descarga
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `${projectData.title.toLowerCase().replace(/\s+/g, '-')}.html`;
+                        document.body.appendChild(a);
+                        a.click();
+                        
+                        // Limpiar
+                        setTimeout(function() {
+                            document.body.removeChild(a);
+                            URL.revokeObjectURL(url);
+                        }, 100);
+                        
+                        showNotification('¡Código HTML VIP descargado exitosamente!');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
+

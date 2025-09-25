@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 Trading Automático</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: url('https://raw.githubusercontent.com/welding30001994/vip/refs/heads/main/unnamed%20(1).jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        /* Capa oscura sobre la imagen de fondo */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Ajusta la opacidad según sea necesario */
+            z-index: -1;
+        }
+        
+        .document-container {
+            background-color: rgba(25, 251, 255, 0.1);
+            width: 100%;
+            max-width: 900px;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            margin: 40px auto;
+            color: white; /* Texto blanco en el área verde */
+        }
+        
+        .document-header {
+            background: rgb(21, 6, 21,0.65);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .document-header:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBkPSJNNTAuNjY3LDEwLjMzM2MzMC42NjcsMCwzMy4zMzMsNDAsMzMuMzMzLDQwYzAsMC0yLjY2Niw0MC0zMy4zMzMsNDBTMTcuMzM0LDUwLjMzMywxNy4zMzQsNTAuMzMzUzIwLDEwLjMzMyw1MC42NjcsMTAuMzMzeiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiIHN0cm9rZS13aWR0aD0iMSIvPjxwYXRoIGQ9Ik0zMy4zMzQsMzMuMzMzYzAsNS41MjMsMzAsMTEuMDQ3LDMzLjMzMywxMS4wNDdjMy4zMzMsMCwzMy4zMzMtNS41MjQsMzMuMzMzLTExLjA0NyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiIHN0cm9rZS13aWR0aD0iMSIvPjxwYXRoIGQ9Ik0zMy4zMzQsNjYuNjY2YzAtNS41MjMsMjguMTI1LTExLjA0NywzMy4zMzMtMTEuMDQ3YzUuMjA4LDAsMzMuMzMzLDUuNTI0LDMzLjMzMywxMS4wNDciIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjEpIiBzdHJva2Utd2lkdGg9IjEiLz48L3N2Zz4=') center/contain no-repeat;
+            opacity: 0.1;
+        }
+        
+        .document-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 15px rgba(67, 97, 238, 0.5);
+        }
+        
+        .document-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .vip-badge {
+            background: linear-gradient(145deg, #fca311, #ff5e00 );
+            color: black;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1rem;
+            display: inline-block;
+            margin-top: 15px;
+            box-shadow: 0 0 15px rgba(252, 163, 17, 0.7);
+        }
+        
+        .document-content {
+            padding: 50px;
+            background-color: white; /* Fondo blanco para el contenido */
+            color: black; /* Texto negro en el área blanca */
+        }
+        
+        .document-content * {
+            max-width: 100%;
+        }
+        
+        .document-content h1, 
+        .document-content h2, 
+        .document-content h3, 
+        .document-content h4, 
+        .document-content h5, 
+        .document-content h6 {
+            color: black; /* Cambiado a negro */
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+        }
+      
+        
+        .document-content p {
+            margin-bottom: 1.2em;
+            line-height: 1.8;
+            text-align: justify;
+            color: black; /* Texto negro en el área blanca */
+        }
+        
+        .document-content img {
+            display: block;
+            margin: 2em auto;
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .document-content iframe {
+            display: block;
+            margin: 2em auto;
+            max-width: 100%;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .document-content video {
+            display: block;
+            margin: 2em auto;
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .document-footer {
+            background: rgb(21, 6, 21,0.65);
+            padding: 25px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: white;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .document-footer p {
+            margin: 0;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .document-container {
+                border-radius: 15px;
+                margin: 20px auto;
+            }
+            
+            .document-header {
+                padding: 25px;
+            }
+            
+            .document-header h1 {
+                font-size: 2rem;
+            }
+            
+            .document-content {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="document-container">
+        <div class="document-header">
+            <h1>🤖 Trading Automático</h1>
+            <p>Beaver Trading </p>
+            <div class="vip-badge"> El trading no premia a los que se rinden rápido, sino a los que persisten, estudian y mejoran día tras día. Cada error es una lección, y cada acierto es una señal de que estás más cerca de tus metas. </div>
+        </div>
+        
+        <div class="document-content">
+            <div class="editable selected" style="text-align: left; padding: 30px; background: linear-gradient(145deg, rgba(67, 97, 238, 0.1), rgba(58, 12, 163, 0.1)); border-radius: 15px; left: 0px; top: -2px; color: rgb(16, 15, 15);"><h2 data-start="145" data-end="175">🤖 <strong data-start="151" data-end="173">Trading Automático</strong></h2>
+<p data-start="176" data-end="370">Es el uso de <strong data-start="189" data-end="221">programas, algoritmos o bots</strong> para ejecutar operaciones en el mercado <strong data-start="262" data-end="289">sin intervención humana</strong>.<br data-start="290" data-end="293">
+👉 El sistema abre, gestiona y cierra trades según <strong data-start="344" data-end="367">reglas predefinidas</strong>.</p>
+<hr data-start="372" data-end="375">
+<h3 data-start="377" data-end="410">⚙️ <strong data-start="384" data-end="408">1. Algoritmos / Bots</strong></h3>
+<ul data-start="411" data-end="594">
+<li data-start="411" data-end="467">
+<p data-start="413" data-end="467">💻 Programas que siguen <strong data-start="437" data-end="464">estrategias programadas</strong>.</p>
+</li>
+<li data-start="468" data-end="594">
+<p data-start="470" data-end="594">🔄 Analizan gráficos, indicadores y ejecutan órdenes <strong data-start="523" data-end="542">en milisegundos</strong>.<br data-start="543" data-end="546">
+💡 Eliminan errores por <strong data-start="570" data-end="591">emociones humanas</strong>.</p>
+</li>
+</ul>
+<hr data-start="596" data-end="599">
+<h3 data-start="601" data-end="640">🧮 <strong data-start="608" data-end="638">2. Estrategias Programadas</strong></h3>
+<ul data-start="641" data-end="836">
+<li data-start="641" data-end="712">
+<p data-start="643" data-end="712">📊 Basadas en <strong data-start="657" data-end="681">indicadores técnicos</strong> (RSI, Medias Móviles, MACD).</p>
+</li>
+<li data-start="713" data-end="836">
+<p data-start="715" data-end="836">🏹 Pueden ser de <strong data-start="732" data-end="773">scalping, day trading o swing trading</strong>.<br data-start="774" data-end="777">
+💡 El bot solo hace lo que se le indica, ni más ni menos.</p>
+</li>
+</ul>
+<hr data-start="838" data-end="841">
+<h3 data-start="843" data-end="879">⏱️ <strong data-start="850" data-end="877">3. Alta Velocidad (HFT)</strong></h3>
+<ul data-start="880" data-end="1020">
+<li data-start="880" data-end="955">
+<p data-start="882" data-end="955">⚡ <em data-start="884" data-end="908">High-Frequency Trading</em> permite operar cientos de veces por segundo.</p>
+</li>
+<li data-start="956" data-end="1020">
+<p data-start="958" data-end="1020">💹 Ideal para aprovechar <strong data-start="983" data-end="1017">pequeñas variaciones de precio</strong>.</p>
+</li>
+</ul>
+<hr data-start="1022" data-end="1025">
+<h3 data-start="1027" data-end="1055">🔄 <strong data-start="1034" data-end="1053">4. Trading 24/7</strong></h3>
+<ul data-start="1056" data-end="1196">
+<li data-start="1056" data-end="1134">
+<p data-start="1058" data-end="1134">🌐 Los bots pueden operar <strong data-start="1084" data-end="1099">todo el día</strong> en mercados como Forex o Cripto.</p>
+</li>
+<li data-start="1135" data-end="1196">
+<p data-start="1137" data-end="1196">🕒 Aprovechan oportunidades incluso mientras <strong data-start="1182" data-end="1193">duermes</strong>.</p>
+</li>
+</ul>
+<hr data-start="1198" data-end="1201">
+<h3 data-start="1203" data-end="1249">🛡️ <strong data-start="1211" data-end="1247">5. Gestión de Riesgos Automática</strong></h3>
+<ul data-start="1250" data-end="1363">
+<li data-start="1250" data-end="1297">
+<p data-start="1252" data-end="1297">🛑 Stop Loss y Take Profit preconfigurados.</p>
+</li>
+<li data-start="1298" data-end="1363">
+<p data-start="1300" data-end="1363">⚖️ Ajuste automático de <strong data-start="1324" data-end="1343">tamaño de lotes</strong> y apalancamiento.</p>
+</li>
+</ul>
+<hr data-start="1365" data-end="1368">
+<h3 data-start="1370" data-end="1394">📈 <strong data-start="1377" data-end="1392">6. Ventajas</strong></h3>
+<ul data-start="1395" data-end="1540">
+<li data-start="1395" data-end="1434">
+<p data-start="1397" data-end="1434">😎 Sin emociones (miedo o codicia).</p>
+</li>
+<li data-start="1435" data-end="1464">
+<p data-start="1437" data-end="1464">⚡ Ejecución ultra rápida.</p>
+</li>
+<li data-start="1465" data-end="1540">
+<p data-start="1467" data-end="1540">🔄 Backtesting: Se puede <strong data-start="1492" data-end="1502">probar</strong> la estrategia con datos históricos.</p>
+</li>
+</ul>
+<hr data-start="1542" data-end="1545">
+<h3 data-start="1547" data-end="1570">⚠️ <strong data-start="1554" data-end="1568">7. Riesgos</strong></h3>
+<ul data-start="1571" data-end="1748">
+<li data-start="1571" data-end="1617">
+<p data-start="1573" data-end="1617">🔧 Fallos de conexión o errores de código.</p>
+</li>
+<li data-start="1618" data-end="1677">
+<p data-start="1620" data-end="1677">📉 Pérdidas rápidas si el bot no está bien configurado.</p>
+</li>
+<li data-start="1678" data-end="1748">
+<p data-start="1680" data-end="1748">💡 Requiere <strong data-start="1692" data-end="1715">monitoreo constante</strong>, no es 100% “dejar y olvidar”.</p>
+</li>
+</ul>
+<hr data-start="1750" data-end="1753">
+<h3 data-start="1755" data-end="1793">🔑 <strong data-start="1762" data-end="1791">8. Herramientas Populares</strong></h3>
+<ul data-start="1794" data-end="2018">
+<li data-start="1794" data-end="1849">
+<p data-start="1796" data-end="1849">🟢 <strong data-start="1799" data-end="1823">MetaTrader (MT4/MT5)</strong>: Expert Advisors (EAs).</p>
+</li>
+<li data-start="1850" data-end="1915">
+<p data-start="1852" data-end="1915">🟣 <strong data-start="1855" data-end="1884">TradingView + Pine Script</strong>: Estrategias personalizadas.</p>
+</li>
+<li data-start="1916" data-end="1966">
+<p data-start="1918" data-end="1966">🟠 <strong data-start="1921" data-end="1937">Binance Bots</strong>: Ideal para criptomonedas.</p>
+</li>
+<li data-start="1967" data-end="2018">
+<p data-start="1969" data-end="2018">⚡ <strong data-start="1971" data-end="1994">Python/Node.js APIs</strong>: Para bots avanzados.</p>
+</li>
+</ul>
+<hr data-start="2020" data-end="2023">
+<h3 data-start="2025" data-end="2045">💡 Frase Clave</h3>
+<p data-start="2046" data-end="2159">🤖 <em data-start="2049" data-end="2157">“Un bot puede ser más rápido que un trader, pero solo será tan bueno como la estrategia que le programes.”</em></p></div><img src="data:image/jpeg;base64,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" class="editable selected" style="max-width: 100%; margin: 15px 0px; border-radius: 8px; width: 700px; height: 400px;">
+        </div>
+        
+        <div class="document-footer">
+            <p>© 2025 - Beaver trading - Todos los derechos reservados</p>
+        </div>
+    </div>
+</body>
+</html>

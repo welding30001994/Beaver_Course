@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beaver Trading | Plataforma de Trading</title>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Estilos -->
+    <style>
+    :root {
+        --primary: #00f0ff;
+        --accent: #7a04eb;
+        --dark: #0a0a1a;
+        --darker: #050510;
+        --light: #e0e0ff;
+        --card-bg: rgba(15, 15, 35, 0.6);
+        --neon-glow: 0 0 10px var(--primary), 0 0 20px rgba(0, 240, 255, 0.3);
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Orbitron', 'Rajdhani', sans-serif;
+    }
+    
+           body {
+            font-family: 'Exo 2', sans-serif;
+            background: url('https://raw.githubusercontent.com/welding30001994/vip/refs/heads/main/unnamed%20(1).jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Capa oscura sobre la imagen de fondo */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+        
+    
+    .grid-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+            linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+        background-size: 50px 50px;
+        pointer-events: none;
+        z-index: -1;
+        perspective: 1000px;
+    }
+    
+    .floating-diamonds {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+    }
+    
+    .diamond {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: transparent;
+        border: 1px solid var(--primary);
+        transform: rotate(45deg);
+        opacity: 0.3;
+        animation: float 15s infinite ease-in-out;
+    }
+    
+    @keyframes float {
+        0%, 100% { transform: rotate(45deg) translateY(0) rotate(0deg); opacity: 0.3; }
+        50% { transform: rotate(45deg) translateY(-20px) rotate(180deg); opacity: 0.6; }
+    }
+    
+    .vip-particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+        overflow: hidden;
+    }
+    
+    .vip-particle {
+        position: absolute;
+        border-radius: 50%;
+        opacity: 0.5;
+        animation: rise linear infinite;
+    }
+    
+    @keyframes rise {
+        0% { 
+            transform: translateY(0) rotate(0deg); 
+            opacity: 0;
+        }
+        10% { 
+            opacity: 0.5;
+        }
+        90% { 
+            opacity: 0.6;
+        }
+        100% { 
+            transform: translateY(-100vh) rotate(360deg); 
+            opacity: 0;
+        }
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        padding: 15px 0;
+        background: rgba(10, 10, 26, 0.8);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+    }
+    
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .logo {
+        font-size: 2rem;
+        font-weight: 900;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        letter-spacing: 1px;
+        color: var(--primary);
+    }
+    
+    .logo i {
+        color: var(--primary);
+        font-size: 2.2rem;
+    }
+    
+    .user-menu {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+    
+    .logout-btn {
+        padding: 10px 20px;
+        background: transparent;
+        color: var(--primary);
+        border: 1px solid var(--primary);
+        border-radius: 4px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: 'Rajdhani', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+    
+    .logout-btn:hover {
+        background: rgba(0, 240, 255, 0.1);
+    }
+    
+    .user-avatar {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: rgba(0, 240, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--light);
+        font-weight: bold;
+        font-size: 1.1rem;
+        border: 1px solid rgba(0, 240, 255, 0.2);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .user-avatar:hover {
+        background: rgba(0, 240, 255, 0.2);
+        transform: scale(1.05);
+    }
+    
+    .dashboard {
+        padding-top: 100px;
+        padding-bottom: 60px;
+    }
+    
+    .welcome-banner {
+        background: var(--card-bg);
+        border-radius: 10px;
+        padding: 30px;
+        margin-bottom: 40px;
+        text-align: center;
+        border: 1px solid rgba(0, 240, 255, 0.1);
+        backdrop-filter: blur(10px);
+        transition: all 0.5s ease;
+    }
+    
+    .welcome-banner:hover {
+        border-color: var(--primary);
+        transform: translateY(-5px);
+    }
+    
+    .welcome-text h2 {
+        font-size: 2.2rem;
+        color: var(--primary);
+        margin-bottom: 10px;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+    
+    .portal-section {
+        margin-top: 40px;
+    }
+    
+    .section-title {
+        text-align: center;
+        margin-bottom: 40px;
+        position: relative;
+    }
+    
+    .section-title h2 {
+        font-size: 2.5rem;
+        color: var(--primary);
+        margin-bottom: 1.5rem;
+        font-weight: 800;
+        letter-spacing: 2px;
+        position: relative;
+        display: inline-block;
+    }
+    
+    .section-title h2::after {
+        content: '';
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 2px;
+        background: var(--primary);
+    }
+    
+    .portal-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 25px;
+    }
+    
+    .portal-btn {
+        position: relative;
+        min-height: 180px;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        color: var(--light);
+        font-weight: 700;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+        overflow: hidden;
+        z-index: 1;
+        border: 1px solid rgba(0, 240, 255, 0.1);
+        background: var(--card-bg);
+        padding: 25px;
+        text-align: center;
+        font-family: 'Rajdhani', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    .portal-btn:hover {
+        transform: translateY(-8px);
+        border-color: var(--primary);
+        box-shadow: 0 10px 25px rgba(0, 240, 255, 0.2);
+    }
+    
+    .portal-btn i {
+        font-size: 2.8rem;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+        color: var(--primary);
+    }
+    
+    .portal-btn:hover i {
+        transform: scale(1.2);
+    }
+    
+    /* Colores individuales para cada botón */
+    .btn-gold { border-color: rgba(255, 215, 0, 0.2); }
+    .btn-gold i { color: #ffd700; }
+    .btn-gold:hover { border-color: #ffd700; box-shadow: 0 10px 25px rgba(255, 215, 0, 0.2); }
+    
+    .btn-vip { border-color: rgba(255, 0, 255, 0.2); }
+    .btn-vip i { color: #ff00ff; }
+    .btn-vip:hover { border-color: #ff00ff; box-shadow: 0 10px 25px rgba(255, 0, 255, 0.2); }
+    
+    .btn-cyan { border-color: rgba(0, 255, 255, 0.2); }
+    .btn-cyan i { color: #00ffff; }
+    .btn-cyan:hover { border-color: #00ffff; box-shadow: 0 10px 25px rgba(0, 255, 255, 0.2); }
+    
+    footer {
+        text-align: center;
+        padding: 40px 0;
+        margin-top: 80px;
+        color: rgba(224, 224, 255, 0.7);
+        font-family: 'Rajdhani', sans-serif;
+        font-size: 1.1rem;
+        border-top: 1px solid rgba(0, 240, 255, 0.2);
+    }
+    
+    /* Responsive */
+    @media (max-width: 1024px) {
+        .portal-container {
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .container {
+            padding: 0 15px;
+        }
+        
+        header {
+            padding: 10px 0;
+        }
+        
+        .logo {
+            font-size: 1.6rem;
+        }
+        
+        .logo i {
+            font-size: 1.8rem;
+        }
+        
+        .dashboard {
+            padding-top: 80px;
+        }
+        
+        .welcome-banner {
+            padding: 25px;
+        }
+        
+        .welcome-text h2 {
+            font-size: 1.8rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2rem;
+        }
+        
+        .portal-container {
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        
+        .portal-btn {
+            min-height: 160px;
+            font-size: 1.1rem;
+        }
+        
+        .portal-btn i {
+            font-size: 2.5rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .portal-container {
+            grid-template-columns: 1fr;
+        }
+        
+        .portal-btn {
+            min-height: 140px;
+            padding: 20px;
+        }
+        
+        .welcome-text h2 {
+            font-size: 1.5rem;
+        }
+        
+        .section-title h2 {
+            font-size: 1.8rem;
+        }
+        
+        .logout-btn {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            font-size: 1rem;
+        }
+    }
+    </style>
+</head>
+<body>
+    <!-- Efectos futuristas -->
+    <div class="grid-overlay"></div>
+    <div class="floating-diamonds">
+        <div class="diamond" style="top: 10%; left: 20%; animation-delay: 0s;"></div>
+        <div class="diamond" style="top: 30%; left: 80%; animation-delay: 5s;"></div>
+        <div class="diamond" style="top: 70%; left: 40%; animation-delay: 10s;"></div>
+        <div class="diamond" style="top: 50%; left: 60%; animation-delay: 15s;"></div>
+    </div>
+    <div class="vip-particles" id="vipParticles"></div>
+    
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-crown"></i>
+                    <span>BEAVER TRADING</span>
+                </div>
+                <div class="user-menu">
+                    <button class="logout-btn" id="logoutBtn">Cerrar Sesión</button>
+                    <div class="user-avatar" id="userAvatar">JD</div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="dashboard">
+        <div class="container">
+            <div class="welcome-banner">
+                <div class="welcome-text">
+                    <h2 id="welcomeMessage">Bienvenido</h2>
+                </div>
+            </div>
+
+            <!-- Portal de Accesos -->
+            <section class="portal-section">
+                <div class="section-title">
+                    <h2>PORTAL DE ACCESOS</h2>
+                </div>
+                <div class="portal-container">
+                    <a href="modulos/ordenblock.html" target="_blank" class="portal-btn btn-gold">
+                        <i class="fas fa-chart-line"></i>
+                        Modulos
+                    </a>
+                    
+                    <a href="fibonachi/calculadora.HTML" target="_blank" class="portal-btn btn-vip">
+                        <i class="fas fa-calculator"></i>
+                        Fibonachi
+                    </a>
+
+                    <a href="contenido/oxo.html" target="_blank" class="portal-btn btn-cyan">
+                        <i class="fas fa-signal"></i>
+                        Contenido
+                    </a>
+
+                    <a href="gestion/lotajes.html" target="_blank" class="portal-btn btn-gold">
+                        <i class="fas fa-coins"></i>
+                        Gestion
+                    </a>
+                    
+                    <a href="soporte/asistente.html" target="_blank" class="portal-btn btn-vip">
+                        <i class="fas fa-exchange-alt"></i>
+                        SOPORTE 
+                    </a>
+                    
+                    <a href="señales/index.html" target="_blank" class="portal-btn btn-cyan">
+                        <i class="fas fa-broadcast-tower"></i>
+                        Señales                    </a>
+                    
+                    <a href="pagos/pagos.html" target="_blank" class="portal-btn btn-gold">
+                        <i class="fas fa-credit-card"></i>
+                        Pagos
+                    </a>
+
+                    <a href="hora/hora.html" target="_blank" class="portal-btn btn-vip">
+                        <i class="fas fa-wallet"></i>
+                        Hora
+                    </a>
+
+                    <a href="pdf/libros.html" target="_blank" class="portal-btn btn-cyan">
+                        <i class="fas fa-book"></i>
+                        Pdf
+                    </a>
+                    
+                    <a href="videos/videos.html" target="_blank" class="portal-btn btn-gold">
+                        <i class="fas fa-video"></i>
+                        Videos
+                    </a>
+
+                    <a href="fotos/calendario.html" target="_blank" class="portal-btn btn-vip">
+                        <i class="fas fa-calendar-alt"></i>
+                        Fotos
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <footer>
+        © 2024 BEAVER TRADING | Sistema de Trading | Todos los derechos reservados
+    </footer>
+
+    <script>
+        // Inicializar Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyB1Cs2os3tTfrMbYSAmDeJAGnP4tTtsFdw",
+            authDomain: "beaver-trading.firebaseapp.com",
+            databaseURL: "https://beaver-trading-default-rtdb.firebaseio.com",
+            projectId: "beaver-trading",
+            storageBucket: "beaver-trading.firebasestorage.app",
+            messagingSenderId: "926610131904",
+            appId: "1:926610131904:web:c147bd337bd12b4d085625",
+            measurementId: "G-1K51WWF2ZJ"
+        };
+        
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const database = firebase.database();
+        
+        // Elementos del DOM
+        const logoutBtn = document.getElementById('logoutBtn');
+        const userAvatar = document.getElementById('userAvatar');
+        const welcomeMessage = document.getElementById('welcomeMessage');
+        const vipParticlesContainer = document.getElementById('vipParticles');
+        
+        // Crear efecto de partículas
+        function createVipParticles() {
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('vip-particle');
+                
+                // Tamaño aleatorio entre 1px y 4px
+                const size = Math.random() * 3 + 1;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Posición inicial aleatoria
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.bottom = `-${size}px`;
+                
+                // Duración de la animación aleatoria
+                const duration = Math.random() * 25 + 15;
+                particle.style.animationDuration = `${duration}s`;
+                
+                // Retraso aleatorio
+                particle.style.animationDelay = `${Math.random() * 15}s`;
+                
+                // Color aleatorio (cian, violeta o dorado)
+                const colors = ['#00f0ff', '#7a04eb', '#ffd700'];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.background = randomColor;
+                
+                vipParticlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Verificar autenticación al cargar la página
+        auth.onAuthStateChanged((user) => {
+            if (!user) {
+                // Si no hay usuario logueado, redirigir al inicio
+                window.location.href = 'index.html';
+            } else {
+                // Mostrar información del usuario
+                const userName = user.displayName || user.email.split('@')[0];
+                welcomeMessage.textContent = `Bienvenido, ${userName}`;
+                userAvatar.textContent = userName.charAt(0).toUpperCase();
+            }
+        });
+        
+        // Cerrar sesión
+        logoutBtn.addEventListener('click', () => {
+            auth.signOut().then(() => {
+                window.location.href = 'index.html';
+            });
+        });
+        
+        // Crear partículas al cargar la página
+        window.addEventListener('load', () => {
+            createVipParticles();
+        });
+    </script>
+</body>
+
+</html>
+

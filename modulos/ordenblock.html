@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beaver Trading</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-gold: #ffd700;
+            --neon-platinum: #e5e4e2;
+            --neon-diamond: #b9f2ff;
+            --neon-vip: #ff00ff;
+            --neon-cyan: #00ffff;
+            --dark-cosmic: #0a0a1a;
+            --darker-space: #050510;
+            --deep-space: #03030f;
+            --star-light: rgba(255, 255, 255, 0.9);
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --gold-glow: 0 0 10px var(--neon-gold), 0 0 20px rgba(255, 215, 0, 0.5);
+            --vip-glow: 0 0 15px var(--neon-vip), 0 0 30px rgba(255, 0, 255, 0.4);
+            --cyan-glow: 0 0 15px var(--neon-cyan), 0 0 30px rgba(0, 255, 255, 0.4);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+           body {
+            font-family: 'Exo 2', sans-serif;
+            background: url('https://raw.githubusercontent.com/welding30001994/vip/refs/heads/main/unnamed%20(1).jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Capa oscura sobre la imagen de fondo */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+        
+
+        /* Efectos futuristas VIP */
+        .vip-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.05;
+            background: 
+                linear-gradient(0deg, transparent 48%, var(--neon-gold) 49%, var(--neon-gold) 51%, transparent 52%),
+                linear-gradient(90deg, transparent 48%, var(--neon-vip) 49%, var(--neon-vip) 51%, transparent 52%);
+            background-size: 20px 20px;
+            animation: grid-move 20s infinite linear;
+        }
+        
+        @keyframes grid-move {
+            0% { background-position: 0 0; }
+            100% { background-position: 20px 20px; }
+        }
+        
+        .floating-diamonds {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .diamond {
+            position: absolute;
+            opacity: 0.1;
+            background: var(--neon-diamond);
+            width: 10px;
+            height: 10px;
+            transform: rotate(45deg);
+            filter: blur(2px);
+            animation: float-diamond 20s infinite linear;
+        }
+        
+        @keyframes float-diamond {
+            0%, 100% { transform: translate(0, 0) rotate(45deg); opacity: 0.1; }
+            25% { transform: translate(100px, 50px) rotate(90deg); opacity: 0.15; }
+            50% { transform: translate(50px, 100px) rotate(135deg); opacity: 0.2; }
+            75% { transform: translate(-50px, 50px) rotate(180deg); opacity: 0.15; }
+        }
+        
+        .vip-particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .vip-particle {
+            position: absolute;
+            background: var(--neon-gold);
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: float-vip linear infinite;
+        }
+        
+        @keyframes float-vip {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.4;
+            }
+            90% {
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            z-index: 1;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+            position: relative;
+        }
+        
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--neon-gold) 0%, var(--neon-vip) 50%, var(--neon-cyan) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: var(--vip-glow);
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+        }
+        
+        .logo i {
+            margin-right: 20px;
+            font-size: 3.5rem;
+            color: var(--neon-gold);
+            filter: drop-shadow(0 0 10px var(--neon-gold));
+        }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--star-light);
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto;
+            font-family: 'Exo 2', sans-serif;
+        }
+        
+        .modules-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+        
+        .module-section {
+            margin-bottom: 50px;
+        }
+        
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 25px;
+            background: linear-gradient(to right, var(--neon-gold), var(--neon-vip));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+            display: inline-block;
+        }
+        
+        .portal-btn {
+            position: relative;
+            height: 160px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+            border: 2px solid var(--neon-gold);
+            background: linear-gradient(135deg, rgba(15, 15, 35, 0.8), rgba(25, 15, 45, 0.8));
+            backdrop-filter: blur(15px);
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .portal-btn::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--neon-gold), var(--neon-vip), var(--neon-cyan), var(--neon-gold));
+            background-size: 400%;
+            z-index: -1;
+            animation: border-glowing 4s linear infinite;
+            border-radius: 22px;
+            opacity: 0.7;
+        }
+        
+        @keyframes border-glowing {
+            0% { background-position: 0 0; }
+            50% { background-position: 300% 0; }
+            100% { background-position: 0 0; }
+        }
+        
+        .portal-btn:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 0 35px rgba(255, 215, 0, 0.5);
+        }
+        
+        .portal-btn:hover::before {
+            animation: border-glowing 2s linear infinite;
+        }
+        
+        .portal-btn i {
+            font-size: 3.2rem;
+            margin-bottom: 15px;
+            transition: var(--transition);
+        }
+        
+        .portal-btn:hover i {
+            transform: scale(1.2) rotate(5deg);
+            text-shadow: 0 0 20px currentColor;
+        }
+        
+        .module-number {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--neon-gold);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 3px 8px;
+            border-radius: 10px;
+            border: 1px solid var(--neon-gold);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255, 215, 0, 0.3);
+            font-size: 1rem;
+            color: rgba(224, 224, 255, 0.7);
+            font-family: 'Exo 2', sans-serif;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .modules-container {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+            
+            .logo {
+                font-size: 3rem;
+            }
+            
+            .logo i {
+                font-size: 3rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+            
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            .logo i {
+                font-size: 2.5rem;
+                margin-right: 15px;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 1.7rem;
+            }
+            
+            .portal-btn {
+                height: 140px;
+                font-size: 1rem;
+            }
+            
+            .portal-btn i {
+                font-size: 2.8rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .logo i {
+                font-size: 2rem;
+                margin-right: 12px;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .modules-container {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .portal-btn {
+                height: 130px;
+                padding: 15px;
+            }
+            
+            .portal-btn i {
+                font-size: 2.5rem;
+            }
+            
+            .module-number {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Efectos futuristas VIP -->
+    <div class="vip-grid"></div>
+    <div class="floating-diamonds">
+        <div class="diamond" style="top: 10%; left: 20%; animation-delay: 0s;"></div>
+        <div class="diamond" style="top: 30%; left: 80%; animation-delay: 5s;"></div>
+        <div class="diamond" style="top: 70%; left: 40%; animation-delay: 10s;"></div>
+        <div class="diamond" style="top: 50%; left: 60%; animation-delay: 15s;"></div>
+    </div>
+    <div class="vip-particles" id="vipParticles"></div>
+    
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-crown"></i>
+                <span>Beaver Trading</span>
+            </div>
+            <p class="subtitle">Portal de Módulos Premium - Acceso a todas las herramientas de trading</p>
+        </div>
+        
+        <!-- Módulos de Trading -->
+        <div class="module-section">
+            <h2 class="section-title">Módulos de Trading</h2>
+            <div class="modules-container">
+                <a href="analicis-tecnico.html" target="_blank" class="portal-btn">
+                    <span class="module-number">M01</span>
+                    <i class="fas fa-chart-line"></i>
+                    Análisis Técnico
+                </a>
+                
+                <a href="psciologia-de-trading.html" target="_blank" class="portal-btn">
+                    <span class="module-number">M02</span>
+                    <i class="fas fa-brain"></i>
+                    Psicología Trading
+                </a>
+                
+                <a href="gestion-de-capital.html" target="_blank" class="portal-btn">
+                    <span class="module-number">M03</span>
+                    <i class="fas fa-coins"></i>
+                    Gestión de Capital
+                </a>
+                
+                <a href="gestion-riesgo-g.html" target="_blank" class="portal-btn">
+                    <span class="module-number">M04</span>
+                    <i class="fas fa-shield-alt"></i>
+                    Gestión de Riesgos
+                </a>
+                
+                <a href="estrategia-rapidas.html " target="_blank" class="portal-btn">
+                    <span class="module-number">M05</span>
+                    <i class="fas fa-bolt"></i>
+                    Estrategias Rápidas
+                </a>
+                
+                <a href="trading-automatico.html" target="_blank" class="portal-btn">
+                    <span class="module-number">M06</span>
+                    <i class="fas fa-robot"></i>
+                    Trading Automático
+                </a>
+            </div>
+        </div>
+        
+        <!-- Módulos de Señales -->
+        <div class="module-section">
+            <h2 class="section-title">Señales y Alertas</h2>
+            <div class="modules-container">
+                <a href="index1.html" target="_blank" class="portal-btn">
+                    <span class="module-number">M07</span>
+                    <i class="fas fa-bell"></i>
+                    Alertas en Tiempo Real
+                </a>
+                
+                <a href="index2.html" target="_blank" class="portal-btn">
+                    <span class="module-number">M08</span>
+                    <i class="fas fa-broadcast-tower"></i>
+                    Señales Premium
+                </a>
+                
+                <a href="index3.html" target="_blank" class="portal-btn">
+                    <span class="module-number">M09</span>
+                    <i class="fas fa-analytics"></i>
+                    Análisis de Mercado
+                </a>
+                
+                <a href="index4.html" target="_blank" class="portal-btn">
+                    <span class="module-number">M10</span>
+                    <i class="fas fa-project-diagram"></i>
+                    Patrones Gráficos
+                </a>
+                
+                <a href="index5.html" target="_blank" class="portal-btn">
+                    <span class="module-number">M11</span>
+                    <i class="fas fa-tachometer-alt"></i>
+                    Indicadores Avanzados
+                </a>
+                
+                <a href="index6.html" target="_blank" class="portal-btn">
+                    <span class="module-number">M12</span>
+                    <i class="fas fa-video"></i>
+                    Cámara de Ensayo
+                </a>
+            </div>
+        </div>
+        
+        <!-- Módulos de Multimedia -->
+        <div class="module-section">
+            <h2 class="section-title">Multimedia y VR</h2>
+            <div class="modules-container">
+                <a href="index7.html" target="_blank" class="portal-btn">
+                    <span class="module-number">M13</span>
+                    <i class="fas fa-images"></i>
+                    Galería de Imágenes
+                </a>
+                
+                <a href="index8.html" target="_blank" class="portal-btn">
+                    <span class="module-number">M14</span>
+                    <i class="fas fa-sliders-h"></i>
+                    Editor Multimedia
+                </a>
+                
+                <a href="index9.html" target="_blank" class="portal-btn">
+                    <span class="module-number">M15</span>
+                    <i class="fas fa-vr-cardboard"></i>
+                    Realidad Virtual 1
+                </a>
+                
+                <a href="index10.html" target="_blank" class="portal-btn">
+                    <span class="module-number">M16</span>
+                    <i class="fas fa-globe"></i>
+                    Plataforma OXOMAX V1
+                </a>
+                
+                <a href="index11.html" target="_blank" class="portal-btn">
+                    <span class="module-number">M17</span>
+                    <i class="fas fa-vr-cardboard"></i>
+                    Realidad Virtual 2
+                </a>
+                
+                <a href="index12.html" target="_blank" class="portal-btn">
+                    <span class="module-number">M18</span>
+                    <i class="fas fa-credit-card"></i>
+                    Sistema de Pagos
+                </a>
+            </div>
+        </div>
+        
+        <!-- Módulos de Registro -->
+        <div class="module-section">
+            <h2 class="section-title">Registro y Perfiles</h2>
+            <div class="modules-container">
+                <a href="index13.html" target="_blank" class="portal-btn">
+                    <span class="module-number">M19</span>
+                    <i class="fas fa-user-plus"></i>
+                    Post Registro
+                </a>
+                
+                <a href="index14.html" target="_blank" class="portal-btn">
+                    <span class="module-number">M20</span>
+                    <i class="fas fa-user-check"></i>
+                    Registro de Usuarios
+                </a>
+                
+                <a href="index15.html" target="_blank" class="portal-btn">
+                    <span class="module-number">M21</span>
+                    <i class="fas fa-sign-in-alt"></i>
+                    Acceso al Sistema
+                </a>
+                
+                <a href="index16.html" target="_blank" class="portal-btn">
+                    <span class="module-number">M22</span>
+                    <i class="fas fa-database"></i>
+                    Registro Dinámico
+                </a>
+                
+                <a href="index17.html" target="_blank" class="portal-btn">
+                    <span class="module-number">M23</span>
+                    <i class="fas fa-cogs"></i>
+                    Configuración de Perfil
+                </a>
+                
+                <a href="index18.html" target="_blank" class="portal-btn">
+                    <span class="module-number">M24</span>
+                    <i class="fas fa-vr-cardboard"></i>
+                    Realidad Virtual 4
+                </a>
+            </div>
+        </div>
+        
+        <!-- Módulos Adicionales -->
+        <div class="module-section">
+            <h2 class="section-title">Módulos Adicionales</h2>
+            <div class="modules-container">
+                <a href="index19.html" target="_blank" class="portal-btn">
+                    <span class="module-number">M25</span>
+                    <i class="fas fa-vr-cardboard"></i>
+                    Realidad Virtual 5
+                </a>
+                
+                <a href="index20.html" target="_blank" class="portal-btn">
+                    <span class="module-number">M26</span>
+                    <i class="fas fa-vr-cardboard"></i>
+                    Realidad Virtual 6
+                </a>
+                
+                <a href="index21.html" target="_blank" class="portal-btn">
+                    <span class="module-number">M27</span>
+                    <i class="fas fa-vr-cardboard"></i>
+                    Realidad Virtual 7
+                </a>
+                
+                <a href="index22.html" target="_blank" class="portal-btn">
+                    <span class="module-number">M28</span>
+                    <i class="fas fa-vr-cardboard"></i>
+                    Realidad Virtual 8
+                </a>
+                
+                <a href="index23.html" target="_blank" class="portal-btn">
+                    <span class="module-number">M29</span>
+                    <i class="fas fa-vr-cardboard"></i>
+                    Realidad Virtual 9
+                </a>
+                
+                <a href="index24.html" target="_blank" class="portal-btn">
+                    <span class="module-number">M30</span>
+                    <i class="fas fa-box"></i>
+                    Módulo Adicional 1
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        © 2024 Beaver Trading | Todos los derechos reservados
+    </footer>
+
+    <script>
+        // Crear efecto de partículas VIP
+        function createVipParticles() {
+            const particleCount = 80;
+            const container = document.getElementById('vipParticles');
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('vip-particle');
+                
+                // Tamaño aleatorio entre 1px y 4px
+                const size = Math.random() * 3 + 1;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Posición inicial aleatoria
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.bottom = `-${size}px`;
+                
+                // Duración de la animación aleatoria
+                const duration = Math.random() * 25 + 15;
+                particle.style.animationDuration = `${duration}s`;
+                
+                // Retraso aleatorio
+                particle.style.animationDelay = `${Math.random() * 15}s`;
+                
+                // Color aleatorio (dorado, violeta o cian)
+                const colors = ['#ffd700', '#ff00ff', '#00ffff'];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.background = randomColor;
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        // Efecto de escritura para el título
+        const titleText = "Beaver Trading";
+        let titleIndex = 0;
+        const titleElement = document.querySelector('.logo span');
+        
+        function typeTitleText() {
+            if (titleIndex < titleText.length) {
+                titleElement.textContent += titleText.charAt(titleIndex);
+                titleIndex++;
+                setTimeout(typeTitleText, 150);
+            }
+        }
+        
+        // Iniciar efectos cuando la página cargue
+        window.addEventListener('load', () => {
+            createVipParticles();
+            
+            // Iniciar efecto de escritura
+            titleElement.textContent = "";
+            setTimeout(typeTitleText, 1000);
+        });
+    </script>
+</body>
+
+</html>
+
+

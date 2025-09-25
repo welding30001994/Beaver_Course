@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beaver Trading</title>
+    <style>
+        :root {
+            --primary: #0cf;
+            --secondary: #a64dff;
+            --success: #00ff8c;
+            --warning: #ffbd44;
+            --dark: #0a1128;
+            --darker: #050a1d;
+            --light: #ccf5ff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            color: var(--light);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: rgba(5, 10, 29, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid var(--primary);
+            box-shadow: 0 0 40px rgba(0, 204, 255, 0.3);
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 204, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            z-index: -1;
+            animation: shine 6s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: rotate(45deg) translateX(-100%); }
+            100% { transform: rotate(45deg) translateX(100%); }
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary);
+            text-shadow: 0 0 15px rgba(0, 204, 255, 0.7);
+            font-size: 28px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--light);
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(10, 17, 40, 0.6);
+            border: 1px solid var(--secondary);
+            border-radius: 10px;
+            color: var(--light);
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(0, 204, 255, 0.5);
+        }
+        
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 10px;
+            color: var(--darker);
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 20px 0;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 204, 255, 0.4);
+        }
+        
+        .results {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .result-box {
+            background: rgba(10, 17, 40, 0.6);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid rgba(0, 204, 255, 0.3);
+        }
+        
+        .result-box.risk {
+            border-color: var(--warning);
+        }
+        
+        .result-box.profit {
+            border-color: var(--success);
+        }
+        
+        .result-title {
+            color: var(--light);
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .result-value {
+            font-size: 22px;
+            font-weight: bold;
+        }
+        
+        .risk-value {
+            color: var(--warning);
+        }
+        
+        .profit-value {
+            color: var(--success);
+        }
+        
+        .glow {
+            animation: glow 1.5s ease-in-out;
+        }
+        
+        @keyframes glow {
+            0% { text-shadow: 0 0 5px var(--primary); }
+            50% { text-shadow: 0 0 20px var(--primary), 0 0 30px var(--primary); }
+            100% { text-shadow: 0 0 5px var(--primary); }
+        }
+        
+        .info {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #8892b0;
+            text-align: center;
+        }
+        
+        .slider-container {
+            margin-top: 8px;
+        }
+        
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(10, 17, 40, 0.6);
+            outline: none;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 204, 255, 0.7);
+        }
+        
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 204, 255, 0.7);
+        }
+        
+        .percentage-value {
+            text-align: center;
+            margin-top: 5px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Beaver Trading </h1>
+        
+        <div class="input-group">
+            <label for="capital">Capital de Inversión ($)</label>
+            <input type="number" id="capital" step="0.01" min="0" value="1000" placeholder="Ej: 1000">
+        </div>
+        
+        <div class="input-group">
+            <label for="riskPercentage">Porcentaje de Riesgo (%)</label>
+            <input type="range" id="riskPercentage" class="slider" min="0.5" max="5" step="0.5" value="2">
+            <div class="percentage-value"><span id="riskValue">2</span>%</div>
+        </div>
+        
+        <div class="input-group">
+            <label for="lotSize">Tamaño del Lote</label>
+            <input type="number" id="lotSize" step="0.01" min="0.01" value="0.01" placeholder="Ej: 0.01">
+        </div>
+        
+        <div class="input-group">
+            <label for="pips">Movimiento en Pips</label>
+            <input type="number" id="pips" step="1" min="1" value="100" placeholder="Ej: 100">
+        </div>
+        
+        <button id="calculate">CALCULAR RIESGO Y GANANCIAS</button>
+        
+        <div class="results">
+            <div class="result-box risk">
+                <div class="result-title">MONTO A RIESGO</div>
+                <div id="riskAmount" class="result-value risk-value">$20.00</div>
+            </div>
+            
+            <div class="result-box profit">
+                <div class="result-title">GANANCIA POTENCIAL</div>
+                <div id="profitAmount" class="result-value profit-value">$10.00</div>
+            </div>
+        </div>
+        
+        <div class="info">
+            <p>Nota: Cálculo basado en $10 por pip por lote estándar. El riesgo se calcula como porcentaje de tu capital.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const calculateBtn = document.getElementById('calculate');
+            const capitalInput = document.getElementById('capital');
+            const riskPercentageInput = document.getElementById('riskPercentage');
+            const riskValueElement = document.getElementById('riskValue');
+            const lotSizeInput = document.getElementById('lotSize');
+            const pipsInput = document.getElementById('pips');
+            const riskAmountElement = document.getElementById('riskAmount');
+            const profitAmountElement = document.getElementById('profitAmount');
+            
+            // Actualizar el valor del porcentaje de riesgo
+            riskPercentageInput.addEventListener('input', function() {
+                riskValueElement.textContent = this.value;
+                calculateRiskAndProfit();
+            });
+            
+            // Calcular al cargar la página
+            calculateRiskAndProfit();
+            
+            // Calcular cuando se hace clic en el botón
+            calculateBtn.addEventListener('click', calculateRiskAndProfit);
+            
+            // Calcular cuando cambian los inputs
+            capitalInput.addEventListener('input', calculateRiskAndProfit);
+            lotSizeInput.addEventListener('input', calculateRiskAndProfit);
+            pipsInput.addEventListener('input', calculateRiskAndProfit);
+            
+            function calculateRiskAndProfit() {
+                const capital = parseFloat(capitalInput.value) || 0;
+                const riskPercentage = parseFloat(riskPercentageInput.value) || 0;
+                const lotSize = parseFloat(lotSizeInput.value) || 0;
+                const pips = parseFloat(pipsInput.value) || 0;
+                
+                // Calcular monto arriesgado (capital * porcentaje de riesgo)
+                const riskAmount = capital * (riskPercentage / 100);
+                
+                // Calcular ganancia potencial (lote * pips * valor del pip por lote estándar)
+                // Asumiendo que 1 lote estándar = $10 por pip
+                const profitAmount = lotSize * pips * 10;
+                
+                // Mostrar resultados formateados
+                riskAmountElement.textContent = `$${riskAmount.toFixed(2)}`;
+                profitAmountElement.textContent = `$${profitAmount.toFixed(2)}`;
+                
+                // Efecto de resaltado
+                riskAmountElement.classList.remove('glow');
+                profitAmountElement.classList.remove('glow');
+                void riskAmountElement.offsetWidth; // Reiniciar animación
+                void profitAmountElement.offsetWidth; // Reiniciar animación
+                riskAmountElement.classList.add('glow');
+                profitAmountElement.classList.add('glow');
+            }
+        });
+    </script>
+</body>
+</html>

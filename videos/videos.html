@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beaver Trading - Plataforma Futurista</title>
+    <style>
+        :root {
+            --primary: #00f7ff;
+            --secondary: #7700ff;
+            --dark: #0a0a1a;
+            --light: #ffffff;
+            --accent: #ff00c8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+               body {
+            font-family: 'Exo 2', sans-serif;
+            background: url('https://raw.githubusercontent.com/welding30001994/vip/refs/heads/main/unnamed%20(1).jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Capa oscura sobre la imagen de fondo */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(0, 247, 255, 0.3);
+            margin-bottom: 40px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--dark);
+        }
+        
+        .logo-text {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(0, 247, 255, 0.5);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+        }
+        
+        nav a:hover {
+            color: var(--primary);
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            transition: width 0.3s ease;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        h1 {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(0, 247, 255, 0.5);
+        }
+        
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .video-card {
+            background: rgba(10, 10, 26, 0.8);
+            border: 1px solid rgba(0, 247, 255, 0.2);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .video-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 247, 255, 0.2);
+            border-color: var(--primary);
+        }
+        
+        .video-thumbnail {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+        }
+        
+        .video-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .video-card:hover .video-thumbnail img {
+            transform: scale(1.1);
+        }
+        
+        .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 24px;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+        
+        .video-card:hover .play-icon {
+            opacity: 1;
+            background: rgba(0, 0, 0, 0.9);
+        }
+        
+        .video-info {
+            padding: 20px;
+        }
+        
+        .video-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: var(--light);
+            line-height: 1.4;
+        }
+        
+        .video-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .watch-btn, .download-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .watch-btn {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: var(--dark);
+        }
+        
+        .watch-btn:hover {
+            box-shadow: 0 0 15px rgba(0, 247, 255, 0.7);
+        }
+        
+        .download-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .download-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            width: 80%;
+            max-width: 900px;
+            background: var(--dark);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid var(--primary);
+            box-shadow: 0 0 30px rgba(0, 247, 255, 0.3);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(0, 247, 255, 0.2);
+        }
+        
+        .modal-title {
+            font-size: 20px;
+            color: var(--primary);
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 24px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .close-btn:hover {
+            color: var(--accent);
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+            border-top: 1px solid rgba(0, 247, 255, 0.3);
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* Efectos futuristas */
+        .glow {
+            text-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary), 0 0 30px var(--primary);
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .video-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+            
+            header {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">BT</div>
+                <div class="logo-text">Beaver Trading</div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Inicio</a></li>
+                    <li><a href="#">Videos</a></li>
+                    <li><a href="#">Estrategias</a></li>
+                    <li><a href="#">Contacto</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <h1>Videos Exclusivos de <span class="glow">Trading</span></h1>
+        
+        <div class="video-grid" id="videoGrid">
+            <!-- Los videos se cargarán dinámicamente con JavaScript -->
+        </div>
+    </div>
+    
+    <div class="modal" id="videoModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Título del Video</h3>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <div class="video-container">
+                <iframe id="videoFrame" src="" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Beaver Trading &copy; 2023 - Todos los derechos reservados</p>
+        <p>Plataforma futurista de educación en trading</p>
+    </footer>
+
+    <script>
+        // Datos de los videos
+        const videos = [
+            {
+                id: 'defSZjhGq9s',
+                title: 'Estrategias avanzadas de trading'
+            },
+            {
+                id: 'Cnvku7ZHw0E',
+                title: 'Análisis técnico con IA'
+            },
+            {
+                id: 'JGy4WUVGwGE',
+                title: 'Mercados financieros del futuro'
+            },
+            {
+                id: 'yaCM_cr5BXo',
+                title: 'Automatización de trading'
+            },
+            {
+                id: 'ygleB1CLhUE',
+                title: 'Gestión de riesgos 2023'
+            },
+            {
+                id: '9nRFcetXqkA',
+                title: 'Patrones de velas avanzados'
+            },
+            {
+                id: '0kl47rZZ4SQ',
+                title: 'Trading algorítmico cuántico'
+            }
+        ];
+        
+        const videoGrid = document.getElementById('videoGrid');
+        const videoModal = document.getElementById('videoModal');
+        const videoFrame = document.getElementById('videoFrame');
+        const modalTitle = document.getElementById('modalTitle');
+        const closeModal = document.getElementById('closeModal');
+        
+        // Función para generar miniaturas de YouTube
+        function getYouTubeThumbnail(id) {
+            return `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
+        }
+        
+        // Función para generar enlace de descarga (usando servicio externo)
+        function getDownloadLink(id) {
+            return `https://www.y2mate.com/youtube/${id}`;
+        }
+        
+        // Cargar videos en la cuadrícula
+        videos.forEach(video => {
+            const videoCard = document.createElement('div');
+            videoCard.className = 'video-card';
+            
+            videoCard.innerHTML = `
+                <div class="video-thumbnail">
+                    <img src="${getYouTubeThumbnail(video.id)}" alt="${video.title}">
+                    <div class="play-icon">▶</div>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">${video.title}</h3>
+                    <div class="video-actions">
+                        <button class="watch-btn" data-id="${video.id}" data-title="${video.title}">
+                            <span>Ver video</span>
+                        </button>
+                        <a href="${getDownloadLink(video.id)}" target="_blank" class="download-btn">
+                            <span>Descargar</span>
+                        </a>
+                    </div>
+                </div>
+            `;
+            
+            videoGrid.appendChild(videoCard);
+        });
+        
+        // Abrir modal al hacer clic en ver video
+        document.querySelectorAll('.watch-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const videoId = button.getAttribute('data-id');
+                const videoTitle = button.getAttribute('data-title');
+                
+                videoFrame.src = `https://www.youtube.com/embed/${videoId}`;
+                modalTitle.textContent = videoTitle;
+                videoModal.style.display = 'flex';
+            });
+        });
+        
+        // Cerrar modal
+        closeModal.addEventListener('click', () => {
+            videoModal.style.display = 'none';
+            videoFrame.src = '';
+        });
+        
+        // Cerrar modal al hacer clic fuera del contenido
+        videoModal.addEventListener('click', (e) => {
+            if (e.target === videoModal) {
+                videoModal.style.display = 'none';
+                videoFrame.src = '';
+            }
+        });
+    </script>
+</body>
+</html>

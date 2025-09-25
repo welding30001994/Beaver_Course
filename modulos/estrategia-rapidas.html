@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ Estrategias Rápidas de Trading</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: url('https://raw.githubusercontent.com/welding30001994/vip/refs/heads/main/unnamed%20(1).jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        /* Capa oscura sobre la imagen de fondo */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Ajusta la opacidad según sea necesario */
+            z-index: -1;
+        }
+        
+        .document-container {
+            background-color: rgba(25, 251, 255, 0.1);
+            width: 100%;
+            max-width: 900px;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            margin: 40px auto;
+            color: white; /* Texto blanco en el área verde */
+        }
+        
+        .document-header {
+            background: rgb(21, 6, 21,0.65);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .document-header:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBkPSJNNTAuNjY3LDEwLjMzM2MzMC42NjcsMCwzMy4zMzMsNDAsMzMuMzMzLDQwYzAsMC0yLjY2Niw0MC0zMy4zMzMsNDBTMTcuMzM0LDUwLjMzMywxNy4zMzQsNTAuMzMzUzIwLDEwLjMzMyw1MC42NjcsMTAuMzMzeiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiIHN0cm9rZS13aWR0aD0iMSIvPjxwYXRoIGQ9Ik0zMy4zMzQsMzMuMzMzYzAsNS41MjMsMzAsMTEuMDQ3LDMzLjMzMywxMS4wNDdjMy4zMzMsMCwzMy4zMzMtNS41MjQsMzMuMzMzLTExLjA0NyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiIHN0cm9rZS13aWR0aD0iMSIvPjxwYXRoIGQ9Ik0zMy4zMzQsNjYuNjY2YzAtNS41MjMsMjguMTI1LTExLjA0NywzMy4zMzMtMTEuMDQ3YzUuMjA4LDAsMzMuMzMzLDUuNTI0LDMzLjMzMywxMS4wNDciIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjEpIiBzdHJva2Utd2lkdGg9IjEiLz48L3N2Zz4=') center/contain no-repeat;
+            opacity: 0.1;
+        }
+        
+        .document-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 15px rgba(67, 97, 238, 0.5);
+        }
+        
+        .document-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .vip-badge {
+            background: linear-gradient(145deg, #fca311, #ff5e00 );
+            color: black;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1rem;
+            display: inline-block;
+            margin-top: 15px;
+            box-shadow: 0 0 15px rgba(252, 163, 17, 0.7);
+        }
+        
+        .document-content {
+            padding: 50px;
+            background-color: white; /* Fondo blanco para el contenido */
+            color: black; /* Texto negro en el área blanca */
+        }
+        
+        .document-content * {
+            max-width: 100%;
+        }
+        
+        .document-content h1, 
+        .document-content h2, 
+        .document-content h3, 
+        .document-content h4, 
+        .document-content h5, 
+        .document-content h6 {
+            color: black; /* Cambiado a negro */
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+        }
+      
+        
+        .document-content p {
+            margin-bottom: 1.2em;
+            line-height: 1.8;
+            text-align: justify;
+            color: black; /* Texto negro en el área blanca */
+        }
+        
+        .document-content img {
+            display: block;
+            margin: 2em auto;
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .document-content iframe {
+            display: block;
+            margin: 2em auto;
+            max-width: 100%;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .document-content video {
+            display: block;
+            margin: 2em auto;
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .document-footer {
+            background: rgb(21, 6, 21,0.65);
+            padding: 25px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: white;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .document-footer p {
+            margin: 0;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .document-container {
+                border-radius: 15px;
+                margin: 20px auto;
+            }
+            
+            .document-header {
+                padding: 25px;
+            }
+            
+            .document-header h1 {
+                font-size: 2rem;
+            }
+            
+            .document-content {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="document-container">
+        <div class="document-header">
+            <h1>⚡ Estrategias Rápidas de Trading</h1>
+            <p>Beaver Trading </p>
+            <div class="vip-badge"> El trading no premia a los que se rinden rápido, sino a los que persisten, estudian y mejoran día tras día. Cada error es una lección, y cada acierto es una señal de que estás más cerca de tus metas. </div>
+        </div>
+        
+        <div class="document-content">
+            <div class="editable selected" style="text-align: left; padding: 30px; background: linear-gradient(145deg, rgba(67, 97, 238, 0.1), rgba(58, 12, 163, 0.1)); border-radius: 15px; color: rgb(30, 26, 26);"><h2 data-start="143" data-end="184">⚡ <strong data-start="148" data-end="182">Estrategias Rápidas de Trading</strong></h2>
+<p data-start="185" data-end="408">Son técnicas diseñadas para <strong data-start="213" data-end="258">entrar y salir del mercado en poco tiempo</strong>, buscando <strong data-start="269" data-end="292">movimientos rápidos</strong> para obtener ganancias cortas pero frecuentes.<br data-start="339" data-end="342">
+👉 Ideales para traders que buscan <strong data-start="377" data-end="405">acción en el corto plazo</strong>.</p></div><div class="editable" style="margin: 15px 0px; padding: 15px; background: rgba(67, 97, 238, 0.1); border-radius: 8px; left: -1px; top: -1px; color: rgb(24, 22, 22); text-align: left;"><h3 data-start="415" data-end="438">⏳ <strong data-start="421" data-end="436">1. Scalping</strong></h3>
+<ul data-start="439" data-end="697">
+<li data-start="439" data-end="487">
+<p data-start="441" data-end="487">⚡ Opera en marcos de <strong data-start="462" data-end="484">segundos o minutos</strong>.</p>
+</li>
+<li data-start="488" data-end="544">
+<p data-start="490" data-end="544">💵 Busca <strong data-start="499" data-end="521">pequeñas ganancias</strong> muchas veces al día.</p>
+</li>
+<li data-start="545" data-end="697">
+<p data-start="547" data-end="697">📊 Usa gráficos de <strong data-start="566" data-end="577">1M – 5M</strong> y brokers con <strong data-start="592" data-end="612">bajas comisiones</strong>.<br data-start="613" data-end="616">
+💡 <em data-start="619" data-end="627">Clave:</em> Alta concentración, entradas precisas y <strong data-start="668" data-end="694">Stop Loss muy ajustado</strong>.</p>
+</li>
+</ul>
+<hr data-start="699" data-end="702">
+<h3 data-start="704" data-end="731">🕒 <strong data-start="711" data-end="729">2. Day Trading</strong></h3>
+<ul data-start="732" data-end="924">
+<li data-start="732" data-end="789">
+<p data-start="734" data-end="789">📅 Todas las operaciones se <strong data-start="762" data-end="786">cierran el mismo día</strong>.</p>
+</li>
+<li data-start="790" data-end="853">
+<p data-start="792" data-end="853">📉 Evita el riesgo de mantener posiciones durante la noche.</p>
+</li>
+<li data-start="854" data-end="924">
+<p data-start="856" data-end="924">💡 Combina análisis técnico, <strong data-start="885" data-end="900">indicadores</strong> y gestión de capital.</p>
+</li>
+</ul>
+<hr data-start="926" data-end="929">
+<h3 data-start="931" data-end="974">📈 <strong data-start="938" data-end="972">3. Breakout Trading (Rupturas)</strong></h3>
+<ul data-start="975" data-end="1181">
+<li data-start="975" data-end="1054">
+<p data-start="977" data-end="1054">🚀 Se entra cuando el precio <strong data-start="1006" data-end="1039">rompe soportes o resistencias</strong> importantes.</p>
+</li>
+<li data-start="1055" data-end="1181">
+<p data-start="1057" data-end="1181">⚡ Aprovecha movimientos <strong data-start="1081" data-end="1102">fuertes y rápidos</strong>.<br data-start="1103" data-end="1106">
+💡 <em data-start="1109" data-end="1115">Tip:</em> Confirmar con <strong data-start="1130" data-end="1146">volumen alto</strong> para evitar falsos rompimientos.</p>
+</li>
+</ul>
+<hr data-start="1183" data-end="1186">
+<h3 data-start="1188" data-end="1220">🔄 <strong data-start="1195" data-end="1218">4. Pullback Trading</strong></h3>
+<ul data-start="1221" data-end="1399">
+<li data-start="1221" data-end="1285">
+<p data-start="1223" data-end="1285">📉 Espera que el precio <strong data-start="1247" data-end="1260">retroceda</strong> después de un impulso.</p>
+</li>
+<li data-start="1286" data-end="1399">
+<p data-start="1288" data-end="1399">🏹 Entra en la dirección de la <strong data-start="1319" data-end="1342">tendencia principal</strong>.<br data-start="1343" data-end="1346">
+💡 Más seguro que entrar en el rompimiento inicial.</p>
+</li>
+</ul>
+<hr data-start="1401" data-end="1404">
+<h3 data-start="1406" data-end="1459">💥 <strong data-start="1413" data-end="1457">5. Estrategia de Noticias (News Trading)</strong></h3>
+<ul data-start="1460" data-end="1658">
+<li data-start="1460" data-end="1549">
+<p data-start="1462" data-end="1549">📰 Aprovecha la <strong data-start="1478" data-end="1493">volatilidad</strong> de noticias importantes (NFP, tasas de interés, CPI).</p>
+</li>
+<li data-start="1550" data-end="1658">
+<p data-start="1552" data-end="1658">⚠️ Requiere <strong data-start="1564" data-end="1583">reacción rápida</strong> y buena ejecución.<br data-start="1602" data-end="1605">
+💡 Usa <strong data-start="1612" data-end="1638">calendarios económicos</strong> para anticiparte.</p>
+</li>
+</ul>
+<hr data-start="1660" data-end="1663">
+<h3 data-start="1665" data-end="1700">📊 <strong data-start="1672" data-end="1698">6. Indicadores Rápidos</strong></h3>
+<ul data-start="1701" data-end="1901">
+<li data-start="1701" data-end="1771">
+<p data-start="1703" data-end="1771">⚡ <strong data-start="1705" data-end="1712">RSI</strong>: Identifica sobrecompra/sobreventa para entradas cortas.</p>
+</li>
+<li data-start="1772" data-end="1839">
+<p data-start="1774" data-end="1839">📏 <strong data-start="1777" data-end="1795">Medias Móviles</strong> (EMA 9/21): Cruces para entradas rápidas.</p>
+</li>
+<li data-start="1840" data-end="1901">
+<p data-start="1842" data-end="1901">🔵 <strong data-start="1845" data-end="1864">Bollinger Bands</strong>: Detecta rupturas con volatilidad.</p>
+</li>
+</ul>
+<hr data-start="1903" data-end="1906">
+<h3 data-start="1908" data-end="1949">🧠 <strong data-start="1915" data-end="1947">7. Gestión de Riesgo Express</strong></h3>
+<ul data-start="1950" data-end="2104">
+<li data-start="1950" data-end="1988">
+<p data-start="1952" data-end="1988">🛑 <strong data-start="1955" data-end="1968">Stop Loss</strong> ajustado siempre.</p>
+</li>
+<li data-start="1989" data-end="2039">
+<p data-start="1991" data-end="2039">🎯 Relación <strong data-start="2003" data-end="2036">Riesgo/Beneficio mínima 1:1.5</strong>.</p>
+</li>
+<li data-start="2040" data-end="2104">
+<p data-start="2042" data-end="2104">💡 Nunca arriesgar más de <strong data-start="2068" data-end="2079">1% – 2%</strong> del capital por trade.</p>
+</li>
+</ul>
+<hr data-start="2106" data-end="2109">
+<h3 data-start="2111" data-end="2131">💡 Frase Clave</h3>
+<p data-start="2132" data-end="2218">⚡ <em data-start="2134" data-end="2216">“La velocidad no sustituye la estrategia: entra rápido, pero con reglas claras.”</em></p></div><img src="data:image/jpeg;base64,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" class="editable selected" style="max-width: 100%; margin: 15px 0px; border-radius: 8px; height: 400px; width: 700px;">
+        </div>
+        
+        <div class="document-footer">
+            <p>© 2025 - Beaver trading - Todos los derechos reservados</p>
+        </div>
+    </div>
+</body>
+</html>
