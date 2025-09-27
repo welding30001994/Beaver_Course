@@ -5,133 +5,571 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chat en Vivo - Beaver Trading</title>
 <style>
-    body { font-family: Arial, sans-serif; background:#f2f2f2; text-align:center; }
-    #login, #register, #chat { width: 320px; margin: 20px auto; padding: 20px; background:#fff; border-radius: 8px; }
-    input, button { width: 90%; padding: 10px; margin: 5px 0; }
-    #messages { height: 250px; overflow-y: auto; border: 1px solid #ccc; background: #fafafa; padding: 10px; text-align: left;}
-    .msg { margin-bottom: 8px; padding: 5px; background: #e1f5fe; border-radius: 5px; }
+    :root {
+        --primary: #0a0e17;
+        --secondary: #00d4ff;
+        --accent: #ff6b35;
+        --dark: #121826;
+        --light: #e8f4f8;
+        --glow: 0 0 10px rgba(0, 212, 255, 0.7);
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+        color: var(--light);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        overflow-x: hidden;
+    }
+    
+    .container {
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+    
+    .header {
+        text-align: center;
+        margin-bottom: 30px;
+        position: relative;
+    }
+    
+    .logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 10px;
+    }
+    
+    .logo-icon {
+        font-size: 2.5rem;
+        color: var(--secondary);
+        text-shadow: var(--glow);
+    }
+    
+    .logo-text {
+        font-size: 2.2rem;
+        font-weight: 700;
+        background: linear-gradient(to right, var(--secondary), var(--accent));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        letter-spacing: 1px;
+    }
+    
+    .tagline {
+        font-size: 1.1rem;
+        opacity: 0.8;
+        margin-top: 5px;
+    }
+    
+    .panels-container {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .panel {
+        background: rgba(18, 24, 38, 0.8);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 25px;
+        width: 100%;
+        max-width: 400px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(0, 212, 255, 0.2);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .panel:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    }
+    
+    .panel-title {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        color: var(--secondary);
+        text-align: center;
+        position: relative;
+        padding-bottom: 10px;
+    }
+    
+    .panel-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(to right, var(--secondary), var(--accent));
+        border-radius: 3px;
+    }
+    
+    .input-group {
+        margin-bottom: 15px;
+        position: relative;
+    }
+    
+    .input-field {
+        width: 100%;
+        padding: 12px 15px;
+        background: rgba(10, 14, 23, 0.7);
+        border: 1px solid rgba(0, 212, 255, 0.3);
+        border-radius: 8px;
+        color: var(--light);
+        font-size: 1rem;
+        transition: all 0.3s;
+    }
+    
+    .input-field:focus {
+        outline: none;
+        border-color: var(--secondary);
+        box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.2);
+    }
+    
+    .input-field::placeholder {
+        color: rgba(232, 244, 248, 0.5);
+    }
+    
+    .btn {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin-top: 10px;
+    }
+    
+    .btn-primary {
+        background: linear-gradient(to right, var(--secondary), #00a8cc);
+        color: var(--primary);
+    }
+    
+    .btn-primary:hover {
+        background: linear-gradient(to right, #00a8cc, var(--secondary));
+        box-shadow: var(--glow);
+    }
+    
+    .btn-secondary {
+        background: transparent;
+        color: var(--secondary);
+        border: 1px solid var(--secondary);
+    }
+    
+    .btn-secondary:hover {
+        background: rgba(0, 212, 255, 0.1);
+        box-shadow: var(--glow);
+    }
+    
+    .btn-accent {
+        background: linear-gradient(to right, var(--accent), #e55a2b);
+        color: var(--light);
+    }
+    
+    .btn-accent:hover {
+        background: linear-gradient(to right, #e55a2b, var(--accent));
+        box-shadow: 0 0 10px rgba(255, 107, 53, 0.7);
+    }
+    
+    #chat {
+        display: none;
+        width: 100%;
+        max-width: 800px;
+    }
+    
+    .chat-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+    }
+    
+    .online-indicator {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.9rem;
+    }
+    
+    .indicator {
+        width: 10px;
+        height: 10px;
+        background: #00ff88;
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { opacity: 1; }
+        50% { opacity: 0.5; }
+        100% { opacity: 1; }
+    }
+    
+    .messages-container {
+        height: 400px;
+        overflow-y: auto;
+        padding: 15px;
+        background: rgba(10, 14, 23, 0.5);
+        border-radius: 10px;
+        margin-bottom: 20px;
+        border: 1px solid rgba(0, 212, 255, 0.2);
+    }
+    
+    .message {
+        margin-bottom: 15px;
+        padding: 12px 15px;
+        border-radius: 10px;
+        max-width: 80%;
+        position: relative;
+        animation: fadeIn 0.3s;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .message.own {
+        background: linear-gradient(135deg, rgba(0, 212, 255, 0.2) 0%, rgba(255, 107, 53, 0.1) 100%);
+        margin-left: auto;
+        border: 1px solid rgba(0, 212, 255, 0.3);
+    }
+    
+    .message.other {
+        background: rgba(18, 24, 38, 0.7);
+        margin-right: auto;
+        border: 1px solid rgba(255, 107, 53, 0.2);
+    }
+    
+    .message-user {
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+        color: var(--secondary);
+    }
+    
+    .message-text {
+        font-size: 1rem;
+        line-height: 1.4;
+    }
+    
+    .message-time {
+        font-size: 0.7rem;
+        opacity: 0.7;
+        text-align: right;
+        margin-top: 5px;
+    }
+    
+    .chat-input-container {
+        display: flex;
+        gap: 10px;
+    }
+    
+    #messageInput {
+        flex: 1;
+        padding: 12px 15px;
+        background: rgba(10, 14, 23, 0.7);
+        border: 1px solid rgba(0, 212, 255, 0.3);
+        border-radius: 8px;
+        color: var(--light);
+        font-size: 1rem;
+    }
+    
+    #messageInput:focus {
+        outline: none;
+        border-color: var(--secondary);
+        box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.2);
+    }
+    
+    .send-btn {
+        padding: 12px 20px;
+        background: linear-gradient(to right, var(--secondary), #00a8cc);
+        border: none;
+        border-radius: 8px;
+        color: var(--primary);
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    .send-btn:hover {
+        background: linear-gradient(to right, #00a8cc, var(--secondary));
+        box-shadow: var(--glow);
+    }
+    
+    .notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px 20px;
+        background: rgba(18, 24, 38, 0.9);
+        border-left: 4px solid var(--secondary);
+        border-radius: 5px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        transform: translateX(150%);
+        transition: transform 0.3s;
+        z-index: 1000;
+    }
+    
+    .notification.show {
+        transform: translateX(0);
+    }
+    
+    .footer {
+        margin-top: 30px;
+        text-align: center;
+        font-size: 0.9rem;
+        opacity: 0.7;
+    }
+    
+    @media (max-width: 768px) {
+        .panels-container {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .panel {
+            max-width: 100%;
+        }
+        
+        .message {
+            max-width: 90%;
+        }
+    }
 </style>
 </head>
 <body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon">⚡</div>
+                <div class="logo-text">BEAVER TRADING</div>
+            </div>
+            <div class="tagline">Tecnología avanzada para traders del futuro</div>
+        </div>
+        
+        <div class="panels-container">
+            <!-- Registro -->
+            <div class="panel" id="register">
+                <h3 class="panel-title">Crear Cuenta</h3>
+                <div class="input-group">
+                    <input id="regEmail" type="email" class="input-field" placeholder="Correo electrónico">
+                </div>
+                <div class="input-group">
+                    <input id="regPassword" type="password" class="input-field" placeholder="Contraseña">
+                </div>
+                <button class="btn btn-primary" onclick="register()">Registrarse</button>
+            </div>
+            
+            <!-- Login -->
+            <div class="panel" id="login">
+                <h3 class="panel-title">Iniciar Sesión</h3>
+                <div class="input-group">
+                    <input id="email" type="email" class="input-field" placeholder="Correo electrónico">
+                </div>
+                <div class="input-group">
+                    <input id="password" type="password" class="input-field" placeholder="Contraseña">
+                </div>
+                <button class="btn btn-accent" onclick="login()">Acceder</button>
+            </div>
+        </div>
+        
+        <!-- Chat -->
+        <div class="panel" id="chat">
+            <div class="chat-header">
+                <h3 class="panel-title">Chat en Vivo</h3>
+                <div class="online-indicator">
+                    <div class="indicator"></div>
+                    <span>Conectado</span>
+                </div>
+            </div>
+            
+            <div class="messages-container" id="messages"></div>
+            
+            <div class="chat-input-container">
+                <input id="messageInput" type="text" class="input-field" placeholder="Escribe tu mensaje...">
+                <button class="send-btn" onclick="sendMessage()">Enviar</button>
+            </div>
+            
+            <button class="btn btn-secondary" onclick="logout()" style="margin-top: 15px;">Cerrar Sesión</button>
+        </div>
+    </div>
+    
+    <div class="footer">
+        Beaver Trading &copy; 2023 - Plataforma de trading avanzada
+    </div>
+    
+    <div class="notification" id="notification"></div>
 
-<h2>💬 Chat en Línea</h2>
+    <!-- Firebase -->
+    <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
+    import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
-<!-- Registro -->
-<div id="register">
-  <h3>Registro</h3>
-  <input id="regEmail" type="email" placeholder="Correo">
-  <input id="regPassword" type="password" placeholder="Contraseña">
-  <button onclick="register()">Registrarse</button>
-</div>
+    // 🔑 Configuración de Firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyB1Cs2os3tTfrMbYSAmDeJAGnP4tTtsFdw",
+        authDomain: "beaver-trading.firebaseapp.com",
+        databaseURL: "https://beaver-trading-default-rtdb.firebaseio.com",
+        projectId: "beaver-trading",
+        storageBucket: "beaver-trading.firebasestorage.app",
+        messagingSenderId: "926610131904",
+        appId: "1:926610131904:web:c147bd337bd12b4d085625",
+        measurementId: "G-1K51WWF2ZJ"
+    };
 
-<!-- Login -->
-<div id="login">
-  <h3>Iniciar Sesión</h3>
-  <input id="email" type="email" placeholder="Correo">
-  <input id="password" type="password" placeholder="Contraseña">
-  <button onclick="login()">Entrar</button>
-</div>
+    // Inicializar Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const db = getDatabase(app);
+    const auth = getAuth(app);
+    const messagesRef = ref(db, "messages");
 
-<!-- Chat -->
-<div id="chat" style="display:none;">
-  <h3>Chat en Vivo</h3>
-  <div id="messages"></div>
-  <input id="messageInput" type="text" placeholder="Escribe un mensaje...">
-  <button onclick="sendMessage()">Enviar</button>
-  <br><br>
-  <button onclick="logout()">Cerrar sesión</button>
-</div>
+    // Función para mostrar notificaciones
+    function showNotification(message, isError = false) {
+        const notification = document.getElementById("notification");
+        notification.textContent = message;
+        notification.style.borderLeftColor = isError ? "#ff4757" : "#00d4ff";
+        
+        notification.classList.add("show");
+        
+        setTimeout(() => {
+            notification.classList.remove("show");
+        }, 3000);
+    }
 
-<!-- Firebase -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
-import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+    // 👉 Registrar usuario
+    window.register = async function() {
+        const email = document.getElementById("regEmail").value;
+        const password = document.getElementById("regPassword").value;
+        
+        if (!email || !password) {
+            showNotification("Por favor, completa todos los campos", true);
+            return;
+        }
+        
+        try {
+            await createUserWithEmailAndPassword(auth, email, password);
+            showNotification("✅ Cuenta creada exitosamente");
+        } catch (error) {
+            showNotification(error.message, true);
+        }
+    };
 
-// 🔑 TU configuración de Firebase (la que me diste)
-const firebaseConfig = {
-  apiKey: "AIzaSyB1Cs2os3tTfrMbYSAmDeJAGnP4tTtsFdw",
-  authDomain: "beaver-trading.firebaseapp.com",
-  databaseURL: "https://beaver-trading-default-rtdb.firebaseio.com",
-  projectId: "beaver-trading",
-  storageBucket: "beaver-trading.firebasestorage.app",
-  messagingSenderId: "926610131904",
-  appId: "1:926610131904:web:c147bd337bd12b4d085625",
-  measurementId: "G-1K51WWF2ZJ"
-};
+    // 👉 Iniciar sesión
+    window.login = async function() {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        
+        if (!email || !password) {
+            showNotification("Por favor, completa todos los campos", true);
+            return;
+        }
+        
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+        } catch (error) {
+            showNotification(error.message, true);
+        }
+    };
 
-// Inicializar Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const db = getDatabase(app);
-const auth = getAuth(app);
-const messagesRef = ref(db, "messages");
+    // 👉 Cerrar sesión
+    window.logout = function() {
+        signOut(auth);
+        showNotification("Sesión cerrada correctamente");
+    };
 
-// 👉 Registrar usuario
-window.register = async function() {
-  const email = document.getElementById("regEmail").value;
-  const password = document.getElementById("regPassword").value;
-  try {
-    await createUserWithEmailAndPassword(auth, email, password);
-    alert("✅ Usuario registrado correctamente");
-  } catch (error) {
-    alert(error.message);
-  }
-};
+    // 👉 Enviar mensaje
+    window.sendMessage = function() {
+        const input = document.getElementById("messageInput");
+        const message = input.value.trim();
+        
+        if (message !== "") {
+            push(messagesRef, {
+                user: auth.currentUser.email,
+                text: message,
+                time: Date.now()
+            });
+            input.value = "";
+        }
+    };
 
-// 👉 Iniciar sesión
-window.login = async function() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  try {
-    await signInWithEmailAndPassword(auth, email, password);
-  } catch (error) {
-    alert(error.message);
-  }
-};
-
-// 👉 Cerrar sesión
-window.logout = function() {
-  signOut(auth);
-};
-
-// 👉 Enviar mensaje
-window.sendMessage = function() {
-  const input = document.getElementById("messageInput");
-  if (input.value.trim() !== "") {
-    push(messagesRef, {
-      user: auth.currentUser.email,
-      text: input.value,
-      time: Date.now()
+    // Permitir enviar mensaje con Enter
+    document.getElementById("messageInput").addEventListener("keypress", function(e) {
+        if (e.key === "Enter") {
+            sendMessage();
+        }
     });
-    input.value = "";
-  }
-};
 
-// 👉 Cambios de sesión
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    document.getElementById("chat").style.display = "block";
-    document.getElementById("login").style.display = "none";
-    document.getElementById("register").style.display = "none";
-  } else {
-    document.getElementById("chat").style.display = "none";
-    document.getElementById("login").style.display = "block";
-    document.getElementById("register").style.display = "block";
-  }
-});
+    // 👉 Cambios de sesión
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            document.getElementById("chat").style.display = "block";
+            document.getElementById("login").style.display = "none";
+            document.getElementById("register").style.display = "none";
+            showNotification(`Bienvenido, ${user.email.split('@')[0]}`);
+        } else {
+            document.getElementById("chat").style.display = "none";
+            document.getElementById("login").style.display = "block";
+            document.getElementById("register").style.display = "block";
+        }
+    });
 
-// 👉 Mostrar mensajes en tiempo real
-const messagesDiv = document.getElementById("messages");
-onChildAdded(messagesRef, (data) => {
-  const msg = data.val();
-  const div = document.createElement("div");
-  div.classList.add("msg");
-  div.textContent = `${msg.user}: ${msg.text}`;
-  messagesDiv.appendChild(div);
-  messagesDiv.scrollTop = messagesDiv.scrollHeight;
-});
-</script>
+    // 👉 Mostrar mensajes en tiempo real
+    const messagesDiv = document.getElementById("messages");
+    onChildAdded(messagesRef, (data) => {
+        const msg = data.val();
+        const div = document.createElement("div");
+        div.classList.add("message");
+        
+        // Determinar si el mensaje es del usuario actual
+        if (auth.currentUser && msg.user === auth.currentUser.email) {
+            div.classList.add("own");
+        } else {
+            div.classList.add("other");
+        }
+        
+        const userSpan = document.createElement("div");
+        userSpan.classList.add("message-user");
+        userSpan.textContent = msg.user.split('@')[0];
+        
+        const textSpan = document.createElement("div");
+        textSpan.classList.add("message-text");
+        textSpan.textContent = msg.text;
+        
+        const timeSpan = document.createElement("div");
+        timeSpan.classList.add("message-time");
+        timeSpan.textContent = new Date(msg.time).toLocaleTimeString();
+        
+        div.appendChild(userSpan);
+        div.appendChild(textSpan);
+        div.appendChild(timeSpan);
+        
+        messagesDiv.appendChild(div);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    });
+    </script>
 </body>
 </html>
