@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guardar Texto en Firebase</title>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 600px;
+            padding: 30px;
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .description {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+        
+        .input-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        #saveBtn {
+            background-color: #667eea;
+            color: white;
+        }
+        
+        #saveBtn:hover {
+            background-color: #5a6fd8;
+            transform: translateY(-2px);
+        }
+        
+        #clearBtn {
+            background-color: #f5f5f5;
+            color: #666;
+        }
+        
+        #clearBtn:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .status {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+        
+        .success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            display: block;
+        }
+        
+        .error {
+            background-color: #ffebee;
+            color: #c62828;
+            display: block;
+        }
+        
+        .texts-container {
+            margin-top: 30px;
+        }
+        
+        .texts-title {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .text-item {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .text-content {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        
+        .text-date {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .loading {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+        }
+        
+        @media (max-width: 600px) {
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📝 Guardar Texto en Firebase</h1>
+        
+        <p class="description">Escribe tu texto en el área de abajo y haz clic en "Guardar" para almacenarlo en la base de datos de Firebase.</p>
+        
+        <div class="input-group">
+            <label for="textInput">Tu texto:</label>
+            <textarea id="textInput" placeholder="Escribe aquí tu texto..."></textarea>
+        </div>
+        
+        <div class="button-group">
+            <button id="saveBtn">💾 Guardar Texto</button>
+            <button id="clearBtn">🗑️ Limpiar</button>
+        </div>
+        
+        <div id="statusMessage" class="status"></div>
+        
+        <div class="texts-container">
+            <h3 class="texts-title">Textos guardados:</h3>
+            <div id="textsList">
+                <div class="loading">Cargando textos...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuración de Firebase - REEMPLAZA CON TUS PROPIOS DATOS
+        const firebaseConfig = {
+            apiKey: "TU_API_KEY",
+            authDomain: "TU_PROYECTO.firebaseapp.com",
+            projectId: "TU_PROYECTO_ID",
+            storageBucket: "TU_PROYECTO.appspot.com",
+            messagingSenderId: "TU_SENDER_ID",
+            appId: "TU_APP_ID"
+        };
+
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Referencias a elementos del DOM
+        const textInput = document.getElementById('textInput');
+        const saveBtn = document.getElementById('saveBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const statusMessage = document.getElementById('statusMessage');
+        const textsList = document.getElementById('textsList');
+
+        // Función para guardar texto en Firebase
+        async function saveText() {
+            const text = textInput.value.trim();
+            
+            if (!text) {
+                showStatus('Por favor, escribe algún texto antes de guardar.', 'error');
+                return;
+            }
+            
+            try {
+                // Agregar documento a la colección "textos"
+                await db.collection('textos').add({
+                    contenido: text,
+                    fecha: firebase.firestore.FieldValue.serverTimestamp(),
+                    usuario: 'Anónimo' // En una app real, aquí iría el usuario autenticado
+                });
+                
+                showStatus('¡Texto guardado correctamente!', 'success');
+                textInput.value = '';
+                loadTexts(); // Recargar la lista de textos
+            } catch (error) {
+                console.error('Error guardando texto: ', error);
+                showStatus('Error al guardar el texto. Intenta nuevamente.', 'error');
+            }
+        }
+
+        // Función para cargar textos desde Firebase
+        async function loadTexts() {
+            try {
+                const querySnapshot = await db.collection('textos')
+                    .orderBy('fecha', 'desc')
+                    .limit(10) // Limitar a los últimos 10 textos
+                    .get();
+                
+                if (querySnapshot.empty) {
+                    textsList.innerHTML = '<div class="loading">No hay textos guardados aún.</div>';
+                    return;
+                }
+                
+                let html = '';
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const fecha = data.fecha ? data.fecha.toDate().toLocaleString() : 'Fecha desconocida';
+                    
+                    html += `
+                        <div class="text-item">
+                            <div class="text-content">${data.contenido}</div>
+                            <div class="text-date">${fecha} - ${data.usuario}</div>
+                        </div>
+                    `;
+                });
+                
+                textsList.innerHTML = html;
+            } catch (error) {
+                console.error('Error cargando textos: ', error);
+                textsList.innerHTML = '<div class="error">Error al cargar los textos.</div>';
+            }
+        }
+
+        // Función para mostrar mensajes de estado
+        function showStatus(message, type) {
+            statusMessage.textContent = message;
+            statusMessage.className = 'status ' + type;
+            
+            // Ocultar el mensaje después de 5 segundos
+            setTimeout(() => {
+                statusMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        // Función para limpiar el área de texto
+        function clearText() {
+            textInput.value = '';
+            textInput.focus();
+        }
+
+        // Event listeners
+        saveBtn.addEventListener('click', saveText);
+        clearBtn.addEventListener('click', clearText);
+
+        // Cargar textos al iniciar la página
+        loadTexts();
+    </script>
+</body>
+</html>
