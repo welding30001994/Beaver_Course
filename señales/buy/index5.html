@@ -39,6 +39,27 @@
             font-weight: 600;
         }
         
+        .config-section {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .config-section h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .config-section input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
         .description {
             text-align: center;
             color: #666;
@@ -109,25 +130,32 @@
             background-color: #e0e0e0;
         }
         
+        #initFirebase {
+            background-color: #28a745;
+            color: white;
+        }
+        
         .status {
             padding: 12px;
             border-radius: 8px;
             margin-bottom: 20px;
             text-align: center;
             font-weight: 500;
-            display: none;
         }
         
         .success {
             background-color: #e8f5e9;
             color: #2e7d32;
-            display: block;
         }
         
         .error {
             background-color: #ffebee;
             color: #c62828;
-            display: block;
+        }
+        
+        .info {
+            background-color: #e3f2fd;
+            color: #1565c0;
         }
         
         .texts-container {
@@ -166,6 +194,10 @@
             font-style: italic;
         }
         
+        .hidden {
+            display: none;
+        }
+        
         @media (max-width: 600px) {
             .button-group {
                 flex-direction: column;
@@ -181,52 +213,108 @@
     <div class="container">
         <h1>📝 Guardar Texto en Firebase</h1>
         
-        <p class="description">Escribe tu texto en el área de abajo y haz clic en "Guardar" para almacenarlo en la base de datos de Firebase.</p>
-        
-        <div class="input-group">
-            <label for="textInput">Tu texto:</label>
-            <textarea id="textInput" placeholder="Escribe aquí tu texto..."></textarea>
+        <div class="config-section">
+            <h3>🔧 Configuración de Firebase</h3>
+            <p>Ingresa tu configuración de Firebase:</p>
+            <input type="text" id="projectId" placeholder="Project ID">
+            <input type="text" id="apiKey" placeholder="API Key">
+            <button id="initFirebase">Inicializar Firebase</button>
         </div>
         
-        <div class="button-group">
-            <button id="saveBtn">💾 Guardar Texto</button>
-            <button id="clearBtn">🗑️ Limpiar</button>
-        </div>
-        
-        <div id="statusMessage" class="status"></div>
-        
-        <div class="texts-container">
-            <h3 class="texts-title">Textos guardados:</h3>
-            <div id="textsList">
-                <div class="loading">Cargando textos...</div>
+        <div id="appContent" class="hidden">
+            <p class="description">Escribe tu texto en el área de abajo y haz clic en "Guardar" para almacenarlo en la base de datos de Firebase.</p>
+            
+            <div class="input-group">
+                <label for="textInput">Tu texto:</label>
+                <textarea id="textInput" placeholder="Escribe aquí tu texto..."></textarea>
+            </div>
+            
+            <div class="button-group">
+                <button id="saveBtn">💾 Guardar Texto</button>
+                <button id="clearBtn">🗑️ Limpiar</button>
+            </div>
+            
+            <div id="statusMessage" class="status info">
+                Firebase inicializado correctamente. Puedes comenzar a guardar textos.
+            </div>
+            
+            <div class="texts-container">
+                <h3 class="texts-title">Textos guardados:</h3>
+                <div id="textsList">
+                    <div class="loading">Cargando textos...</div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Configuración de Firebase - REEMPLAZA CON TUS PROPIOS DATOS
-        const firebaseConfig = {
-            apiKey: "TU_API_KEY",
-            authDomain: "TU_PROYECTO.firebaseapp.com",
-            projectId: "TU_PROYECTO_ID",
-            storageBucket: "TU_PROYECTO.appspot.com",
-            messagingSenderId: "TU_SENDER_ID",
-            appId: "TU_APP_ID"
-        };
-
-        // Inicializar Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-
-        // Referencias a elementos del DOM
+        // Elementos del DOM
+        const projectIdInput = document.getElementById('projectId');
+        const apiKeyInput = document.getElementById('apiKey');
+        const initFirebaseBtn = document.getElementById('initFirebase');
+        const appContent = document.getElementById('appContent');
         const textInput = document.getElementById('textInput');
         const saveBtn = document.getElementById('saveBtn');
         const clearBtn = document.getElementById('clearBtn');
         const statusMessage = document.getElementById('statusMessage');
         const textsList = document.getElementById('textsList');
 
+        let db = null;
+        let firebaseInitialized = false;
+
+        // Inicializar Firebase
+        function initializeFirebase() {
+            const projectId = projectIdInput.value.trim();
+            const apiKey = apiKeyInput.value.trim();
+            
+            if (!projectId || !apiKey) {
+                showStatus('Por favor, ingresa tanto el Project ID como la API Key', 'error');
+                return;
+            }
+            
+            try {
+                const firebaseConfig = {
+                    apiKey: apiKey,
+                    authDomain: `${projectId}.firebaseapp.com`,
+                    projectId: projectId,
+                    storageBucket: `${projectId}.appspot.com`,
+                    messagingSenderId: "123456789", // Puedes dejar un valor por defecto
+                    appId: "1:123456789:web:abcdef" // Puedes dejar un valor por defecto
+                };
+
+                // Reinicializar Firebase si ya estaba inicializado
+                if (firebase.apps.length > 0) {
+                    firebase.app().delete();
+                }
+                
+                firebase.initializeApp(firebaseConfig);
+                db = firebase.firestore();
+                
+                // Verificar conexión
+                db.collection('test').doc('connection').set({
+                    test: true,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                }).then(() => {
+                    firebaseInitialized = true;
+                    appContent.classList.remove('hidden');
+                    showStatus('Firebase inicializado correctamente. Conexión verificada.', 'success');
+                    loadTexts();
+                }).catch(error => {
+                    showStatus('Error verificando conexión: ' + error.message, 'error');
+                });
+                
+            } catch (error) {
+                showStatus('Error inicializando Firebase: ' + error.message, 'error');
+            }
+        }
+
         // Función para guardar texto en Firebase
         async function saveText() {
+            if (!firebaseInitialized) {
+                showStatus('Firebase no está inicializado. Configura primero Firebase.', 'error');
+                return;
+            }
+            
             const text = textInput.value.trim();
             
             if (!text) {
@@ -235,11 +323,13 @@
             }
             
             try {
+                showStatus('Guardando texto...', 'info');
+                
                 // Agregar documento a la colección "textos"
                 await db.collection('textos').add({
                     contenido: text,
                     fecha: firebase.firestore.FieldValue.serverTimestamp(),
-                    usuario: 'Anónimo' // En una app real, aquí iría el usuario autenticado
+                    usuario: 'Usuario Web'
                 });
                 
                 showStatus('¡Texto guardado correctamente!', 'success');
@@ -247,16 +337,20 @@
                 loadTexts(); // Recargar la lista de textos
             } catch (error) {
                 console.error('Error guardando texto: ', error);
-                showStatus('Error al guardar el texto. Intenta nuevamente.', 'error');
+                showStatus('Error al guardar el texto: ' + error.message, 'error');
             }
         }
 
         // Función para cargar textos desde Firebase
         async function loadTexts() {
+            if (!firebaseInitialized) return;
+            
             try {
+                textsList.innerHTML = '<div class="loading">Cargando textos...</div>';
+                
                 const querySnapshot = await db.collection('textos')
                     .orderBy('fecha', 'desc')
-                    .limit(10) // Limitar a los últimos 10 textos
+                    .limit(10)
                     .get();
                 
                 if (querySnapshot.empty) {
@@ -271,8 +365,8 @@
                     
                     html += `
                         <div class="text-item">
-                            <div class="text-content">${data.contenido}</div>
-                            <div class="text-date">${fecha} - ${data.usuario}</div>
+                            <div class="text-content">${escapeHtml(data.contenido)}</div>
+                            <div class="text-date">${fecha} - ${data.usuario || 'Anónimo'}</div>
                         </div>
                     `;
                 });
@@ -280,19 +374,22 @@
                 textsList.innerHTML = html;
             } catch (error) {
                 console.error('Error cargando textos: ', error);
-                textsList.innerHTML = '<div class="error">Error al cargar los textos.</div>';
+                textsList.innerHTML = '<div class="error">Error al cargar los textos: ' + error.message + '</div>';
             }
+        }
+
+        // Función para escapar HTML (seguridad)
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
 
         // Función para mostrar mensajes de estado
         function showStatus(message, type) {
             statusMessage.textContent = message;
             statusMessage.className = 'status ' + type;
-            
-            // Ocultar el mensaje después de 5 segundos
-            setTimeout(() => {
-                statusMessage.style.display = 'none';
-            }, 5000);
+            statusMessage.style.display = 'block';
         }
 
         // Función para limpiar el área de texto
@@ -302,11 +399,16 @@
         }
 
         // Event listeners
+        initFirebaseBtn.addEventListener('click', initializeFirebase);
         saveBtn.addEventListener('click', saveText);
         clearBtn.addEventListener('click', clearText);
 
-        // Cargar textos al iniciar la página
-        loadTexts();
+        // Permitir Enter para guardar
+        textInput.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'Enter') {
+                saveText();
+            }
+        });
     </script>
 </body>
 </html>
