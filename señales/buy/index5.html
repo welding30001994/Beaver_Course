@@ -1,301 +1,137 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Usuarios - Firebase</title>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            padding: 30px;
-        }
-        
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 30px;
-        }
-        
-        .form-section {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-        }
-        
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-            color: #555;
-        }
-        
-        input, textarea {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #e0e0e0;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-        
-        .button-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        button {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .btn-primary {
-            background: #667eea;
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background: #5a6fd8;
-        }
-        
-        .btn-secondary {
-            background: #6c757d;
-            color: white;
-        }
-        
-        .btn-secondary:hover {
-            background: #5a6268;
-        }
-        
-        .status {
-            padding: 10px;
-            border-radius: 5px;
-            margin: 10px 0;
-            text-align: center;
-        }
-        
-        .success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        
-        .users-list {
-            margin-top: 30px;
-        }
-        
-        .user-card {
-            background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        .user-info {
-            margin-bottom: 10px;
-        }
-        
-        .user-date {
-            font-size: 12px;
-            color: #666;
-        }
-        
-        .loading {
-            text-align: center;
-            padding: 20px;
-            color: #666;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chat en Vivo - Beaver Trading</title>
+<style>
+    body { font-family: Arial, sans-serif; background:#f2f2f2; text-align:center; }
+    #login, #register, #chat { width: 320px; margin: 20px auto; padding: 20px; background:#fff; border-radius: 8px; }
+    input, button { width: 90%; padding: 10px; margin: 5px 0; }
+    #messages { height: 250px; overflow-y: auto; border: 1px solid #ccc; background: #fafafa; padding: 10px; text-align: left;}
+    .msg { margin-bottom: 8px; padding: 5px; background: #e1f5fe; border-radius: 5px; }
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>👥 Gestión de Usuarios - Firebase</h1>
-        
-        <div class="form-section">
-            <h2>Agregar Nuevo Usuario</h2>
-            <div class="form-group">
-                <label for="userName">Nombre:</label>
-                <input type="text" id="userName" placeholder="Ingresa el nombre">
-            </div>
-            
-            <div class="form-group">
-                <label for="userEmail">Email:</label>
-                <input type="email" id="userEmail" placeholder="Ingresa el email">
-            </div>
-            
-            <div class="form-group">
-                <label for="userBio">Biografía:</label>
-                <textarea id="userBio" placeholder="Descripción del usuario" rows="3"></textarea>
-            </div>
-            
-            <div class="button-group">
-                <button class="btn-primary" onclick="addUser()">➕ Agregar Usuario</button>
-                <button class="btn-secondary" onclick="clearForm()">🗑️ Limpiar</button>
-            </div>
-            
-            <div id="statusMessage"></div>
-        </div>
-        
-        <div class="users-list">
-            <h2>Usuarios Registrados</h2>
-            <div id="usersContainer">
-                <div class="loading">Cargando usuarios...</div>
-            </div>
-        </div>
-    </div>
 
-    <script>
-        // Configuración de Firebase - REEMPLAZA CON TUS DATOS
-        const firebaseConfig = {
-            apiKey: "tu-api-key",
-            authDomain: "tu-proyecto.firebaseapp.com",
-            projectId: "tu-project-id",
-            storageBucket: "tu-proyecto.appspot.com",
-            messagingSenderId: "tu-sender-id",
-            appId: "tu-app-id"
-        };
+<h2>💬 Chat en Línea</h2>
 
-        // Inicializar Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+<!-- Registro -->
+<div id="register">
+  <h3>Registro</h3>
+  <input id="regEmail" type="email" placeholder="Correo">
+  <input id="regPassword" type="password" placeholder="Contraseña">
+  <button onclick="register()">Registrarse</button>
+</div>
 
-        // Referencia a la colección "usuario"
-        const usersCollection = db.collection('usuario');
+<!-- Login -->
+<div id="login">
+  <h3>Iniciar Sesión</h3>
+  <input id="email" type="email" placeholder="Correo">
+  <input id="password" type="password" placeholder="Contraseña">
+  <button onclick="login()">Entrar</button>
+</div>
 
-        // Función para agregar usuario
-        async function addUser() {
-            const name = document.getElementById('userName').value.trim();
-            const email = document.getElementById('userEmail').value.trim();
-            const bio = document.getElementById('userBio').value.trim();
-            
-            if (!name || !email) {
-                showStatus('Nombre y email son obligatorios', 'error');
-                return;
-            }
-            
-            try {
-                // Agregar documento a la colección "usuario"
-                await usersCollection.add({
-                    nombre: name,
-                    email: email,
-                    biografia: bio || 'Sin descripción',
-                    fechaCreacion: firebase.firestore.FieldValue.serverTimestamp(),
-                    activo: true
-                });
-                
-                showStatus('✅ Usuario agregado correctamente', 'success');
-                clearForm();
-                loadUsers();
-            } catch (error) {
-                console.error('Error agregando usuario:', error);
-                showStatus('❌ Error al agregar usuario: ' + error.message, 'error');
-            }
-        }
+<!-- Chat -->
+<div id="chat" style="display:none;">
+  <h3>Chat en Vivo</h3>
+  <div id="messages"></div>
+  <input id="messageInput" type="text" placeholder="Escribe un mensaje...">
+  <button onclick="sendMessage()">Enviar</button>
+  <br><br>
+  <button onclick="logout()">Cerrar sesión</button>
+</div>
 
-        // Función para cargar usuarios
-        async function loadUsers() {
-            try {
-                const usersContainer = document.getElementById('usersContainer');
-                usersContainer.innerHTML = '<div class="loading">Cargando usuarios...</div>';
-                
-                const snapshot = await usersCollection
-                    .orderBy('fechaCreacion', 'desc')
-                    .get();
-                
-                if (snapshot.empty) {
-                    usersContainer.innerHTML = '<div class="loading">No hay usuarios registrados</div>';
-                    return;
-                }
-                
-                let html = '';
-                snapshot.forEach(doc => {
-                    const user = doc.data();
-                    const fecha = user.fechaCreacion ? 
-                        user.fechaCreacion.toDate().toLocaleString() : 'Fecha desconocida';
-                    
-                    html += `
-                        <div class="user-card">
-                            <div class="user-info">
-                                <strong>${user.nombre}</strong><br>
-                                📧 ${user.email}<br>
-                                📝 ${user.biografia || 'Sin descripción'}<br>
-                                <span class="user-date">🕐 ${fecha}</span>
-                                ${user.activo ? '✅ Activo' : '❌ Inactivo'}
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                usersContainer.innerHTML = html;
-            } catch (error) {
-                console.error('Error cargando usuarios:', error);
-                document.getElementById('usersContainer').innerHTML = 
-                    '<div class="error">Error cargando usuarios</div>';
-            }
-        }
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
+import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
-        // Función para limpiar el formulario
-        function clearForm() {
-            document.getElementById('userName').value = '';
-            document.getElementById('userEmail').value = '';
-            document.getElementById('userBio').value = '';
-        }
+// 🔑 TU configuración de Firebase (la que me diste)
+const firebaseConfig = {
+  apiKey: "AIzaSyB1Cs2os3tTfrMbYSAmDeJAGnP4tTtsFdw",
+  authDomain: "beaver-trading.firebaseapp.com",
+  databaseURL: "https://beaver-trading-default-rtdb.firebaseio.com",
+  projectId: "beaver-trading",
+  storageBucket: "beaver-trading.firebasestorage.app",
+  messagingSenderId: "926610131904",
+  appId: "1:926610131904:web:c147bd337bd12b4d085625",
+  measurementId: "G-1K51WWF2ZJ"
+};
 
-        // Función para mostrar mensajes
-        function showStatus(message, type) {
-            const statusDiv = document.getElementById('statusMessage');
-            statusDiv.textContent = message;
-            statusDiv.className = `status ${type}`;
-            
-            setTimeout(() => {
-                statusDiv.textContent = '';
-                statusDiv.className = 'status';
-            }, 5000);
-        }
+// Inicializar Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const db = getDatabase(app);
+const auth = getAuth(app);
+const messagesRef = ref(db, "messages");
 
-        // Cargar usuarios al iniciar
-        loadUsers();
-    </script>
+// 👉 Registrar usuario
+window.register = async function() {
+  const email = document.getElementById("regEmail").value;
+  const password = document.getElementById("regPassword").value;
+  try {
+    await createUserWithEmailAndPassword(auth, email, password);
+    alert("✅ Usuario registrado correctamente");
+  } catch (error) {
+    alert(error.message);
+  }
+};
+
+// 👉 Iniciar sesión
+window.login = async function() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+  } catch (error) {
+    alert(error.message);
+  }
+};
+
+// 👉 Cerrar sesión
+window.logout = function() {
+  signOut(auth);
+};
+
+// 👉 Enviar mensaje
+window.sendMessage = function() {
+  const input = document.getElementById("messageInput");
+  if (input.value.trim() !== "") {
+    push(messagesRef, {
+      user: auth.currentUser.email,
+      text: input.value,
+      time: Date.now()
+    });
+    input.value = "";
+  }
+};
+
+// 👉 Cambios de sesión
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    document.getElementById("chat").style.display = "block";
+    document.getElementById("login").style.display = "none";
+    document.getElementById("register").style.display = "none";
+  } else {
+    document.getElementById("chat").style.display = "none";
+    document.getElementById("login").style.display = "block";
+    document.getElementById("register").style.display = "block";
+  }
+});
+
+// 👉 Mostrar mensajes en tiempo real
+const messagesDiv = document.getElementById("messages");
+onChildAdded(messagesRef, (data) => {
+  const msg = data.val();
+  const div = document.createElement("div");
+  div.classList.add("msg");
+  div.textContent = `${msg.user}: ${msg.text}`;
+  messagesDiv.appendChild(div);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+});
+</script>
 </body>
 </html>
