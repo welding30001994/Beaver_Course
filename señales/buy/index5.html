@@ -27,14 +27,29 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-        body {
-            background-color: var(--darker);
-            color: var(--light);
+     body {
+            font-family: 'Exo 2', sans-serif;
+            background: url('https://raw.githubusercontent.com/welding30001994/vip/refs/heads/main/unnamed%20(1).jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            line-height: 1.6;
             min-height: 100vh;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(138, 43, 226, 0.1) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(0, 247, 255, 0.1) 0%, transparent 20%);
+            padding: 20px;
+            position: relative;
             overflow-x: hidden;
+        }
+        
+      
+        /* Capa oscura sobre la imagen de fondo */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: -1;
         }
         
         .container {
@@ -649,7 +664,7 @@
                         <path d="M12 2L13.09 8.26L20 9.27L15 14.14L16.18 21.02L12 17.77L7.82 21.02L9 14.14L4 9.27L10.91 8.26L12 2Z" fill="currentColor"/>
                     </svg>
                 </div>
-                <h1>Quantum Trading Signals</h1>
+                <h1>Beaver Trading</h1>
             </div>
             <div class="auth-section" id="authSection">
                 <button class="btn" id="loginBtn">Iniciar Sesión</button>
