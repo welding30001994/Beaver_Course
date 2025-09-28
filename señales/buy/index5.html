@@ -40,26 +40,28 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 15px;
         }
         
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0;
+            padding: 15px 0;
             border-bottom: 1px solid rgba(0, 247, 255, 0.3);
-            margin-bottom: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
         }
         
         .logo {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
         }
         
         .logo h1 {
-            font-size: 2.5rem;
+            font-size: 1.8rem;
             background: linear-gradient(90deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             background-clip: text;
@@ -68,8 +70,8 @@
         }
         
         .logo-icon {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: 50%;
             display: flex;
@@ -80,11 +82,12 @@
         
         .auth-section {
             display: flex;
-            gap: 15px;
+            gap: 10px;
+            flex-wrap: wrap;
         }
         
         .btn {
-            padding: 10px 20px;
+            padding: 8px 16px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -93,6 +96,7 @@
             background: rgba(0, 247, 255, 0.1);
             color: var(--primary);
             border: 1px solid var(--primary);
+            font-size: 0.9rem;
         }
         
         .btn:hover {
@@ -141,70 +145,86 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            flex-wrap: wrap;
         }
         
         .user-avatar {
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
+            font-size: 0.9rem;
         }
         
         .main-content {
             display: grid;
-            grid-template-columns: 1fr 350px;
-            gap: 30px;
+            grid-template-columns: 1fr 300px;
+            gap: 20px;
+        }
+        
+        .toggle-form-btn {
+            display: none;
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 12px;
+            font-size: 1rem;
         }
         
         .signal-form {
             background: var(--card-bg);
             border: 1px solid rgba(0, 247, 255, 0.3);
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 30px;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
             backdrop-filter: blur(10px);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .signal-form.collapsed {
+            display: none;
         }
         
         .signal-form h2 {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             color: var(--primary);
             display: flex;
             align-items: center;
             gap: 10px;
+            font-size: 1.3rem;
         }
         
         .form-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 15px;
+            gap: 12px;
+            margin-bottom: 12px;
         }
         
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
         
         .form-group label {
             display: block;
             margin-bottom: 5px;
             color: var(--light);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
         
         .form-control {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             background: rgba(5, 5, 16, 0.8);
             border: 1px solid rgba(0, 247, 255, 0.3);
-            border-radius: 8px;
+            border-radius: 6px;
             color: var(--light);
             transition: all 0.3s ease;
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
         
         .form-control:focus {
@@ -214,25 +234,26 @@
         }
         
         textarea.form-control {
-            min-height: 120px;
+            min-height: 100px;
             resize: vertical;
         }
         
         .direction-selector {
             display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 8px;
+            margin-bottom: 12px;
         }
         
         .direction-btn {
             flex: 1;
-            padding: 12px;
+            padding: 10px;
             text-align: center;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: bold;
             opacity: 0.7;
+            font-size: 0.9rem;
         }
         
         .direction-btn.active {
@@ -255,14 +276,14 @@
         .signals-list {
             display: flex;
             flex-direction: column;
-            gap: 25px;
+            gap: 20px;
         }
         
         .signal-card {
             background: var(--card-bg);
             border: 1px solid rgba(0, 247, 255, 0.3);
-            border-radius: 15px;
-            padding: 25px;
+            border-radius: 12px;
+            padding: 20px;
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -289,59 +310,62 @@
         }
         
         .signal-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
             box-shadow: 0 15px 35px rgba(0, 247, 255, 0.2);
         }
         
         .signal-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
             border-bottom: 1px solid rgba(0, 247, 255, 0.2);
+            flex-wrap: wrap;
+            gap: 10px;
         }
         
         .signal-user {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
         
         .signal-avatar {
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
         
         .signal-meta {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 4px;
         }
         
         .signal-date {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: rgba(224, 224, 255, 0.7);
         }
         
         .signal-pair {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: bold;
             color: var(--primary);
         }
         
         .signal-direction {
-            padding: 5px 15px;
-            border-radius: 20px;
+            padding: 4px 12px;
+            border-radius: 16px;
             font-weight: bold;
-            font-size: 1rem;
+            font-size: 0.9rem;
+            white-space: nowrap;
         }
         
         .signal-direction.buy {
@@ -359,19 +383,19 @@
         .signal-details {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 8px;
+            margin-bottom: 15px;
             background: rgba(5, 5, 16, 0.5);
-            padding: 15px;
-            border-radius: 10px;
+            padding: 12px;
+            border-radius: 8px;
             font-family: 'Courier New', monospace;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
         
         .detail-line {
             display: flex;
             justify-content: space-between;
-            padding: 5px 0;
+            padding: 4px 0;
         }
         
         .detail-label {
@@ -384,11 +408,12 @@
         }
         
         .signal-analysis {
-            margin-bottom: 20px;
-            line-height: 1.6;
+            margin-bottom: 15px;
+            line-height: 1.5;
             background: rgba(5, 5, 16, 0.3);
-            padding: 15px;
-            border-radius: 8px;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 0.95rem;
         }
         
         .signal-actions {
@@ -404,10 +429,11 @@
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 4px;
             transition: all 0.3s ease;
-            padding: 8px 15px;
-            border-radius: 5px;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
         }
         
         .action-btn:hover {
@@ -425,8 +451,8 @@
         .sidebar {
             background: var(--card-bg);
             border: 1px solid rgba(0, 247, 255, 0.3);
-            border-radius: 15px;
-            padding: 25px;
+            border-radius: 12px;
+            padding: 20px;
             backdrop-filter: blur(10px);
             height: fit-content;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -434,35 +460,36 @@
         
         .sidebar h3 {
             color: var(--primary);
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            font-size: 1.1rem;
         }
         
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 25px;
+            gap: 12px;
+            margin-bottom: 20px;
         }
         
         .stat-card {
             background: rgba(5, 5, 16, 0.8);
-            border-radius: 10px;
-            padding: 15px;
+            border-radius: 8px;
+            padding: 12px;
             text-align: center;
             border: 1px solid rgba(0, 247, 255, 0.2);
         }
         
         .stat-value {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: bold;
             color: var(--primary);
         }
         
         .stat-label {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: rgba(224, 224, 255, 0.7);
         }
         
@@ -478,14 +505,15 @@
             z-index: 1000;
             align-items: center;
             justify-content: center;
+            padding: 15px;
         }
         
         .modal-content {
             background: rgba(10, 10, 26, 0.95);
             border: 1px solid var(--primary);
-            border-radius: 15px;
-            padding: 30px;
-            width: 90%;
+            border-radius: 12px;
+            padding: 20px;
+            width: 100%;
             max-width: 400px;
             box-shadow: 0 0 30px rgba(0, 247, 255, 0.5);
             position: relative;
@@ -493,18 +521,19 @@
         
         .modal h2 {
             color: var(--primary);
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-align: center;
+            font-size: 1.3rem;
         }
         
         .close-modal {
             position: absolute;
-            top: 15px;
-            right: 15px;
+            top: 10px;
+            right: 10px;
             background: none;
             border: none;
             color: var(--primary);
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             cursor: pointer;
         }
         
@@ -522,22 +551,91 @@
             text-shadow: 0 0 10px currentColor;
         }
         
-        @media (max-width: 768px) {
+        /* Responsive Design */
+        @media (max-width: 992px) {
             .main-content {
                 grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .sidebar {
+                order: -1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
             }
             
             header {
                 flex-direction: column;
-                gap: 15px;
+                align-items: flex-start;
+                gap: 10px;
             }
             
             .logo h1 {
-                font-size: 2rem;
+                font-size: 1.5rem;
+            }
+            
+            .auth-section, .user-info {
+                width: 100%;
+                justify-content: center;
             }
             
             .form-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .signal-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .signal-pair-direction {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-top: 5px;
+            }
+            
+            .toggle-form-btn {
+                display: block;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo h1 {
+                font-size: 1.3rem;
+            }
+            
+            .logo-icon {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .btn {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+            
+            .signal-form, .signal-card, .sidebar {
+                padding: 15px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .signal-actions {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+            
+            .action-btn {
+                width: 100%;
+                justify-content: center;
             }
         }
     </style>
@@ -547,7 +645,7 @@
         <header>
             <div class="logo">
                 <div class="logo-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12 2L13.09 8.26L20 9.27L15 14.14L16.18 21.02L12 17.77L7.82 21.02L9 14.14L4 9.27L10.91 8.26L12 2Z" fill="currentColor"/>
                     </svg>
                 </div>
@@ -566,9 +664,13 @@
         
         <div class="main-content">
             <div class="content-left">
+                <button class="btn toggle-form-btn" id="toggleFormBtn">
+                    <span id="toggleFormText">Mostrar Formulario de Señal</span>
+                </button>
+                
                 <div class="signal-form" id="signalForm" style="display: none;">
                     <h2>
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 2L13.09 8.26L20 9.27L15 14.14L16.18 21.02L12 17.77L7.82 21.02L9 14.14L4 9.27L10.91 8.26L12 2Z" fill="currentColor"/>
                         </svg>
                         Nueva Señal de Trading
@@ -642,7 +744,7 @@
             
             <div class="sidebar">
                 <h3>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M9 19V13H15V19H18V9L12 4.5L6 9V19H9ZM10 21H4C3.45 21 3 20.55 3 20V9C3 8.8 3.09 8.62 3.24 8.5L11.24 2.5C11.41 2.37 11.64 2.37 11.81 2.5L19.81 8.5C19.93 8.62 20 8.8 20 9V20C20 20.55 19.55 21 19 21H14V15H10V21Z" fill="currentColor"/>
                     </svg>
                     Estadísticas
@@ -738,6 +840,8 @@
         const registerBtn = document.getElementById('registerBtn');
         const logoutBtn = document.getElementById('logoutBtn');
         const signalForm = document.getElementById('signalForm');
+        const toggleFormBtn = document.getElementById('toggleFormBtn');
+        const toggleFormText = document.getElementById('toggleFormText');
         const newSignalForm = document.getElementById('newSignalForm');
         const signalsList = document.getElementById('signalsList');
         const loginModal = document.getElementById('loginModal');
@@ -758,6 +862,19 @@
         let currentUser = null;
         let signals = [];
         let currentDirection = '';
+        let isFormVisible = false;
+
+        // Toggle del formulario
+        toggleFormBtn.addEventListener('click', () => {
+            isFormVisible = !isFormVisible;
+            if (isFormVisible) {
+                signalForm.style.display = 'block';
+                toggleFormText.textContent = 'Ocultar Formulario';
+            } else {
+                signalForm.style.display = 'none';
+                toggleFormText.textContent = 'Mostrar Formulario de Señal';
+            }
+        });
 
         // Configurar selectores de dirección
         buyBtn.addEventListener('click', () => {
@@ -810,6 +927,9 @@
                 authSection.style.display = 'none';
                 userInfo.style.display = 'flex';
                 signalForm.style.display = 'block';
+                toggleFormBtn.style.display = 'block';
+                isFormVisible = true;
+                toggleFormText.textContent = 'Ocultar Formulario';
                 
                 // Mostrar información del usuario
                 userName.textContent = user.displayName || user.email.split('@')[0];
@@ -822,6 +942,7 @@
                 authSection.style.display = 'flex';
                 userInfo.style.display = 'none';
                 signalForm.style.display = 'none';
+                toggleFormBtn.style.display = 'none';
                 signalsList.innerHTML = '<p class="glow" style="text-align: center; padding: 20px;">Inicia sesión para ver las señales de trading</p>';
             }
         });
@@ -915,6 +1036,13 @@
                     setDirection('', buyBtn, sellBtn);
                     directionInput.value = '';
                     alert('Señal publicada correctamente');
+                    
+                    // Ocultar el formulario después de publicar
+                    if (window.innerWidth <= 768) {
+                        isFormVisible = false;
+                        signalForm.style.display = 'none';
+                        toggleFormText.textContent = 'Mostrar Formulario de Señal';
+                    }
                 })
                 .catch((error) => {
                     alert('Error al publicar la señal: ' + error.message);
@@ -1003,7 +1131,7 @@
                                         <div class="signal-date">${signal.date} • ${timeString}</div>
                                     </div>
                                 </div>
-                                <div style="display: flex; align-items: center; gap: 15px;">
+                                <div class="signal-pair-direction">
                                     <div class="signal-pair">${signal.pair}</div>
                                     <div class="signal-direction ${signal.direction === 'COMPRA' ? 'buy' : 'sell'}">${signal.direction}</div>
                                 </div>
@@ -1113,7 +1241,7 @@
         // Inicializar la aplicación
         activeUsers.textContent = "5"; // Simulamos 5 usuarios activos
         
-        // Efectos visuales adicionales
+        // Efectos visuales adicionaleas
         document.querySelectorAll('.btn, .action-btn').forEach(btn => {
             btn.addEventListener('mouseenter', function() {
                 this.style.transform = 'scale(1.05)';
