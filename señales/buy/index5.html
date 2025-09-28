@@ -35,7 +35,7 @@
     
     .container {
         width: 100%;
-        max-width: 900px;
+        max-width: 1200px;
         margin: 0 auto;
     }
     
@@ -192,16 +192,141 @@
     #chat {
         display: none;
         width: 100%;
-        max-width: 800px;
+        max-width: 1200px;
+    }
+    
+    .chat-container {
+        display: flex;
+        gap: 20px;
+        height: 600px;
+    }
+    
+    .users-panel {
+        width: 300px;
+        background: rgba(10, 14, 23, 0.7);
+        border-radius: 10px;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid rgba(0, 212, 255, 0.2);
+    }
+    
+    .users-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+    }
+    
+    .search-container {
+        position: relative;
+        margin-bottom: 15px;
+    }
+    
+    .search-icon {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: rgba(232, 244, 248, 0.5);
+    }
+    
+    .search-input {
+        width: 100%;
+        padding: 10px 10px 10px 35px;
+        background: rgba(18, 24, 38, 0.7);
+        border: 1px solid rgba(0, 212, 255, 0.3);
+        border-radius: 8px;
+        color: var(--light);
+        font-size: 0.9rem;
+    }
+    
+    .users-list {
+        flex: 1;
+        overflow-y: auto;
+    }
+    
+    .user-item {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    
+    .user-item:hover {
+        background: rgba(0, 212, 255, 0.1);
+    }
+    
+    .user-item.active {
+        background: rgba(0, 212, 255, 0.2);
+        border: 1px solid rgba(0, 212, 255, 0.5);
+    }
+    
+    .user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--secondary), var(--accent));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10px;
+        font-weight: bold;
+    }
+    
+    .user-info {
+        flex: 1;
+    }
+    
+    .user-name {
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+    
+    .user-email {
+        font-size: 0.8rem;
+        opacity: 0.7;
+    }
+    
+    .user-status {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #00ff88;
+        margin-left: 5px;
+    }
+    
+    .user-status.offline {
+        background: #ff4757;
+    }
+    
+    .chat-panel {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        background: rgba(10, 14, 23, 0.7);
+        border-radius: 10px;
+        padding: 15px;
+        border: 1px solid rgba(0, 212, 255, 0.2);
     }
     
     .chat-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
         padding-bottom: 15px;
         border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+    }
+    
+    .current-chat-user {
+        display: flex;
+        align-items: center;
     }
     
     .online-indicator {
@@ -226,12 +351,12 @@
     }
     
     .messages-container {
-        height: 400px;
+        flex: 1;
         overflow-y: auto;
         padding: 15px;
-        background: rgba(10, 14, 23, 0.5);
+        background: rgba(18, 24, 38, 0.5);
         border-radius: 10px;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
         border: 1px solid rgba(0, 212, 255, 0.2);
     }
     
@@ -342,6 +467,12 @@
         opacity: 0.7;
     }
     
+    .no-users {
+        text-align: center;
+        padding: 20px;
+        opacity: 0.7;
+    }
+    
     @media (max-width: 768px) {
         .panels-container {
             flex-direction: column;
@@ -350,6 +481,16 @@
         
         .panel {
             max-width: 100%;
+        }
+        
+        .chat-container {
+            flex-direction: column;
+            height: auto;
+        }
+        
+        .users-panel {
+            width: 100%;
+            height: 250px;
         }
         
         .message {
@@ -396,19 +537,53 @@
         
         <!-- Chat -->
         <div class="panel" id="chat">
-            <div class="chat-header">
-                <h3 class="panel-title">Chat en Vivo</h3>
-                <div class="online-indicator">
-                    <div class="indicator"></div>
-                    <span>Conectado</span>
+            <div class="chat-container">
+                <!-- Panel de usuarios -->
+                <div class="users-panel">
+                    <div class="users-header">
+                        <h3>Usuarios</h3>
+                        <div class="online-indicator">
+                            <div class="indicator"></div>
+                            <span id="online-count">0</span> en línea
+                        </div>
+                    </div>
+                    
+                    <div class="search-container">
+                        <div class="search-icon">🔍</div>
+                        <input type="text" class="search-input" id="userSearch" placeholder="Buscar usuario...">
+                    </div>
+                    
+                    <div class="users-list" id="usersList">
+                        <!-- Los usuarios se cargarán aquí dinámicamente -->
+                    </div>
                 </div>
-            </div>
-            
-            <div class="messages-container" id="messages"></div>
-            
-            <div class="chat-input-container">
-                <input id="messageInput" type="text" class="input-field" placeholder="Escribe tu mensaje...">
-                <button class="send-btn" onclick="sendMessage()">Enviar</button>
+                
+                <!-- Panel de chat -->
+                <div class="chat-panel">
+                    <div class="chat-header">
+                        <div class="current-chat-user" id="currentChatUser">
+                            <div class="user-avatar" id="currentUserAvatar">BT</div>
+                            <div>
+                                <div id="currentUserName">Selecciona un usuario</div>
+                                <div class="online-indicator">
+                                    <div class="indicator" id="currentUserStatus"></div>
+                                    <span id="currentUserStatusText">Selecciona un chat</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="messages-container" id="messages">
+                        <div class="no-chat-selected" id="noChatSelected">
+                            <p>Selecciona un usuario de la lista para comenzar a chatear</p>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-input-container">
+                        <input id="messageInput" type="text" class="input-field" placeholder="Escribe tu mensaje..." disabled>
+                        <button class="send-btn" onclick="sendMessage()" disabled id="sendButton">Enviar</button>
+                    </div>
+                </div>
             </div>
             
             <button class="btn btn-secondary" onclick="logout()" style="margin-top: 15px;">Cerrar Sesión</button>
@@ -425,7 +600,7 @@
     <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
-    import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+    import { getDatabase, ref, push, onChildAdded, onValue, set } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
     // 🔑 Configuración de Firebase
@@ -445,7 +620,16 @@
     const analytics = getAnalytics(app);
     const db = getDatabase(app);
     const auth = getAuth(app);
+    
+    // Referencias a la base de datos
     const messagesRef = ref(db, "messages");
+    const usersRef = ref(db, "users");
+    const onlineUsersRef = ref(db, "onlineUsers");
+    
+    // Variables globales
+    let currentUser = null;
+    let selectedChatUser = null;
+    let users = [];
 
     // Función para mostrar notificaciones
     function showNotification(message, isError = false) {
@@ -471,7 +655,16 @@
         }
         
         try {
-            await createUserWithEmailAndPassword(auth, email, password);
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+            
+            // Guardar información del usuario en la base de datos
+            await set(ref(db, 'users/' + user.uid), {
+                email: email,
+                displayName: email.split('@')[0],
+                createdAt: Date.now()
+            });
+            
             showNotification("✅ Cuenta creada exitosamente");
         } catch (error) {
             showNotification(error.message, true);
@@ -497,6 +690,11 @@
 
     // 👉 Cerrar sesión
     window.logout = function() {
+        // Remover usuario de la lista de usuarios en línea
+        if (currentUser) {
+            set(ref(db, 'onlineUsers/' + currentUser.uid), null);
+        }
+        
         signOut(auth);
         showNotification("Sesión cerrada correctamente");
     };
@@ -506,11 +704,14 @@
         const input = document.getElementById("messageInput");
         const message = input.value.trim();
         
-        if (message !== "") {
+        if (message !== "" && selectedChatUser) {
             push(messagesRef, {
-                user: auth.currentUser.email,
+                from: currentUser.uid,
+                to: selectedChatUser.uid,
                 text: message,
-                time: Date.now()
+                time: Date.now(),
+                fromEmail: currentUser.email,
+                toEmail: selectedChatUser.email
             });
             input.value = "";
         }
@@ -523,14 +724,205 @@
         }
     });
 
+    // Función para cargar la lista de usuarios
+    function loadUsersList() {
+        onValue(usersRef, (snapshot) => {
+            const usersData = snapshot.val();
+            users = [];
+            
+            if (usersData) {
+                Object.keys(usersData).forEach(uid => {
+                    if (uid !== currentUser.uid) { // Excluir al usuario actual
+                        users.push({
+                            uid: uid,
+                            ...usersData[uid]
+                        });
+                    }
+                });
+                
+                renderUsersList();
+            }
+        });
+    }
+
+    // Función para renderizar la lista de usuarios
+    function renderUsersList(filter = '') {
+        const usersList = document.getElementById('usersList');
+        usersList.innerHTML = '';
+        
+        if (users.length === 0) {
+            usersList.innerHTML = '<div class="no-users">No hay otros usuarios registrados</div>';
+            return;
+        }
+        
+        const filteredUsers = users.filter(user => 
+            user.displayName.toLowerCase().includes(filter.toLowerCase()) || 
+            user.email.toLowerCase().includes(filter.toLowerCase())
+        );
+        
+        if (filteredUsers.length === 0) {
+            usersList.innerHTML = '<div class="no-users">No se encontraron usuarios</div>';
+            return;
+        }
+        
+        filteredUsers.forEach(user => {
+            const userItem = document.createElement('div');
+            userItem.className = 'user-item';
+            userItem.dataset.uid = user.uid;
+            
+            // Verificar si el usuario está en línea
+            const isOnline = onlineUsers[user.uid];
+            
+            userItem.innerHTML = `
+                <div class="user-avatar">${user.displayName.charAt(0).toUpperCase()}</div>
+                <div class="user-info">
+                    <div class="user-name">${user.displayName}</div>
+                    <div class="user-email">${user.email}</div>
+                </div>
+                <div class="user-status ${isOnline ? '' : 'offline'}"></div>
+            `;
+            
+            userItem.addEventListener('click', () => selectUser(user));
+            usersList.appendChild(userItem);
+        });
+        
+        updateOnlineCount();
+    }
+
+    // Función para seleccionar un usuario para chatear
+    function selectUser(user) {
+        selectedChatUser = user;
+        
+        // Actualizar la interfaz
+        document.getElementById('currentUserName').textContent = user.displayName;
+        document.getElementById('currentUserAvatar').textContent = user.displayName.charAt(0).toUpperCase();
+        
+        const isOnline = onlineUsers[user.uid];
+        document.getElementById('currentUserStatus').className = `indicator ${isOnline ? '' : 'offline'}`;
+        document.getElementById('currentUserStatusText').textContent = isOnline ? 'En línea' : 'Desconectado';
+        
+        // Activar el campo de mensaje
+        document.getElementById('messageInput').disabled = false;
+        document.getElementById('sendButton').disabled = false;
+        
+        // Cargar mensajes con este usuario
+        loadMessagesWithUser(user.uid);
+        
+        // Resaltar el usuario seleccionado en la lista
+        document.querySelectorAll('.user-item').forEach(item => {
+            item.classList.remove('active');
+            if (item.dataset.uid === user.uid) {
+                item.classList.add('active');
+            }
+        });
+    }
+
+    // Función para cargar mensajes con un usuario específico
+    function loadMessagesWithUser(userId) {
+        const messagesDiv = document.getElementById('messages');
+        messagesDiv.innerHTML = '';
+        
+        onValue(messagesRef, (snapshot) => {
+            const messagesData = snapshot.val();
+            messagesDiv.innerHTML = '';
+            
+            if (messagesData) {
+                const messages = [];
+                
+                Object.keys(messagesData).forEach(key => {
+                    const msg = messagesData[key];
+                    
+                    // Mostrar mensajes entre el usuario actual y el usuario seleccionado
+                    if ((msg.from === currentUser.uid && msg.to === userId) || 
+                        (msg.from === userId && msg.to === currentUser.uid)) {
+                        messages.push({
+                            key: key,
+                            ...msg
+                        });
+                    }
+                });
+                
+                // Ordenar mensajes por tiempo
+                messages.sort((a, b) => a.time - b.time);
+                
+                // Mostrar mensajes
+                messages.forEach(msg => {
+                    const div = document.createElement("div");
+                    div.classList.add("message");
+                    
+                    // Determinar si el mensaje es del usuario actual
+                    if (msg.from === currentUser.uid) {
+                        div.classList.add("own");
+                    } else {
+                        div.classList.add("other");
+                    }
+                    
+                    const userSpan = document.createElement("div");
+                    userSpan.classList.add("message-user");
+                    userSpan.textContent = msg.from === currentUser.uid ? 'Tú' : selectedChatUser.displayName;
+                    
+                    const textSpan = document.createElement("div");
+                    textSpan.classList.add("message-text");
+                    textSpan.textContent = msg.text;
+                    
+                    const timeSpan = document.createElement("div");
+                    timeSpan.classList.add("message-time");
+                    timeSpan.textContent = new Date(msg.time).toLocaleTimeString();
+                    
+                    div.appendChild(userSpan);
+                    div.appendChild(textSpan);
+                    div.appendChild(timeSpan);
+                    
+                    messagesDiv.appendChild(div);
+                });
+                
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            }
+        });
+    }
+
+    // Función para actualizar el contador de usuarios en línea
+    function updateOnlineCount() {
+        const onlineCount = Object.keys(onlineUsers).length;
+        document.getElementById('online-count').textContent = onlineCount;
+    }
+
+    // Objeto para rastrear usuarios en línea
+    let onlineUsers = {};
+
     // 👉 Cambios de sesión
     onAuthStateChanged(auth, (user) => {
         if (user) {
+            currentUser = user;
             document.getElementById("chat").style.display = "block";
             document.getElementById("login").style.display = "none";
             document.getElementById("register").style.display = "none";
+            
+            // Marcar usuario como en línea
+            set(ref(db, 'onlineUsers/' + user.uid), {
+                email: user.email,
+                lastSeen: Date.now()
+            });
+            
+            // Escuchar cambios en usuarios en línea
+            onValue(onlineUsersRef, (snapshot) => {
+                onlineUsers = snapshot.val() || {};
+                if (users.length > 0) {
+                    renderUsersList();
+                }
+            });
+            
+            // Cargar lista de usuarios
+            loadUsersList();
+            
+            // Configurar búsqueda de usuarios
+            document.getElementById('userSearch').addEventListener('input', (e) => {
+                renderUsersList(e.target.value);
+            });
+            
             showNotification(`Bienvenido, ${user.email.split('@')[0]}`);
         } else {
+            currentUser = null;
             document.getElementById("chat").style.display = "none";
             document.getElementById("login").style.display = "block";
             document.getElementById("register").style.display = "block";
@@ -538,37 +930,45 @@
     });
 
     // 👉 Mostrar mensajes en tiempo real
-    const messagesDiv = document.getElementById("messages");
     onChildAdded(messagesRef, (data) => {
-        const msg = data.val();
-        const div = document.createElement("div");
-        div.classList.add("message");
-        
-        // Determinar si el mensaje es del usuario actual
-        if (auth.currentUser && msg.user === auth.currentUser.email) {
-            div.classList.add("own");
-        } else {
-            div.classList.add("other");
+        if (selectedChatUser) {
+            const msg = data.val();
+            
+            // Si el mensaje es para la conversación actual, mostrarlo
+            if ((msg.from === currentUser.uid && msg.to === selectedChatUser.uid) || 
+                (msg.from === selectedChatUser.uid && msg.to === currentUser.uid)) {
+                
+                const messagesDiv = document.getElementById('messages');
+                const div = document.createElement("div");
+                div.classList.add("message");
+                
+                // Determinar si el mensaje es del usuario actual
+                if (msg.from === currentUser.uid) {
+                    div.classList.add("own");
+                } else {
+                    div.classList.add("other");
+                }
+                
+                const userSpan = document.createElement("div");
+                userSpan.classList.add("message-user");
+                userSpan.textContent = msg.from === currentUser.uid ? 'Tú' : selectedChatUser.displayName;
+                
+                const textSpan = document.createElement("div");
+                textSpan.classList.add("message-text");
+                textSpan.textContent = msg.text;
+                
+                const timeSpan = document.createElement("div");
+                timeSpan.classList.add("message-time");
+                timeSpan.textContent = new Date(msg.time).toLocaleTimeString();
+                
+                div.appendChild(userSpan);
+                div.appendChild(textSpan);
+                div.appendChild(timeSpan);
+                
+                messagesDiv.appendChild(div);
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            }
         }
-        
-        const userSpan = document.createElement("div");
-        userSpan.classList.add("message-user");
-        userSpan.textContent = msg.user.split('@')[0];
-        
-        const textSpan = document.createElement("div");
-        textSpan.classList.add("message-text");
-        textSpan.textContent = msg.text;
-        
-        const timeSpan = document.createElement("div");
-        timeSpan.classList.add("message-time");
-        timeSpan.textContent = new Date(msg.time).toLocaleTimeString();
-        
-        div.appendChild(userSpan);
-        div.appendChild(textSpan);
-        div.appendChild(timeSpan);
-        
-        messagesDiv.appendChild(div);
-        messagesDiv.scrollTop = messagesDiv.scrollHeight;
     });
     </script>
 </body>
