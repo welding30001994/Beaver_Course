@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QR Chat - Beaver Trading</title>
+<title>Chat en Vivo - Beaver Trading</title>
 <style>
     :root {
         --primary: #0a0e17;
@@ -35,7 +35,7 @@
     
     .container {
         width: 100%;
-        max-width: 1200px;
+        max-width: 900px;
         margin: 0 auto;
     }
     
@@ -192,201 +192,16 @@
     #chat {
         display: none;
         width: 100%;
-        max-width: 1200px;
-    }
-    
-    .chat-container {
-        display: flex;
-        gap: 20px;
-        height: 600px;
-    }
-    
-    .users-panel {
-        width: 300px;
-        background: rgba(10, 14, 23, 0.7);
-        border-radius: 10px;
-        padding: 15px;
-        display: flex;
-        flex-direction: column;
-        border: 1px solid rgba(0, 212, 255, 0.2);
-    }
-    
-    .users-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 15px;
-        padding-bottom: 10px;
-        border-bottom: 1px solid rgba(0, 212, 255, 0.2);
-    }
-    
-    .qr-section {
-        margin-bottom: 20px;
-        text-align: center;
-        padding: 15px;
-        background: rgba(0, 212, 255, 0.1);
-        border-radius: 10px;
-        border: 1px solid rgba(0, 212, 255, 0.3);
-    }
-    
-    .qr-code {
-        width: 150px;
-        height: 150px;
-        margin: 0 auto 15px;
-        background: white;
-        padding: 10px;
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .qr-refresh {
-        font-size: 0.8rem;
-        margin-top: 5px;
-        opacity: 0.7;
-    }
-    
-    .qr-instructions {
-        font-size: 0.8rem;
-        opacity: 0.8;
-        margin-top: 10px;
-    }
-    
-    .scan-options {
-        display: flex;
-        gap: 10px;
-        margin-top: 15px;
-    }
-    
-    .scan-option {
-        flex: 1;
-        text-align: center;
-        padding: 10px;
-        background: rgba(255, 107, 53, 0.1);
-        border-radius: 8px;
-        border: 1px solid rgba(255, 107, 53, 0.3);
-        cursor: pointer;
-        transition: all 0.3s;
-    }
-    
-    .scan-option:hover {
-        background: rgba(255, 107, 53, 0.2);
-        transform: translateY(-2px);
-    }
-    
-    .scan-option.active {
-        background: rgba(255, 107, 53, 0.3);
-        border-color: var(--accent);
-    }
-    
-    .search-container {
-        position: relative;
-        margin-bottom: 15px;
-    }
-    
-    .search-icon {
-        position: absolute;
-        left: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: rgba(232, 244, 248, 0.5);
-    }
-    
-    .search-input {
-        width: 100%;
-        padding: 10px 10px 10px 35px;
-        background: rgba(18, 24, 38, 0.7);
-        border: 1px solid rgba(0, 212, 255, 0.3);
-        border-radius: 8px;
-        color: var(--light);
-        font-size: 0.9rem;
-    }
-    
-    .users-list {
-        flex: 1;
-        overflow-y: auto;
-    }
-    
-    .user-item {
-        display: flex;
-        align-items: center;
-        padding: 10px;
-        border-radius: 8px;
-        margin-bottom: 8px;
-        cursor: pointer;
-        transition: background 0.3s;
-    }
-    
-    .user-item:hover {
-        background: rgba(0, 212, 255, 0.1);
-    }
-    
-    .user-item.active {
-        background: rgba(0, 212, 255, 0.2);
-        border: 1px solid rgba(0, 212, 255, 0.5);
-    }
-    
-    .user-avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, var(--secondary), var(--accent));
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: 10px;
-        font-weight: bold;
-    }
-    
-    .user-info {
-        flex: 1;
-    }
-    
-    .user-name {
-        font-weight: 600;
-        font-size: 0.9rem;
-    }
-    
-    .user-email {
-        font-size: 0.8rem;
-        opacity: 0.7;
-    }
-    
-    .user-status {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: #00ff88;
-        margin-left: 5px;
-    }
-    
-    .user-status.offline {
-        background: #ff4757;
-    }
-    
-    .chat-panel {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        background: rgba(10, 14, 23, 0.7);
-        border-radius: 10px;
-        padding: 15px;
-        border: 1px solid rgba(0, 212, 255, 0.2);
+        max-width: 800px;
     }
     
     .chat-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 15px;
+        margin-bottom: 20px;
         padding-bottom: 15px;
         border-bottom: 1px solid rgba(0, 212, 255, 0.2);
-    }
-    
-    .current-chat-user {
-        display: flex;
-        align-items: center;
     }
     
     .online-indicator {
@@ -411,12 +226,12 @@
     }
     
     .messages-container {
-        flex: 1;
+        height: 400px;
         overflow-y: auto;
         padding: 15px;
-        background: rgba(18, 24, 38, 0.5);
+        background: rgba(10, 14, 23, 0.5);
         border-radius: 10px;
-        margin-bottom: 15px;
+        margin-bottom: 20px;
         border: 1px solid rgba(0, 212, 255, 0.2);
     }
     
@@ -427,6 +242,8 @@
         max-width: 80%;
         position: relative;
         animation: fadeIn 0.3s;
+        display: flex;
+        gap: 10px;
     }
     
     @keyframes fadeIn {
@@ -444,6 +261,23 @@
         background: rgba(18, 24, 38, 0.7);
         margin-right: auto;
         border: 1px solid rgba(255, 107, 53, 0.2);
+    }
+    
+    .message-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--secondary), var(--accent));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 18px;
+        flex-shrink: 0;
+    }
+    
+    .message-content {
+        flex: 1;
     }
     
     .message-user {
@@ -465,9 +299,41 @@
         margin-top: 5px;
     }
     
+    .audio-message {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 5px;
+    }
+    
+    .audio-player {
+        flex: 1;
+        height: 30px;
+        border-radius: 15px;
+        background: rgba(0, 0, 0, 0.3);
+        outline: none;
+    }
+    
+    .audio-player::-webkit-media-controls-panel {
+        background: rgba(0, 0, 0, 0.3);
+    }
+    
+    .audio-icon {
+        font-size: 1.5rem;
+        color: var(--secondary);
+    }
+    
+    .image-message {
+        max-width: 100%;
+        border-radius: 8px;
+        margin-top: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
     .chat-input-container {
         display: flex;
         gap: 10px;
+        align-items: center;
     }
     
     #messageInput {
@@ -484,6 +350,36 @@
         outline: none;
         border-color: var(--secondary);
         box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.2);
+    }
+    
+    .chat-actions {
+        display: flex;
+        gap: 5px;
+    }
+    
+    .action-btn {
+        background: rgba(10, 14, 23, 0.7);
+        border: 1px solid rgba(0, 212, 255, 0.3);
+        border-radius: 8px;
+        color: var(--secondary);
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    .action-btn:hover {
+        background: rgba(0, 212, 255, 0.1);
+        box-shadow: var(--glow);
+    }
+    
+    .action-btn.recording {
+        background: rgba(255, 107, 53, 0.2);
+        border-color: var(--accent);
+        animation: pulse 1s infinite;
     }
     
     .send-btn {
@@ -527,125 +423,6 @@
         opacity: 0.7;
     }
     
-    .no-users {
-        text-align: center;
-        padding: 20px;
-        opacity: 0.7;
-    }
-    
-    .no-chat-selected {
-        text-align: center;
-        padding: 50px 20px;
-        opacity: 0.7;
-    }
-    
-    .scan-section {
-        text-align: center;
-        margin-top: 20px;
-        padding: 15px;
-        background: rgba(255, 107, 53, 0.1);
-        border-radius: 10px;
-        border: 1px solid rgba(255, 107, 53, 0.3);
-    }
-    
-    .scan-btn {
-        background: linear-gradient(to right, var(--accent), #e55a2b);
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: 600;
-        margin-top: 10px;
-        transition: all 0.3s;
-    }
-    
-    .scan-btn:hover {
-        background: linear-gradient(to right, #e55a2b, var(--accent));
-        box-shadow: 0 0 10px rgba(255, 107, 53, 0.7);
-    }
-    
-    .qr-scanner {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(10, 14, 23, 0.95);
-        z-index: 1000;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .scanner-container {
-        width: 300px;
-        height: 300px;
-        border: 3px solid var(--secondary);
-        border-radius: 10px;
-        position: relative;
-        overflow: hidden;
-        box-shadow: var(--glow);
-    }
-    
-    .scanner-line {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 3px;
-        background: var(--secondary);
-        animation: scan 2s linear infinite;
-    }
-    
-    @keyframes scan {
-        0% { top: 0; }
-        50% { top: 100%; }
-        100% { top: 0; }
-    }
-    
-    .scanner-close {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        background: rgba(255, 107, 53, 0.8);
-        border: none;
-        color: white;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        font-size: 1.5rem;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .scanner-instructions {
-        margin-top: 20px;
-        text-align: center;
-        max-width: 300px;
-    }
-    
-    .camera-switch {
-        position: absolute;
-        bottom: 20px;
-        right: 20px;
-        background: rgba(0, 212, 255, 0.8);
-        border: none;
-        color: white;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        font-size: 1.5rem;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1001;
-    }
-    
     @media (max-width: 768px) {
         .panels-container {
             flex-direction: column;
@@ -656,26 +433,11 @@
             max-width: 100%;
         }
         
-        .chat-container {
-            flex-direction: column;
-            height: auto;
-        }
-        
-        .users-panel {
-            width: 100%;
-            height: auto;
-        }
-        
         .message {
             max-width: 90%;
         }
         
-        .scanner-container {
-            width: 250px;
-            height: 250px;
-        }
-        
-        .scan-options {
+        .chat-actions {
             flex-direction: column;
         }
     }
@@ -696,6 +458,9 @@
             <div class="panel" id="register">
                 <h3 class="panel-title">Crear Cuenta</h3>
                 <div class="input-group">
+                    <input id="regUsername" type="text" class="input-field" placeholder="Nombre de usuario">
+                </div>
+                <div class="input-group">
                     <input id="regEmail" type="email" class="input-field" placeholder="Correo electrónico">
                 </div>
                 <div class="input-group">
@@ -714,106 +479,32 @@
                     <input id="password" type="password" class="input-field" placeholder="Contraseña">
                 </div>
                 <button class="btn btn-accent" onclick="login()">Acceder</button>
-                
-                <div class="scan-section">
-                    <p>¿Tienes un código QR?</p>
-                    <div class="scan-options">
-                        <div class="scan-option active" id="qrOption" onclick="selectScanOption('qr')">
-                            <div>📷</div>
-                            <div>Escanear QR</div>
-                        </div>
-                        <div class="scan-option" id="cameraOption" onclick="selectScanOption('camera')">
-                            <div>📱</div>
-                            <div>Usar Cámara</div>
-                        </div>
-                    </div>
-                    <button class="scan-btn" onclick="openQRScanner()">Iniciar Escaneo</button>
-                </div>
             </div>
         </div>
         
         <!-- Chat -->
         <div class="panel" id="chat">
-            <div class="chat-container">
-                <!-- Panel de usuarios -->
-                <div class="users-panel">
-                    <div class="users-header">
-                        <h3>Usuarios</h3>
-                        <div class="online-indicator">
-                            <div class="indicator"></div>
-                            <span id="online-count">0</span> en línea
-                        </div>
-                    </div>
-                    
-                    <!-- Sección QR -->
-                    <div class="qr-section">
-                        <h4>Mi Código QR</h4>
-                        <div class="qr-code" id="myQrCode">
-                            <!-- QR se generará aquí -->
-                        </div>
-                        <div class="qr-refresh" id="qrRefresh">Actualizando en 2:00</div>
-                        <p>Comparte este código para chatear</p>
-                        <div class="qr-instructions">
-                            Otros usuarios pueden escanear este código para iniciar un chat contigo
-                        </div>
-                    </div>
-                    
-                    <div class="search-container">
-                        <div class="search-icon">🔍</div>
-                        <input type="text" class="search-input" id="userSearch" placeholder="Buscar usuario...">
-                    </div>
-                    
-                    <div class="users-list" id="usersList">
-                        <div class="no-users">Cargando usuarios...</div>
-                    </div>
+            <div class="chat-header">
+                <h3 class="panel-title">Chat en Vivo</h3>
+                <div class="online-indicator">
+                    <div class="indicator"></div>
+                    <span>Conectado</span>
                 </div>
-                
-                <!-- Panel de chat -->
-                <div class="chat-panel">
-                    <div class="chat-header">
-                        <div class="current-chat-user" id="currentChatUser">
-                            <div class="user-avatar" id="currentUserAvatar">BT</div>
-                            <div>
-                                <div id="currentUserName">Selecciona un usuario</div>
-                                <div class="online-indicator">
-                                    <div class="indicator" id="currentUserStatus"></div>
-                                    <span id="currentUserStatusText">Selecciona un chat</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="messages-container" id="messages">
-                        <div class="no-chat-selected" id="noChatSelected">
-                            <p>Selecciona un usuario de la lista para comenzar a chatear</p>
-                        </div>
-                    </div>
-                    
-                    <div class="chat-input-container">
-                        <input id="messageInput" type="text" class="input-field" placeholder="Escribe tu mensaje..." disabled>
-                        <button class="send-btn" onclick="sendMessage()" disabled id="sendButton">Enviar</button>
-                    </div>
+            </div>
+            
+            <div class="messages-container" id="messages"></div>
+            
+            <div class="chat-input-container">
+                <div class="chat-actions">
+                    <button class="action-btn" id="audioBtn" title="Grabar audio">🎤</button>
+                    <button class="action-btn" id="imageBtn" title="Subir imagen">🖼️</button>
                 </div>
+                <input id="messageInput" type="text" class="input-field" placeholder="Escribe tu mensaje...">
+                <button class="send-btn" onclick="sendMessage()">Enviar</button>
             </div>
             
             <button class="btn btn-secondary" onclick="logout()" style="margin-top: 15px;">Cerrar Sesión</button>
         </div>
-    </div>
-    
-    <!-- Scanner de QR -->
-    <div class="qr-scanner" id="qrScanner">
-        <button class="scanner-close" onclick="closeQRScanner()">×</button>
-        <h3 id="scannerTitle">Escanear Código QR</h3>
-        <div class="scanner-container">
-            <div class="scanner-line"></div>
-            <video id="qrVideo" width="300" height="300" style="display: none;"></video>
-            <canvas id="qrCanvas" width="300" height="300" style="display: none;"></canvas>
-        </div>
-        <div class="scanner-instructions" id="scannerInstructions">
-            <p>Enfoca el código QR con la cámara</p>
-            <p>El chat se abrirá automáticamente</p>
-        </div>
-        <button class="camera-switch" onclick="switchCamera()" id="cameraSwitchBtn" style="display: none;">↻</button>
     </div>
     
     <div class="footer">
@@ -822,16 +513,13 @@
     
     <div class="notification" id="notification"></div>
 
-    <!-- Librerías -->
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
-
     <!-- Firebase -->
     <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
-    import { getDatabase, ref, push, onChildAdded, onValue, set, get, child } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+    import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+    import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-storage.js";
 
     // 🔑 Configuración de Firebase
     const firebaseConfig = {
@@ -850,22 +538,14 @@
     const analytics = getAnalytics(app);
     const db = getDatabase(app);
     const auth = getAuth(app);
-    
-    // Referencias a la base de datos
+    const storage = getStorage(app);
     const messagesRef = ref(db, "messages");
-    const usersRef = ref(db, "users");
-    const onlineUsersRef = ref(db, "onlineUsers");
-    
+
     // Variables globales
-    let currentUser = null;
-    let selectedChatUser = null;
-    let users = [];
-    let onlineUsers = {};
-    let qrScanInterval = null;
-    let qrRefreshInterval = null;
-    let currentStream = null;
-    let currentFacingMode = "environment"; // Cámara trasera por defecto
-    let scanOption = "qr"; // Opción por defecto: QR
+    let mediaRecorder;
+    let audioChunks = [];
+    let isRecording = false;
+    let currentUserData = {};
 
     // Función para mostrar notificaciones
     function showNotification(message, isError = false) {
@@ -880,27 +560,37 @@
         }, 3000);
     }
 
+    // Generar avatar basado en el nombre de usuario
+    function generateAvatar(username) {
+        return username.charAt(0).toUpperCase();
+    }
+
+    // Generar color basado en el nombre de usuario
+    function generateColor(username) {
+        const colors = ['#00d4ff', '#ff6b35', '#9c27b0', '#4caf50', '#ffc107'];
+        const index = username.length % colors.length;
+        return colors[index];
+    }
+
     // 👉 Registrar usuario
     window.register = async function() {
+        const username = document.getElementById("regUsername").value;
         const email = document.getElementById("regEmail").value;
         const password = document.getElementById("regPassword").value;
         
-        if (!email || !password) {
+        if (!username || !email || !password) {
             showNotification("Por favor, completa todos los campos", true);
             return;
         }
         
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            const user = userCredential.user;
-            
-            // Guardar información del usuario en la base de datos
-            await set(ref(db, 'users/' + user.uid), {
-                email: email,
-                displayName: email.split('@')[0],
-                createdAt: Date.now()
-            });
-            
+            // Guardar información adicional del usuario
+            currentUserData = {
+                username: username,
+                avatar: generateAvatar(username),
+                color: generateColor(username)
+            };
             showNotification("✅ Cuenta creada exitosamente");
         } catch (error) {
             showNotification(error.message, true);
@@ -918,7 +608,14 @@
         }
         
         try {
-            await signInWithEmailAndPassword(auth, email, password);
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            // Generar datos de usuario basados en el email
+            const username = email.split('@')[0];
+            currentUserData = {
+                username: username,
+                avatar: generateAvatar(username),
+                color: generateColor(username)
+            };
         } catch (error) {
             showNotification(error.message, true);
         }
@@ -926,478 +623,239 @@
 
     // 👉 Cerrar sesión
     window.logout = function() {
-        // Remover usuario de la lista de usuarios en línea
-        if (currentUser) {
-            set(ref(db, 'onlineUsers/' + currentUser.uid), null);
-        }
-        
-        // Detener intervalos
-        if (qrRefreshInterval) {
-            clearInterval(qrRefreshInterval);
-        }
-        
         signOut(auth);
         showNotification("Sesión cerrada correctamente");
     };
 
-    // 👉 Enviar mensaje
+    // 👉 Enviar mensaje de texto
     window.sendMessage = function() {
         const input = document.getElementById("messageInput");
         const message = input.value.trim();
         
-        if (message !== "" && selectedChatUser) {
+        if (message !== "") {
             push(messagesRef, {
-                from: currentUser.uid,
-                to: selectedChatUser.uid,
+                user: currentUserData.username,
                 text: message,
                 time: Date.now(),
-                fromEmail: currentUser.email,
-                toEmail: selectedChatUser.email
+                type: "text",
+                avatar: currentUserData.avatar,
+                color: currentUserData.color
             });
             input.value = "";
         }
     };
 
+    // 👉 Enviar mensaje de audio
+    async function sendAudioMessage(audioBlob) {
+        try {
+            // Subir audio a Firebase Storage
+            const audioRef = storageRef(storage, `audios/${Date.now()}.webm`);
+            await uploadBytes(audioRef, audioBlob);
+            const audioUrl = await getDownloadURL(audioRef);
+            
+            // Guardar referencia en la base de datos
+            push(messagesRef, {
+                user: currentUserData.username,
+                audioUrl: audioUrl,
+                time: Date.now(),
+                type: "audio",
+                avatar: currentUserData.avatar,
+                color: currentUserData.color
+            });
+        } catch (error) {
+            showNotification("Error al enviar audio", true);
+        }
+    }
+
+    // 👉 Enviar mensaje de imagen
+    async function sendImageMessage(imageFile) {
+        try {
+            // Subir imagen a Firebase Storage
+            const imageRef = storageRef(storage, `images/${Date.now()}_${imageFile.name}`);
+            await uploadBytes(imageRef, imageFile);
+            const imageUrl = await getDownloadURL(imageRef);
+            
+            // Guardar referencia en la base de datos
+            push(messagesRef, {
+                user: currentUserData.username,
+                imageUrl: imageUrl,
+                time: Date.now(),
+                type: "image",
+                avatar: currentUserData.avatar,
+                color: currentUserData.color
+            });
+        } catch (error) {
+            showNotification("Error al enviar imagen", true);
+        }
+    }
+
+    // Iniciar grabación de audio
+    async function startRecording() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder = new MediaRecorder(stream);
+            audioChunks = [];
+            
+            mediaRecorder.ondataavailable = (event) => {
+                audioChunks.push(event.data);
+            };
+            
+            mediaRecorder.onstop = () => {
+                const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                sendAudioMessage(audioBlob);
+            };
+            
+            mediaRecorder.start();
+            isRecording = true;
+            document.getElementById("audioBtn").classList.add("recording");
+            showNotification("🎤 Grabando audio...");
+        } catch (error) {
+            showNotification("Error al acceder al micrófono", true);
+        }
+    }
+
+    // Detener grabación de audio
+    function stopRecording() {
+        if (mediaRecorder && isRecording) {
+            mediaRecorder.stop();
+            isRecording = false;
+            document.getElementById("audioBtn").classList.remove("recording");
+            showNotification("✅ Audio grabado");
+            
+            // Detener todas las pistas del stream
+            mediaRecorder.stream.getTracks().forEach(track => track.stop());
+        }
+    }
+
+    // Manejar clic en botón de audio
+    document.getElementById("audioBtn").addEventListener("click", function() {
+        if (!isRecording) {
+            startRecording();
+        } else {
+            stopRecording();
+        }
+    });
+
+    // Manejar clic en botón de imagen
+    document.getElementById("imageBtn").addEventListener("click", function() {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = "image/*";
+        input.onchange = (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                sendImageMessage(file);
+            }
+        };
+        input.click();
+    });
+
     // Permitir enviar mensaje con Enter
-    document.getElementById("messageInput").addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
+    document.getElementById("messageInput").addEventListener("keypress", function(e) {
+        if (e.key === "Enter") {
             sendMessage();
         }
     });
 
-    // Seleccionar opción de escaneo
-    window.selectScanOption = function(option) {
-        scanOption = option;
-        
-        // Actualizar interfaz
-        document.getElementById('qrOption').classList.toggle('active', option === 'qr');
-        document.getElementById('cameraOption').classList.toggle('active', option === 'camera');
-        
-        // Actualizar texto del botón
-        const scanBtn = document.querySelector('.scan-btn');
-        scanBtn.textContent = option === 'qr' ? 'Escanear QR' : 'Abrir Cámara';
-    };
-
-    // Generar código QR para el usuario actual
-    function generateQRCode() {
-        if (!currentUser) return;
-        
-        const qrData = JSON.stringify({
-            type: 'beaver-chat',
-            userId: currentUser.uid,
-            userEmail: currentUser.email,
-            timestamp: Date.now()
-        });
-        
-        const qrCodeElement = document.getElementById('myQrCode');
-        qrCodeElement.innerHTML = '';
-        
-        QRCode.toCanvas(qrCodeElement, qrData, {
-            width: 128,
-            height: 128,
-            colorDark: "#00d4ff",
-            colorLight: "transparent",
-            correctLevel: QRCode.CorrectLevel.H
-        }, function(error) {
-            if (error) {
-                console.error('Error generando QR:', error);
-                qrCodeElement.innerHTML = '<p>Error generando QR</p>';
-            }
-        });
-    }
-
-    // Iniciar contador de refresco de QR (cada 2 minutos)
-    function startQRRefreshTimer() {
-        let timeLeft = 120; // 2 minutos en segundos
-        
-        // Actualizar inmediatamente
-        updateQRRefreshTimer(timeLeft);
-        
-        qrRefreshInterval = setInterval(() => {
-            timeLeft--;
-            
-            if (timeLeft <= 0) {
-                // Regenerar QR
-                generateQRCode();
-                timeLeft = 120; // Reiniciar contador
-            }
-            
-            updateQRRefreshTimer(timeLeft);
-        }, 1000);
-    }
-    
-    // Actualizar el texto del contador de QR
-    function updateQRRefreshTimer(seconds) {
-        const minutes = Math.floor(seconds / 60);
-        const remainingSeconds = seconds % 60;
-        document.getElementById('qrRefresh').textContent = 
-            `Actualizando en ${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
-    }
-
-    // Abrir escáner de QR o cámara
-    window.openQRScanner = function() {
-        if (scanOption === 'qr') {
-            // Modo QR - mostrar imagen de QR
-            document.getElementById('scannerTitle').textContent = 'Escanear Código QR';
-            document.getElementById('scannerInstructions').innerHTML = 
-                '<p>Enfoca el código QR con la cámara</p><p>El chat se abrirá automáticamente</p>';
-            document.getElementById('cameraSwitchBtn').style.display = 'block';
-            startQRScan();
-        } else {
-            // Modo cámara - abrir cámara trasera directamente
-            document.getElementById('scannerTitle').textContent = 'Cámara para Escanear';
-            document.getElementById('scannerInstructions').innerHTML = 
-                '<p>Usa la cámara trasera para escanear códigos QR</p><p>El chat se abrirá automáticamente</p>';
-            document.getElementById('cameraSwitchBtn').style.display = 'block';
-            startQRScan();
-        }
-        
-        document.getElementById('qrScanner').style.display = 'flex';
-    };
-
-    // Cerrar escáner de QR
-    window.closeQRScanner = function() {
-        document.getElementById('qrScanner').style.display = 'none';
-        stopQRScan();
-    };
-
-    // Cambiar entre cámaras frontal y trasera
-    window.switchCamera = function() {
-        currentFacingMode = currentFacingMode === "environment" ? "user" : "environment";
-        stopQRScan();
-        setTimeout(() => {
-            startQRScan();
-        }, 500);
-    };
-
-    // Iniciar escaneo de QR
-    function startQRScan() {
-        const video = document.getElementById('qrVideo');
-        const canvas = document.getElementById('qrCanvas');
-        const context = canvas.getContext('2d');
-        
-        // Solicitar acceso a la cámara
-        navigator.mediaDevices.getUserMedia({ 
-            video: { 
-                facingMode: currentFacingMode,
-                width: { ideal: 1280 },
-                height: { ideal: 720 }
-            } 
-        })
-        .then(function(stream) {
-            currentStream = stream;
-            video.srcObject = stream;
-            video.setAttribute("playsinline", true);
-            video.play();
-            video.style.display = 'block';
-            
-            // Escanear cada 100ms
-            qrScanInterval = setInterval(function() {
-                if (video.readyState === video.HAVE_ENOUGH_DATA) {
-                    canvas.height = video.videoHeight;
-                    canvas.width = video.videoWidth;
-                    context.drawImage(video, 0, 0, canvas.width, canvas.height);
-                    
-                    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-                    const code = jsQR(imageData.data, imageData.width, imageData.height, {
-                        inversionAttempts: "dontInvert",
-                    });
-                    
-                    if (code) {
-                        try {
-                            const qrData = JSON.parse(code.data);
-                            if (qrData.type === 'beaver-chat' && qrData.userId) {
-                                // Encontrar el usuario por ID
-                                const userToChat = users.find(u => u.uid === qrData.userId);
-                                if (userToChat) {
-                                    stopQRScan();
-                                    closeQRScanner();
-                                    selectUser(userToChat);
-                                    showNotification(`Chat iniciado con ${userToChat.displayName}`);
-                                } else {
-                                    showNotification("Usuario no encontrado", true);
-                                }
-                            }
-                        } catch (e) {
-                            console.log("QR no válido");
-                        }
-                    }
-                }
-            }, 100);
-        })
-        .catch(function(err) {
-            console.error("Error accediendo a la cámara:", err);
-            showNotification("Error accediendo a la cámara. Asegúrate de permitir el acceso.", true);
-        });
-    }
-
-    // Detener escaneo de QR
-    function stopQRScan() {
-        if (qrScanInterval) {
-            clearInterval(qrScanInterval);
-            qrScanInterval = null;
-        }
-        
-        if (currentStream) {
-            currentStream.getTracks().forEach(track => track.stop());
-            currentStream = null;
-        }
-        
-        const video = document.getElementById('qrVideo');
-        video.style.display = 'none';
-    }
-
-    // Función para cargar la lista de usuarios
-    function loadUsersList() {
-        onValue(usersRef, (snapshot) => {
-            const usersData = snapshot.val();
-            users = [];
-            
-            if (usersData) {
-                Object.keys(usersData).forEach(uid => {
-                    if (!currentUser || uid !== currentUser.uid) {
-                        users.push({
-                            uid: uid,
-                            ...usersData[uid]
-                        });
-                    }
-                });
-                
-                renderUsersList();
-            } else {
-                document.getElementById('usersList').innerHTML = '<div class="no-users">No hay otros usuarios registrados</div>';
-            }
-        });
-    }
-
-    // Función para renderizar la lista de usuarios
-    function renderUsersList(filter = '') {
-        const usersList = document.getElementById('usersList');
-        
-        if (users.length === 0) {
-            usersList.innerHTML = '<div class="no-users">No hay otros usuarios registrados</div>';
-            return;
-        }
-        
-        const filteredUsers = users.filter(user => 
-            user.displayName.toLowerCase().includes(filter.toLowerCase()) || 
-            user.email.toLowerCase().includes(filter.toLowerCase())
-        );
-        
-        if (filteredUsers.length === 0) {
-            usersList.innerHTML = '<div class="no-users">No se encontraron usuarios</div>';
-            return;
-        }
-        
-        usersList.innerHTML = '';
-        
-        filteredUsers.forEach(user => {
-            const userItem = document.createElement('div');
-            userItem.className = 'user-item';
-            userItem.dataset.uid = user.uid;
-            
-            const isOnline = onlineUsers && onlineUsers[user.uid];
-            
-            userItem.innerHTML = `
-                <div class="user-avatar">${user.displayName.charAt(0).toUpperCase()}</div>
-                <div class="user-info">
-                    <div class="user-name">${user.displayName}</div>
-                    <div class="user-email">${user.email}</div>
-                </div>
-                <div class="user-status ${isOnline ? '' : 'offline'}"></div>
-            `;
-            
-            userItem.addEventListener('click', () => selectUser(user));
-            usersList.appendChild(userItem);
-        });
-        
-        updateOnlineCount();
-    }
-
-    // Función para seleccionar un usuario para chatear
-    function selectUser(user) {
-        selectedChatUser = user;
-        
-        document.getElementById('currentUserName').textContent = user.displayName;
-        document.getElementById('currentUserAvatar').textContent = user.displayName.charAt(0).toUpperCase();
-        
-        const isOnline = onlineUsers && onlineUsers[user.uid];
-        const statusIndicator = document.getElementById('currentUserStatus');
-        statusIndicator.className = `indicator ${isOnline ? '' : 'offline'}`;
-        document.getElementById('currentUserStatusText').textContent = isOnline ? 'En línea' : 'Desconectado';
-        
-        document.getElementById('noChatSelected').style.display = 'none';
-        
-        document.getElementById('messageInput').disabled = false;
-        document.getElementById('sendButton').disabled = false;
-        
-        loadMessagesWithUser(user.uid);
-        
-        document.querySelectorAll('.user-item').forEach(item => {
-            item.classList.remove('active');
-            if (item.dataset.uid === user.uid) {
-                item.classList.add('active');
-            }
-        });
-    }
-
-    // Función para cargar mensajes con un usuario específico
-    function loadMessagesWithUser(userId) {
-        const messagesDiv = document.getElementById('messages');
-        messagesDiv.innerHTML = '';
-        
-        onValue(messagesRef, (snapshot) => {
-            const messagesData = snapshot.val();
-            messagesDiv.innerHTML = '';
-            
-            if (messagesData) {
-                const messages = [];
-                
-                Object.keys(messagesData).forEach(key => {
-                    const msg = messagesData[key];
-                    
-                    if ((msg.from === currentUser.uid && msg.to === userId) || 
-                        (msg.from === userId && msg.to === currentUser.uid)) {
-                        messages.push({
-                            key: key,
-                            ...msg
-                        });
-                    }
-                });
-                
-                messages.sort((a, b) => a.time - b.time);
-                
-                messages.forEach(msg => {
-                    const div = document.createElement("div");
-                    div.classList.add("message");
-                    
-                    if (msg.from === currentUser.uid) {
-                        div.classList.add("own");
-                    } else {
-                        div.classList.add("other");
-                    }
-                    
-                    const userSpan = document.createElement("div");
-                    userSpan.classList.add("message-user");
-                    userSpan.textContent = msg.from === currentUser.uid ? 'Tú' : selectedChatUser.displayName;
-                    
-                    const textSpan = document.createElement("div");
-                    textSpan.classList.add("message-text");
-                    textSpan.textContent = msg.text;
-                    
-                    const timeSpan = document.createElement("div");
-                    timeSpan.classList.add("message-time");
-                    timeSpan.textContent = new Date(msg.time).toLocaleTimeString();
-                    
-                    div.appendChild(userSpan);
-                    div.appendChild(textSpan);
-                    div.appendChild(timeSpan);
-                    
-                    messagesDiv.appendChild(div);
-                });
-                
-                messagesDiv.scrollTop = messagesDiv.scrollHeight;
-            } else {
-                messagesDiv.innerHTML = '<div class="no-chat-selected"><p>No hay mensajes aún. ¡Envía el primero!</p></div>';
-            }
-        });
-    }
-
-    // Función para actualizar el contador de usuarios en línea
-    function updateOnlineCount() {
-        const onlineCount = onlineUsers ? Object.keys(onlineUsers).length : 0;
-        document.getElementById('online-count').textContent = onlineCount;
-    }
-
     // 👉 Cambios de sesión
     onAuthStateChanged(auth, (user) => {
         if (user) {
-            currentUser = user;
             document.getElementById("chat").style.display = "block";
             document.getElementById("login").style.display = "none";
             document.getElementById("register").style.display = "none";
             
-            set(ref(db, 'onlineUsers/' + user.uid), {
-                email: user.email,
-                displayName: user.email.split('@')[0],
-                lastSeen: Date.now()
-            });
+            // Si no tenemos datos de usuario, generarlos
+            if (!currentUserData.username) {
+                const username = user.email.split('@')[0];
+                currentUserData = {
+                    username: username,
+                    avatar: generateAvatar(username),
+                    color: generateColor(username)
+                };
+            }
             
-            onValue(onlineUsersRef, (snapshot) => {
-                onlineUsers = snapshot.val() || {};
-                if (users.length > 0) {
-                    renderUsersList();
-                }
-                updateOnlineCount();
-            });
-            
-            loadUsersList();
-            
-            document.getElementById('userSearch').addEventListener('input', (e) => {
-                renderUsersList(e.target.value);
-            });
-            
-            // Generar QR después de iniciar sesión
-            setTimeout(() => {
-                generateQRCode();
-                startQRRefreshTimer();
-            }, 500);
-            
-            showNotification(`Bienvenido, ${user.email.split('@')[0]}`);
+            showNotification(`Bienvenido, ${currentUserData.username}`);
         } else {
-            currentUser = null;
             document.getElementById("chat").style.display = "none";
             document.getElementById("login").style.display = "block";
             document.getElementById("register").style.display = "block";
-            
-            // Detener intervalos al cerrar sesión
-            if (qrRefreshInterval) {
-                clearInterval(qrRefreshInterval);
-                qrRefreshInterval = null;
-            }
+            currentUserData = {};
         }
     });
 
     // 👉 Mostrar mensajes en tiempo real
+    const messagesDiv = document.getElementById("messages");
     onChildAdded(messagesRef, (data) => {
-        if (selectedChatUser) {
-            const msg = data.val();
-            
-            if ((msg.from === currentUser.uid && msg.to === selectedChatUser.uid) || 
-                (msg.from === selectedChatUser.uid && msg.to === currentUser.uid)) {
-                
-                const messagesDiv = document.getElementById('messages');
-                document.getElementById('noChatSelected').style.display = 'none';
-                
-                const div = document.createElement("div");
-                div.classList.add("message");
-                
-                if (msg.from === currentUser.uid) {
-                    div.classList.add("own");
-                } else {
-                    div.classList.add("other");
-                }
-                
-                const userSpan = document.createElement("div");
-                userSpan.classList.add("message-user");
-                userSpan.textContent = msg.from === currentUser.uid ? 'Tú' : selectedChatUser.displayName;
-                
-                const textSpan = document.createElement("div");
-                textSpan.classList.add("message-text");
-                textSpan.textContent = msg.text;
-                
-                const timeSpan = document.createElement("div");
-                timeSpan.classList.add("message-time");
-                timeSpan.textContent = new Date(msg.time).toLocaleTimeString();
-                
-                div.appendChild(userSpan);
-                div.appendChild(textSpan);
-                div.appendChild(timeSpan);
-                
-                messagesDiv.appendChild(div);
-                messagesDiv.scrollTop = messagesDiv.scrollHeight;
-            }
+        const msg = data.val();
+        const div = document.createElement("div");
+        div.classList.add("message");
+        
+        // Determinar si el mensaje es del usuario actual
+        if (auth.currentUser && msg.user === currentUserData.username) {
+            div.classList.add("own");
+        } else {
+            div.classList.add("other");
         }
+        
+        // Avatar
+        const avatarDiv = document.createElement("div");
+        avatarDiv.classList.add("message-avatar");
+        avatarDiv.textContent = msg.avatar || generateAvatar(msg.user);
+        avatarDiv.style.background = `linear-gradient(135deg, ${msg.color || generateColor(msg.user)}, var(--accent))`;
+        
+        // Contenido del mensaje
+        const contentDiv = document.createElement("div");
+        contentDiv.classList.add("message-content");
+        
+        // Nombre de usuario
+        const userSpan = document.createElement("div");
+        userSpan.classList.add("message-user");
+        userSpan.textContent = msg.user;
+        
+        // Tiempo
+        const timeSpan = document.createElement("div");
+        timeSpan.classList.add("message-time");
+        timeSpan.textContent = new Date(msg.time).toLocaleTimeString();
+        
+        contentDiv.appendChild(userSpan);
+        
+        // Contenido según el tipo de mensaje
+        if (msg.type === "text") {
+            const textSpan = document.createElement("div");
+            textSpan.classList.add("message-text");
+            textSpan.textContent = msg.text;
+            contentDiv.appendChild(textSpan);
+        } else if (msg.type === "audio") {
+            const audioDiv = document.createElement("div");
+            audioDiv.classList.add("audio-message");
+            
+            const audioIcon = document.createElement("span");
+            audioIcon.classList.add("audio-icon");
+            audioIcon.textContent = "🔊";
+            
+            const audioPlayer = document.createElement("audio");
+            audioPlayer.classList.add("audio-player");
+            audioPlayer.controls = true;
+            audioPlayer.src = msg.audioUrl;
+            
+            audioDiv.appendChild(audioIcon);
+            audioDiv.appendChild(audioPlayer);
+            contentDiv.appendChild(audioDiv);
+        } else if (msg.type === "image") {
+            const img = document.createElement("img");
+            img.classList.add("image-message");
+            img.src = msg.imageUrl;
+            img.alt = "Imagen compartida";
+            contentDiv.appendChild(img);
+        }
+        
+        contentDiv.appendChild(timeSpan);
+        
+        div.appendChild(avatarDiv);
+        div.appendChild(contentDiv);
+        
+        messagesDiv.appendChild(div);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
     });
     </script>
 </body>
