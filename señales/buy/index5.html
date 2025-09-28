@@ -1,862 +1,1128 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chat en Vivo - Beaver Trading</title>
-<style>
-    :root {
-        --primary: #0a0e17;
-        --secondary: #00d4ff;
-        --accent: #ff6b35;
-        --dark: #121826;
-        --light: #e8f4f8;
-        --glow: 0 0 10px rgba(0, 212, 255, 0.7);
-    }
-    
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    
-    body {
-        background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
-        color: var(--light);
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-        overflow-x: hidden;
-    }
-    
-    .container {
-        width: 100%;
-        max-width: 900px;
-        margin: 0 auto;
-    }
-    
-    .header {
-        text-align: center;
-        margin-bottom: 30px;
-        position: relative;
-    }
-    
-    .logo {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 15px;
-        margin-bottom: 10px;
-    }
-    
-    .logo-icon {
-        font-size: 2.5rem;
-        color: var(--secondary);
-        text-shadow: var(--glow);
-    }
-    
-    .logo-text {
-        font-size: 2.2rem;
-        font-weight: 700;
-        background: linear-gradient(to right, var(--secondary), var(--accent));
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        letter-spacing: 1px;
-    }
-    
-    .tagline {
-        font-size: 1.1rem;
-        opacity: 0.8;
-        margin-top: 5px;
-    }
-    
-    .panels-container {
-        display: flex;
-        gap: 20px;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    
-    .panel {
-        background: rgba(18, 24, 38, 0.8);
-        backdrop-filter: blur(10px);
-        border-radius: 15px;
-        padding: 25px;
-        width: 100%;
-        max-width: 400px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        border: 1px solid rgba(0, 212, 255, 0.2);
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-    
-    .panel:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-    }
-    
-    .panel-title {
-        font-size: 1.5rem;
-        margin-bottom: 20px;
-        color: var(--secondary);
-        text-align: center;
-        position: relative;
-        padding-bottom: 10px;
-    }
-    
-    .panel-title::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 60px;
-        height: 3px;
-        background: linear-gradient(to right, var(--secondary), var(--accent));
-        border-radius: 3px;
-    }
-    
-    .input-group {
-        margin-bottom: 15px;
-        position: relative;
-    }
-    
-    .input-field {
-        width: 100%;
-        padding: 12px 15px;
-        background: rgba(10, 14, 23, 0.7);
-        border: 1px solid rgba(0, 212, 255, 0.3);
-        border-radius: 8px;
-        color: var(--light);
-        font-size: 1rem;
-        transition: all 0.3s;
-    }
-    
-    .input-field:focus {
-        outline: none;
-        border-color: var(--secondary);
-        box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.2);
-    }
-    
-    .input-field::placeholder {
-        color: rgba(232, 244, 248, 0.5);
-    }
-    
-    .btn {
-        width: 100%;
-        padding: 12px;
-        border: none;
-        border-radius: 8px;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s;
-        margin-top: 10px;
-    }
-    
-    .btn-primary {
-        background: linear-gradient(to right, var(--secondary), #00a8cc);
-        color: var(--primary);
-    }
-    
-    .btn-primary:hover {
-        background: linear-gradient(to right, #00a8cc, var(--secondary));
-        box-shadow: var(--glow);
-    }
-    
-    .btn-secondary {
-        background: transparent;
-        color: var(--secondary);
-        border: 1px solid var(--secondary);
-    }
-    
-    .btn-secondary:hover {
-        background: rgba(0, 212, 255, 0.1);
-        box-shadow: var(--glow);
-    }
-    
-    .btn-accent {
-        background: linear-gradient(to right, var(--accent), #e55a2b);
-        color: var(--light);
-    }
-    
-    .btn-accent:hover {
-        background: linear-gradient(to right, #e55a2b, var(--accent));
-        box-shadow: 0 0 10px rgba(255, 107, 53, 0.7);
-    }
-    
-    #chat {
-        display: none;
-        width: 100%;
-        max-width: 800px;
-    }
-    
-    .chat-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-        padding-bottom: 15px;
-        border-bottom: 1px solid rgba(0, 212, 255, 0.2);
-    }
-    
-    .online-indicator {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 0.9rem;
-    }
-    
-    .indicator {
-        width: 10px;
-        height: 10px;
-        background: #00ff88;
-        border-radius: 50%;
-        animation: pulse 2s infinite;
-    }
-    
-    @keyframes pulse {
-        0% { opacity: 1; }
-        50% { opacity: 0.5; }
-        100% { opacity: 1; }
-    }
-    
-    .messages-container {
-        height: 400px;
-        overflow-y: auto;
-        padding: 15px;
-        background: rgba(10, 14, 23, 0.5);
-        border-radius: 10px;
-        margin-bottom: 20px;
-        border: 1px solid rgba(0, 212, 255, 0.2);
-    }
-    
-    .message {
-        margin-bottom: 15px;
-        padding: 12px 15px;
-        border-radius: 10px;
-        max-width: 80%;
-        position: relative;
-        animation: fadeIn 0.3s;
-        display: flex;
-        gap: 10px;
-    }
-    
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .message.own {
-        background: linear-gradient(135deg, rgba(0, 212, 255, 0.2) 0%, rgba(255, 107, 53, 0.1) 100%);
-        margin-left: auto;
-        border: 1px solid rgba(0, 212, 255, 0.3);
-    }
-    
-    .message.other {
-        background: rgba(18, 24, 38, 0.7);
-        margin-right: auto;
-        border: 1px solid rgba(255, 107, 53, 0.2);
-    }
-    
-    .message-avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, var(--secondary), var(--accent));
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        font-size: 18px;
-        flex-shrink: 0;
-    }
-    
-    .message-content {
-        flex: 1;
-    }
-    
-    .message-user {
-        font-weight: 600;
-        font-size: 0.9rem;
-        margin-bottom: 5px;
-        color: var(--secondary);
-    }
-    
-    .message-text {
-        font-size: 1rem;
-        line-height: 1.4;
-    }
-    
-    .message-time {
-        font-size: 0.7rem;
-        opacity: 0.7;
-        text-align: right;
-        margin-top: 5px;
-    }
-    
-    .audio-message {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-top: 5px;
-    }
-    
-    .audio-player {
-        flex: 1;
-        height: 30px;
-        border-radius: 15px;
-        background: rgba(0, 0, 0, 0.3);
-        outline: none;
-    }
-    
-    .audio-player::-webkit-media-controls-panel {
-        background: rgba(0, 0, 0, 0.3);
-    }
-    
-    .audio-icon {
-        font-size: 1.5rem;
-        color: var(--secondary);
-    }
-    
-    .image-message {
-        max-width: 100%;
-        border-radius: 8px;
-        margin-top: 5px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-    
-    .chat-input-container {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-    }
-    
-    #messageInput {
-        flex: 1;
-        padding: 12px 15px;
-        background: rgba(10, 14, 23, 0.7);
-        border: 1px solid rgba(0, 212, 255, 0.3);
-        border-radius: 8px;
-        color: var(--light);
-        font-size: 1rem;
-    }
-    
-    #messageInput:focus {
-        outline: none;
-        border-color: var(--secondary);
-        box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.2);
-    }
-    
-    .chat-actions {
-        display: flex;
-        gap: 5px;
-    }
-    
-    .action-btn {
-        background: rgba(10, 14, 23, 0.7);
-        border: 1px solid rgba(0, 212, 255, 0.3);
-        border-radius: 8px;
-        color: var(--secondary);
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.3s;
-    }
-    
-    .action-btn:hover {
-        background: rgba(0, 212, 255, 0.1);
-        box-shadow: var(--glow);
-    }
-    
-    .action-btn.recording {
-        background: rgba(255, 107, 53, 0.2);
-        border-color: var(--accent);
-        animation: pulse 1s infinite;
-    }
-    
-    .send-btn {
-        padding: 12px 20px;
-        background: linear-gradient(to right, var(--secondary), #00a8cc);
-        border: none;
-        border-radius: 8px;
-        color: var(--primary);
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s;
-    }
-    
-    .send-btn:hover {
-        background: linear-gradient(to right, #00a8cc, var(--secondary));
-        box-shadow: var(--glow);
-    }
-    
-    .notification {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        padding: 15px 20px;
-        background: rgba(18, 24, 38, 0.9);
-        border-left: 4px solid var(--secondary);
-        border-radius: 5px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        transform: translateX(150%);
-        transition: transform 0.3s;
-        z-index: 1000;
-    }
-    
-    .notification.show {
-        transform: translateX(0);
-    }
-    
-    .footer {
-        margin-top: 30px;
-        text-align: center;
-        font-size: 0.9rem;
-        opacity: 0.7;
-    }
-    
-    @media (max-width: 768px) {
-        .panels-container {
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Trading Signals</title>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <style>
+        :root {
+            --primary: #00f7ff;
+            --secondary: #8a2be2;
+            --dark: #0a0a1a;
+            --darker: #050510;
+            --light: #e0e0ff;
+            --accent: #ff00aa;
+            --buy: #00ff88;
+            --sell: #ff4444;
+            --card-bg: rgba(15, 15, 30, 0.7);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--darker);
+            color: var(--light);
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(138, 43, 226, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 247, 255, 0.1) 0%, transparent 20%);
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(0, 247, 255, 0.3);
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(0, 247, 255, 0.5);
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px var(--primary);
+        }
+        
+        .auth-section {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            background: rgba(0, 247, 255, 0.1);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+        
+        .btn:hover {
+            background: var(--primary);
+            color: var(--dark);
+            box-shadow: 0 0 15px var(--primary);
+        }
+        
+        .btn-buy {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--buy);
+            border: 1px solid var(--buy);
+        }
+        
+        .btn-buy:hover {
+            background: var(--buy);
+            color: var(--dark);
+            box-shadow: 0 0 15px var(--buy);
+        }
+        
+        .btn-sell {
+            background: rgba(255, 68, 68, 0.1);
+            color: var(--sell);
+            border: 1px solid var(--sell);
+        }
+        
+        .btn-sell:hover {
+            background: var(--sell);
+            color: var(--dark);
+            box-shadow: 0 0 15px var(--sell);
+        }
+        
+        .btn-accent {
+            background: rgba(255, 0, 170, 0.1);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+        
+        .btn-accent:hover {
+            background: var(--accent);
+            color: var(--dark);
+            box-shadow: 0 0 15px var(--accent);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+        }
+        
+        .signal-form {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 247, 255, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .signal-form h2 {
+            margin-bottom: 20px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--light);
+            font-size: 0.9rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            background: rgba(5, 5, 16, 0.8);
+            border: 1px solid rgba(0, 247, 255, 0.3);
+            border-radius: 8px;
+            color: var(--light);
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0, 247, 255, 0.5);
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .direction-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .direction-btn {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            opacity: 0.7;
+        }
+        
+        .direction-btn.active {
+            opacity: 1;
+            box-shadow: 0 0 15px currentColor;
+        }
+        
+        .buy-btn {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--buy);
+            border: 1px solid var(--buy);
+        }
+        
+        .sell-btn {
+            background: rgba(255, 68, 68, 0.1);
+            color: var(--sell);
+            border: 1px solid var(--sell);
+        }
+        
+        .signals-list {
+            display: flex;
             flex-direction: column;
+            gap: 25px;
+        }
+        
+        .signal-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 247, 255, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .signal-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .signal-card.buy::before {
+            background: var(--buy);
+        }
+        
+        .signal-card.sell::before {
+            background: var(--sell);
+        }
+        
+        .signal-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 247, 255, 0.2);
+        }
+        
+        .signal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 247, 255, 0.2);
+        }
+        
+        .signal-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .signal-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        
+        .signal-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .signal-date {
+            font-size: 0.9rem;
+            color: rgba(224, 224, 255, 0.7);
+        }
+        
+        .signal-pair {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .signal-direction {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        
+        .signal-direction.buy {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--buy);
+            border: 1px solid var(--buy);
+        }
+        
+        .signal-direction.sell {
+            background: rgba(255, 68, 68, 0.2);
+            color: var(--sell);
+            border: 1px solid var(--sell);
+        }
+        
+        .signal-details {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+            background: rgba(5, 5, 16, 0.5);
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+        }
+        
+        .detail-line {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+        }
+        
+        .detail-label {
+            color: rgba(224, 224, 255, 0.7);
+        }
+        
+        .detail-value {
+            font-weight: bold;
+            color: var(--light);
+        }
+        
+        .signal-analysis {
+            margin-bottom: 20px;
+            line-height: 1.6;
+            background: rgba(5, 5, 16, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .signal-actions {
+            display: flex;
+            justify-content: space-between;
             align-items: center;
         }
         
-        .panel {
-            max-width: 100%;
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 5px;
         }
         
-        .message {
-            max-width: 90%;
+        .action-btn:hover {
+            background: rgba(0, 247, 255, 0.1);
         }
         
-        .chat-actions {
-            flex-direction: column;
+        .delete-btn {
+            color: var(--accent);
         }
-    }
-</style>
+        
+        .delete-btn:hover {
+            background: rgba(255, 0, 170, 0.1);
+        }
+        
+        .sidebar {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 247, 255, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            height: fit-content;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .sidebar h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .stat-card {
+            background: rgba(5, 5, 16, 0.8);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid rgba(0, 247, 255, 0.2);
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: rgba(224, 224, 255, 0.7);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 5, 16, 0.9);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: rgba(10, 10, 26, 0.95);
+            border: 1px solid var(--primary);
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 0 30px rgba(0, 247, 255, 0.5);
+            position: relative;
+        }
+        
+        .modal h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+        
+        .glow {
+            text-shadow: 0 0 10px currentColor;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .logo h1 {
+                font-size: 2rem;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
+        <header>
             <div class="logo">
-                <div class="logo-icon">⚡</div>
-                <div class="logo-text">BEAVER TRADING</div>
+                <div class="logo-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L13.09 8.26L20 9.27L15 14.14L16.18 21.02L12 17.77L7.82 21.02L9 14.14L4 9.27L10.91 8.26L12 2Z" fill="currentColor"/>
+                    </svg>
+                </div>
+                <h1>Quantum Trading Signals</h1>
             </div>
-            <div class="tagline">Tecnología avanzada para traders del futuro</div>
-        </div>
+            <div class="auth-section" id="authSection">
+                <button class="btn" id="loginBtn">Iniciar Sesión</button>
+                <button class="btn btn-accent" id="registerBtn">Registrarse</button>
+            </div>
+            <div class="user-info" id="userInfo" style="display: none;">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <span id="userName">Usuario</span>
+                <button class="btn btn-accent" id="logoutBtn">Cerrar Sesión</button>
+            </div>
+        </header>
         
-        <div class="panels-container">
-            <!-- Registro -->
-            <div class="panel" id="register">
-                <h3 class="panel-title">Crear Cuenta</h3>
-                <div class="input-group">
-                    <input id="regUsername" type="text" class="input-field" placeholder="Nombre de usuario">
+        <div class="main-content">
+            <div class="content-left">
+                <div class="signal-form" id="signalForm" style="display: none;">
+                    <h2>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L13.09 8.26L20 9.27L15 14.14L16.18 21.02L12 17.77L7.82 21.02L9 14.14L4 9.27L10.91 8.26L12 2Z" fill="currentColor"/>
+                        </svg>
+                        Nueva Señal de Trading
+                    </h2>
+                    <form id="newSignalForm">
+                        <div class="form-group">
+                            <label for="pair">Par de Divisas</label>
+                            <select id="pair" class="form-control" required>
+                                <option value="">Selecciona un par</option>
+                                <option value="XAU/USD">XAU/USD (Oro/Dólar)</option>
+                                <option value="EUR/USD">EUR/USD (Euro/Dólar)</option>
+                                <option value="GBP/USD">GBP/USD (Libra/Dólar)</option>
+                                <option value="USD/JPY">USD/JPY (Dólar/Yen)</option>
+                                <option value="AUD/USD">AUD/USD (Dólar Australiano/Dólar)</option>
+                                <option value="USD/CAD">USD/CAD (Dólar/Dólar Canadiense)</option>
+                                <option value="NZD/USD">NZD/USD (Dólar Neozelandés/Dólar)</option>
+                                <option value="USD/CHF">USD/CHF (Dólar/Franco Suizo)</option>
+                                <option value="EUR/GBP">EUR/GBP (Euro/Libra)</option>
+                                <option value="EUR/JPY">EUR/JPY (Euro/Yen)</option>
+                                <option value="GBP/JPY">GBP/JPY (Libra/Yen)</option>
+                                <option value="AUD/JPY">AUD/JPY (Dólar Australiano/Yen)</option>
+                                <option value="BTC/USD">BTC/USD (Bitcoin/Dólar)</option>
+                                <option value="ETH/USD">ETH/USD (Ethereum/Dólar)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Dirección</label>
+                            <div class="direction-selector">
+                                <div class="direction-btn buy-btn" id="buyBtn">COMPRA</div>
+                                <div class="direction-btn sell-btn" id="sellBtn">VENTA</div>
+                            </div>
+                            <input type="hidden" id="direction" value="" required>
+                        </div>
+                        
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="entry">Punto de Entrada</label>
+                                <input type="number" id="entry" class="form-control" step="0.0001" placeholder="Ej: 1.2050" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="sl">Stop Loss (SL)</label>
+                                <input type="number" id="sl" class="form-control" step="0.0001" placeholder="Ej: 1.2000" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="tp1">Take Profit 1 (TP1)</label>
+                                <input type="number" id="tp1" class="form-control" step="0.0001" placeholder="Ej: 1.2100" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="tp2">Take Profit 2 (TP2)</label>
+                                <input type="number" id="tp2" class="form-control" step="0.0001" placeholder="Ej: 1.2150">
+                            </div>
+                            <div class="form-group">
+                                <label for="tp3">Take Profit 3 (TP3)</label>
+                                <input type="number" id="tp3" class="form-control" step="0.0001" placeholder="Ej: 1.2200">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="analysis">Análisis Técnico</label>
+                            <textarea id="analysis" class="form-control" placeholder="Explica tu análisis técnico y por qué esperas que el precio suba o baje..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-accent">Publicar Señal</button>
+                    </form>
                 </div>
-                <div class="input-group">
-                    <input id="regEmail" type="email" class="input-field" placeholder="Correo electrónico">
+                
+                <div class="signals-list" id="signalsList">
+                    <!-- Las señales se cargarán aquí dinámicamente -->
                 </div>
-                <div class="input-group">
-                    <input id="regPassword" type="password" class="input-field" placeholder="Contraseña">
-                </div>
-                <button class="btn btn-primary" onclick="register()">Registrarse</button>
             </div>
             
-            <!-- Login -->
-            <div class="panel" id="login">
-                <h3 class="panel-title">Iniciar Sesión</h3>
-                <div class="input-group">
-                    <input id="email" type="email" class="input-field" placeholder="Correo electrónico">
+            <div class="sidebar">
+                <h3>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 19V13H15V19H18V9L12 4.5L6 9V19H9ZM10 21H4C3.45 21 3 20.55 3 20V9C3 8.8 3.09 8.62 3.24 8.5L11.24 2.5C11.41 2.37 11.64 2.37 11.81 2.5L19.81 8.5C19.93 8.62 20 8.8 20 9V20C20 20.55 19.55 21 19 21H14V15H10V21Z" fill="currentColor"/>
+                    </svg>
+                    Estadísticas
+                </h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalSignals">0</div>
+                        <div class="stat-label">Señales Totales</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="activeUsers">0</div>
+                        <div class="stat-label">Usuarios Activos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="buySignals">0</div>
+                        <div class="stat-label">Señales de Compra</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="sellSignals">0</div>
+                        <div class="stat-label">Señales de Venta</div>
+                    </div>
                 </div>
-                <div class="input-group">
-                    <input id="password" type="password" class="input-field" placeholder="Contraseña">
-                </div>
-                <button class="btn btn-accent" onclick="login()">Acceder</button>
             </div>
-        </div>
-        
-        <!-- Chat -->
-        <div class="panel" id="chat">
-            <div class="chat-header">
-                <h3 class="panel-title">Chat en Vivo</h3>
-                <div class="online-indicator">
-                    <div class="indicator"></div>
-                    <span>Conectado</span>
-                </div>
-            </div>
-            
-            <div class="messages-container" id="messages"></div>
-            
-            <div class="chat-input-container">
-                <div class="chat-actions">
-                    <button class="action-btn" id="audioBtn" title="Grabar audio">🎤</button>
-                    <button class="action-btn" id="imageBtn" title="Subir imagen">🖼️</button>
-                </div>
-                <input id="messageInput" type="text" class="input-field" placeholder="Escribe tu mensaje...">
-                <button class="send-btn" onclick="sendMessage()">Enviar</button>
-            </div>
-            
-            <button class="btn btn-secondary" onclick="logout()" style="margin-top: 15px;">Cerrar Sesión</button>
         </div>
     </div>
     
-    <div class="footer">
-        Beaver Trading &copy; 2023 - Plataforma de trading avanzada
+    <!-- Modal de Login -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeLoginModal">&times;</button>
+            <h2>Iniciar Sesión</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Contraseña</label>
+                    <input type="password" id="loginPassword" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-accent">Iniciar Sesión</button>
+            </form>
+        </div>
     </div>
     
-    <div class="notification" id="notification"></div>
+    <!-- Modal de Registro -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeRegisterModal">&times;</button>
+            <h2>Registrarse</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="registerName">Nombre</label>
+                    <input type="text" id="registerName" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Contraseña</label>
+                    <input type="password" id="registerPassword" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-accent">Registrarse</button>
+            </form>
+        </div>
+    </div>
 
-    <!-- Firebase -->
-    <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
-    import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-    import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-storage.js";
-
-    // 🔑 Configuración de Firebase
-    const firebaseConfig = {
-        apiKey: "AIzaSyB1Cs2os3tTfrMbYSAmDeJAGnP4tTtsFdw",
-        authDomain: "beaver-trading.firebaseapp.com",
-        databaseURL: "https://beaver-trading-default-rtdb.firebaseio.com",
-        projectId: "beaver-trading",
-        storageBucket: "beaver-trading.firebasestorage.app",
-        messagingSenderId: "926610131904",
-        appId: "1:926610131904:web:c147bd337bd12b4d085625",
-        measurementId: "G-1K51WWF2ZJ"
-    };
-
-    // Inicializar Firebase
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-    const db = getDatabase(app);
-    const auth = getAuth(app);
-    const storage = getStorage(app);
-    const messagesRef = ref(db, "messages");
-
-    // Variables globales
-    let mediaRecorder;
-    let audioChunks = [];
-    let isRecording = false;
-    let currentUserData = {};
-
-    // Función para mostrar notificaciones
-    function showNotification(message, isError = false) {
-        const notification = document.getElementById("notification");
-        notification.textContent = message;
-        notification.style.borderLeftColor = isError ? "#ff4757" : "#00d4ff";
-        
-        notification.classList.add("show");
-        
-        setTimeout(() => {
-            notification.classList.remove("show");
-        }, 3000);
-    }
-
-    // Generar avatar basado en el nombre de usuario
-    function generateAvatar(username) {
-        return username.charAt(0).toUpperCase();
-    }
-
-    // Generar color basado en el nombre de usuario
-    function generateColor(username) {
-        const colors = ['#00d4ff', '#ff6b35', '#9c27b0', '#4caf50', '#ffc107'];
-        const index = username.length % colors.length;
-        return colors[index];
-    }
-
-    // 👉 Registrar usuario
-    window.register = async function() {
-        const username = document.getElementById("regUsername").value;
-        const email = document.getElementById("regEmail").value;
-        const password = document.getElementById("regPassword").value;
-        
-        if (!username || !email || !password) {
-            showNotification("Por favor, completa todos los campos", true);
-            return;
-        }
-        
-        try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            // Guardar información adicional del usuario
-            currentUserData = {
-                username: username,
-                avatar: generateAvatar(username),
-                color: generateColor(username)
-            };
-            showNotification("✅ Cuenta creada exitosamente");
-        } catch (error) {
-            showNotification(error.message, true);
-        }
-    };
-
-    // 👉 Iniciar sesión
-    window.login = async function() {
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-        
-        if (!email || !password) {
-            showNotification("Por favor, completa todos los campos", true);
-            return;
-        }
-        
-        try {
-            const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            // Generar datos de usuario basados en el email
-            const username = email.split('@')[0];
-            currentUserData = {
-                username: username,
-                avatar: generateAvatar(username),
-                color: generateColor(username)
-            };
-        } catch (error) {
-            showNotification(error.message, true);
-        }
-    };
-
-    // 👉 Cerrar sesión
-    window.logout = function() {
-        signOut(auth);
-        showNotification("Sesión cerrada correctamente");
-    };
-
-    // 👉 Enviar mensaje de texto
-    window.sendMessage = function() {
-        const input = document.getElementById("messageInput");
-        const message = input.value.trim();
-        
-        if (message !== "") {
-            push(messagesRef, {
-                user: currentUserData.username,
-                text: message,
-                time: Date.now(),
-                type: "text",
-                avatar: currentUserData.avatar,
-                color: currentUserData.color
-            });
-            input.value = "";
-        }
-    };
-
-    // 👉 Enviar mensaje de audio
-    async function sendAudioMessage(audioBlob) {
-        try {
-            // Subir audio a Firebase Storage
-            const audioRef = storageRef(storage, `audios/${Date.now()}.webm`);
-            await uploadBytes(audioRef, audioBlob);
-            const audioUrl = await getDownloadURL(audioRef);
-            
-            // Guardar referencia en la base de datos
-            push(messagesRef, {
-                user: currentUserData.username,
-                audioUrl: audioUrl,
-                time: Date.now(),
-                type: "audio",
-                avatar: currentUserData.avatar,
-                color: currentUserData.color
-            });
-        } catch (error) {
-            showNotification("Error al enviar audio", true);
-        }
-    }
-
-    // 👉 Enviar mensaje de imagen
-    async function sendImageMessage(imageFile) {
-        try {
-            // Subir imagen a Firebase Storage
-            const imageRef = storageRef(storage, `images/${Date.now()}_${imageFile.name}`);
-            await uploadBytes(imageRef, imageFile);
-            const imageUrl = await getDownloadURL(imageRef);
-            
-            // Guardar referencia en la base de datos
-            push(messagesRef, {
-                user: currentUserData.username,
-                imageUrl: imageUrl,
-                time: Date.now(),
-                type: "image",
-                avatar: currentUserData.avatar,
-                color: currentUserData.color
-            });
-        } catch (error) {
-            showNotification("Error al enviar imagen", true);
-        }
-    }
-
-    // Iniciar grabación de audio
-    async function startRecording() {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            mediaRecorder = new MediaRecorder(stream);
-            audioChunks = [];
-            
-            mediaRecorder.ondataavailable = (event) => {
-                audioChunks.push(event.data);
-            };
-            
-            mediaRecorder.onstop = () => {
-                const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-                sendAudioMessage(audioBlob);
-            };
-            
-            mediaRecorder.start();
-            isRecording = true;
-            document.getElementById("audioBtn").classList.add("recording");
-            showNotification("🎤 Grabando audio...");
-        } catch (error) {
-            showNotification("Error al acceder al micrófono", true);
-        }
-    }
-
-    // Detener grabación de audio
-    function stopRecording() {
-        if (mediaRecorder && isRecording) {
-            mediaRecorder.stop();
-            isRecording = false;
-            document.getElementById("audioBtn").classList.remove("recording");
-            showNotification("✅ Audio grabado");
-            
-            // Detener todas las pistas del stream
-            mediaRecorder.stream.getTracks().forEach(track => track.stop());
-        }
-    }
-
-    // Manejar clic en botón de audio
-    document.getElementById("audioBtn").addEventListener("click", function() {
-        if (!isRecording) {
-            startRecording();
-        } else {
-            stopRecording();
-        }
-    });
-
-    // Manejar clic en botón de imagen
-    document.getElementById("imageBtn").addEventListener("click", function() {
-        const input = document.createElement("input");
-        input.type = "file";
-        input.accept = "image/*";
-        input.onchange = (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                sendImageMessage(file);
-            }
+    <script>
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyB1Cs2os3tTfrMbYSAmDeJAGnP4tTtsFdw",
+            authDomain: "beaver-trading.firebaseapp.com",
+            databaseURL: "https://beaver-trading-default-rtdb.firebaseio.com",
+            projectId: "beaver-trading",
+            storageBucket: "beaver-trading.firebasestorage.app",
+            messagingSenderId: "926610131904",
+            appId: "1:926610131904:web:c147bd337bd12b4d085625",
+            measurementId: "G-1K51WWF2ZJ"
         };
-        input.click();
-    });
 
-    // Permitir enviar mensaje con Enter
-    document.getElementById("messageInput").addEventListener("keypress", function(e) {
-        if (e.key === "Enter") {
-            sendMessage();
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+
+        // Referencias a elementos del DOM
+        const authSection = document.getElementById('authSection');
+        const userInfo = document.getElementById('userInfo');
+        const userAvatar = document.getElementById('userAvatar');
+        const userName = document.getElementById('userName');
+        const loginBtn = document.getElementById('loginBtn');
+        const registerBtn = document.getElementById('registerBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const signalForm = document.getElementById('signalForm');
+        const newSignalForm = document.getElementById('newSignalForm');
+        const signalsList = document.getElementById('signalsList');
+        const loginModal = document.getElementById('loginModal');
+        const registerModal = document.getElementById('registerModal');
+        const closeLoginModal = document.getElementById('closeLoginModal');
+        const closeRegisterModal = document.getElementById('closeRegisterModal');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const totalSignals = document.getElementById('totalSignals');
+        const activeUsers = document.getElementById('activeUsers');
+        const buySignals = document.getElementById('buySignals');
+        const sellSignals = document.getElementById('sellSignals');
+        const buyBtn = document.getElementById('buyBtn');
+        const sellBtn = document.getElementById('sellBtn');
+        const directionInput = document.getElementById('direction');
+
+        // Estado de la aplicación
+        let currentUser = null;
+        let signals = [];
+        let currentDirection = '';
+
+        // Configurar selectores de dirección
+        buyBtn.addEventListener('click', () => {
+            setDirection('COMPRA', buyBtn, sellBtn);
+        });
+
+        sellBtn.addEventListener('click', () => {
+            setDirection('VENTA', sellBtn, buyBtn);
+        });
+
+        function setDirection(direction, activeBtn, inactiveBtn) {
+            currentDirection = direction;
+            directionInput.value = direction;
+            activeBtn.classList.add('active');
+            inactiveBtn.classList.remove('active');
         }
-    });
 
-    // 👉 Cambios de sesión
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            document.getElementById("chat").style.display = "block";
-            document.getElementById("login").style.display = "none";
-            document.getElementById("register").style.display = "none";
+        // Abrir modales
+        loginBtn.addEventListener('click', () => {
+            loginModal.style.display = 'flex';
+        });
+
+        registerBtn.addEventListener('click', () => {
+            registerModal.style.display = 'flex';
+        });
+
+        // Cerrar modales
+        closeLoginModal.addEventListener('click', () => {
+            loginModal.style.display = 'none';
+        });
+
+        closeRegisterModal.addEventListener('click', () => {
+            registerModal.style.display = 'none';
+        });
+
+        // Cerrar modal al hacer clic fuera
+        window.addEventListener('click', (e) => {
+            if (e.target === loginModal) {
+                loginModal.style.display = 'none';
+            }
+            if (e.target === registerModal) {
+                registerModal.style.display = 'none';
+            }
+        });
+
+        // Manejo de autenticación
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                currentUser = user;
+                authSection.style.display = 'none';
+                userInfo.style.display = 'flex';
+                signalForm.style.display = 'block';
+                
+                // Mostrar información del usuario
+                userName.textContent = user.displayName || user.email.split('@')[0];
+                userAvatar.textContent = (user.displayName || user.email[0]).toUpperCase();
+                
+                // Cargar señales
+                loadSignals();
+            } else {
+                currentUser = null;
+                authSection.style.display = 'flex';
+                userInfo.style.display = 'none';
+                signalForm.style.display = 'none';
+                signalsList.innerHTML = '<p class="glow" style="text-align: center; padding: 20px;">Inicia sesión para ver las señales de trading</p>';
+            }
+        });
+
+        // Iniciar sesión
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
             
-            // Si no tenemos datos de usuario, generarlos
-            if (!currentUserData.username) {
-                const username = user.email.split('@')[0];
-                currentUserData = {
-                    username: username,
-                    avatar: generateAvatar(username),
-                    color: generateColor(username)
-                };
+            auth.signInWithEmailAndPassword(email, password)
+                .then(() => {
+                    loginModal.style.display = 'none';
+                    loginForm.reset();
+                })
+                .catch((error) => {
+                    alert('Error al iniciar sesión: ' + error.message);
+                });
+        });
+
+        // Registrarse
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            
+            auth.createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // Actualizar perfil del usuario
+                    return userCredential.user.updateProfile({
+                        displayName: name
+                    });
+                })
+                .then(() => {
+                    registerModal.style.display = 'none';
+                    registerForm.reset();
+                })
+                .catch((error) => {
+                    alert('Error al registrarse: ' + error.message);
+                });
+        });
+
+        // Cerrar sesión
+        logoutBtn.addEventListener('click', () => {
+            auth.signOut();
+        });
+
+        // Publicar nueva señal
+        newSignalForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            if (!currentUser) {
+                alert('Debes iniciar sesión para publicar una señal');
+                return;
             }
             
-            showNotification(`Bienvenido, ${currentUserData.username}`);
-        } else {
-            document.getElementById("chat").style.display = "none";
-            document.getElementById("login").style.display = "block";
-            document.getElementById("register").style.display = "block";
-            currentUserData = {};
-        }
-    });
+            if (!currentDirection) {
+                alert('Selecciona una dirección (COMPRA o VENTA)');
+                return;
+            }
+            
+            const pair = document.getElementById('pair').value;
+            const entry = parseFloat(document.getElementById('entry').value);
+            const sl = parseFloat(document.getElementById('sl').value);
+            const tp1 = parseFloat(document.getElementById('tp1').value);
+            const tp2 = parseFloat(document.getElementById('tp2').value) || null;
+            const tp3 = parseFloat(document.getElementById('tp3').value) || null;
+            const analysis = document.getElementById('analysis').value;
+            
+            const signal = {
+                pair,
+                direction: currentDirection,
+                entry,
+                sl,
+                tp1,
+                tp2,
+                tp3,
+                analysis,
+                userId: currentUser.uid,
+                userName: currentUser.displayName || currentUser.email.split('@')[0],
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                date: new Date().toLocaleDateString('es-ES'),
+                likes: 0,
+                likedBy: []
+            };
+            
+            db.collection('signals').add(signal)
+                .then(() => {
+                    newSignalForm.reset();
+                    setDirection('', buyBtn, sellBtn);
+                    directionInput.value = '';
+                    alert('Señal publicada correctamente');
+                })
+                .catch((error) => {
+                    alert('Error al publicar la señal: ' + error.message);
+                });
+        });
 
-    // 👉 Mostrar mensajes en tiempo real
-    const messagesDiv = document.getElementById("messages");
-    onChildAdded(messagesRef, (data) => {
-        const msg = data.val();
-        const div = document.createElement("div");
-        div.classList.add("message");
-        
-        // Determinar si el mensaje es del usuario actual
-        if (auth.currentUser && msg.user === currentUserData.username) {
-            div.classList.add("own");
-        } else {
-            div.classList.add("other");
+        // Cargar señales
+        function loadSignals() {
+            db.collection('signals')
+                .orderBy('timestamp', 'desc')
+                .onSnapshot((snapshot) => {
+                    signals = [];
+                    let buyCount = 0;
+                    let sellCount = 0;
+                    
+                    signalsList.innerHTML = '';
+                    
+                    snapshot.forEach((doc) => {
+                        const signal = {
+                            id: doc.id,
+                            ...doc.data()
+                        };
+                        signals.push(signal);
+                        
+                        if (signal.direction === 'COMPRA') {
+                            buyCount++;
+                        } else if (signal.direction === 'VENTA') {
+                            sellCount++;
+                        }
+                        
+                        // Formatear fecha
+                        let timeString = 'Hace un momento';
+                        if (signal.timestamp) {
+                            const date = signal.timestamp.toDate();
+                            const now = new Date();
+                            const diffMs = now - date;
+                            const diffMins = Math.floor(diffMs / 60000);
+                            const diffHours = Math.floor(diffMs / 3600000);
+                            
+                            if (diffMins < 1) {
+                                timeString = 'Hace un momento';
+                            } else if (diffMins < 60) {
+                                timeString = `Hace ${diffMins} minuto${diffMins > 1 ? 's' : ''}`;
+                            } else if (diffHours < 24) {
+                                timeString = `Hace ${diffHours} hora${diffHours > 1 ? 's' : ''}`;
+                            } else {
+                                timeString = `Hace ${Math.floor(diffHours / 24)} día${Math.floor(diffHours / 24) > 1 ? 's' : ''}`;
+                            }
+                        }
+                        
+                        // Crear elemento de señal
+                        const signalElement = document.createElement('div');
+                        signalElement.className = `signal-card ${signal.direction === 'COMPRA' ? 'buy' : 'sell'}`;
+                        
+                        let tpContent = `
+                            <div class="detail-line">
+                                <span class="detail-label">TP1</span>
+                                <span class="detail-value">${signal.tp1}</span>
+                            </div>
+                        `;
+                        
+                        if (signal.tp2) {
+                            tpContent += `
+                                <div class="detail-line">
+                                    <span class="detail-label">TP2</span>
+                                    <span class="detail-value">${signal.tp2}</span>
+                                </div>
+                            `;
+                        }
+                        
+                        if (signal.tp3) {
+                            tpContent += `
+                                <div class="detail-line">
+                                    <span class="detail-label">TP3</span>
+                                    <span class="detail-value">${signal.tp3}</span>
+                                </div>
+                            `;
+                        }
+                        
+                        signalElement.innerHTML = `
+                            <div class="signal-header">
+                                <div class="signal-user">
+                                    <div class="signal-avatar">${signal.userName ? signal.userName[0].toUpperCase() : 'U'}</div>
+                                    <div class="signal-meta">
+                                        <div class="glow">${signal.userName || 'Usuario'}</div>
+                                        <div class="signal-date">${signal.date} • ${timeString}</div>
+                                    </div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <div class="signal-pair">${signal.pair}</div>
+                                    <div class="signal-direction ${signal.direction === 'COMPRA' ? 'buy' : 'sell'}">${signal.direction}</div>
+                                </div>
+                            </div>
+                            
+                            <div class="signal-details">
+                                <div class="detail-line">
+                                    <span class="detail-label">SL</span>
+                                    <span class="detail-value">${signal.sl}</span>
+                                </div>
+                                <div class="detail-line">
+                                    <span class="detail-label">ENTRADA</span>
+                                    <span class="detail-value">${signal.entry}</span>
+                                </div>
+                                ${tpContent}
+                            </div>
+                            
+                            <div class="signal-analysis">
+                                <p>${signal.analysis}</p>
+                            </div>
+                            
+                            <div class="signal-actions">
+                                <button class="action-btn like-btn" data-id="${signal.id}">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="${signal.likedBy && signal.likedBy.includes(currentUser.uid) ? 'var(--accent)' : 'none'}" stroke="currentColor">
+                                        <path d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.09C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.04L12 21.35Z"/>
+                                    </svg>
+                                    <span>${signal.likes || 0}</span>
+                                </button>
+                                
+                                ${signal.userId === currentUser.uid ? `
+                                    <button class="action-btn delete-btn" data-id="${signal.id}">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7H6V19ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z"/>
+                                        </svg>
+                                        <span>Eliminar</span>
+                                    </button>
+                                ` : ''}
+                            </div>
+                        `;
+                        
+                        signalsList.appendChild(signalElement);
+                    });
+                    
+                    // Actualizar estadísticas
+                    totalSignals.textContent = signals.length;
+                    buySignals.textContent = buyCount;
+                    sellSignals.textContent = sellCount;
+                    
+                    // Agregar event listeners para los botones de like
+                    document.querySelectorAll('.like-btn').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            const signalId = btn.getAttribute('data-id');
+                            likeSignal(signalId);
+                        });
+                    });
+                    
+                    // Agregar event listeners para los botones de eliminar
+                    document.querySelectorAll('.delete-btn').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            const signalId = btn.getAttribute('data-id');
+                            deleteSignal(signalId);
+                        });
+                    });
+                });
         }
-        
-        // Avatar
-        const avatarDiv = document.createElement("div");
-        avatarDiv.classList.add("message-avatar");
-        avatarDiv.textContent = msg.avatar || generateAvatar(msg.user);
-        avatarDiv.style.background = `linear-gradient(135deg, ${msg.color || generateColor(msg.user)}, var(--accent))`;
-        
-        // Contenido del mensaje
-        const contentDiv = document.createElement("div");
-        contentDiv.classList.add("message-content");
-        
-        // Nombre de usuario
-        const userSpan = document.createElement("div");
-        userSpan.classList.add("message-user");
-        userSpan.textContent = msg.user;
-        
-        // Tiempo
-        const timeSpan = document.createElement("div");
-        timeSpan.classList.add("message-time");
-        timeSpan.textContent = new Date(msg.time).toLocaleTimeString();
-        
-        contentDiv.appendChild(userSpan);
-        
-        // Contenido según el tipo de mensaje
-        if (msg.type === "text") {
-            const textSpan = document.createElement("div");
-            textSpan.classList.add("message-text");
-            textSpan.textContent = msg.text;
-            contentDiv.appendChild(textSpan);
-        } else if (msg.type === "audio") {
-            const audioDiv = document.createElement("div");
-            audioDiv.classList.add("audio-message");
+
+        // Dar like a una señal
+        function likeSignal(signalId) {
+            if (!currentUser) return;
             
-            const audioIcon = document.createElement("span");
-            audioIcon.classList.add("audio-icon");
-            audioIcon.textContent = "🔊";
+            const signal = signals.find(s => s.id === signalId);
+            if (!signal) return;
             
-            const audioPlayer = document.createElement("audio");
-            audioPlayer.classList.add("audio-player");
-            audioPlayer.controls = true;
-            audioPlayer.src = msg.audioUrl;
+            const isLiked = signal.likedBy && signal.likedBy.includes(currentUser.uid);
+            const newLikes = isLiked ? (signal.likes || 0) - 1 : (signal.likes || 0) + 1;
+            const newLikedBy = isLiked 
+                ? (signal.likedBy || []).filter(id => id !== currentUser.uid)
+                : [...(signal.likedBy || []), currentUser.uid];
             
-            audioDiv.appendChild(audioIcon);
-            audioDiv.appendChild(audioPlayer);
-            contentDiv.appendChild(audioDiv);
-        } else if (msg.type === "image") {
-            const img = document.createElement("img");
-            img.classList.add("image-message");
-            img.src = msg.imageUrl;
-            img.alt = "Imagen compartida";
-            contentDiv.appendChild(img);
+            db.collection('signals').doc(signalId).update({
+                likes: newLikes,
+                likedBy: newLikedBy
+            });
         }
+
+        // Eliminar una señal (solo el propietario puede hacerlo)
+        function deleteSignal(signalId) {
+            if (!currentUser) return;
+            
+            const signal = signals.find(s => s.id === signalId);
+            if (!signal || signal.userId !== currentUser.uid) {
+                alert('Solo puedes eliminar tus propias señales');
+                return;
+            }
+            
+            if (confirm('¿Estás seguro de que quieres eliminar esta señal?')) {
+                db.collection('signals').doc(signalId).delete()
+                    .then(() => {
+                        alert('Señal eliminada correctamente');
+                    })
+                    .catch((error) => {
+                        alert('Error al eliminar la señal: ' + error.message);
+                    });
+            }
+        }
+
+        // Inicializar la aplicación
+        activeUsers.textContent = "5"; // Simulamos 5 usuarios activos
         
-        contentDiv.appendChild(timeSpan);
-        
-        div.appendChild(avatarDiv);
-        div.appendChild(contentDiv);
-        
-        messagesDiv.appendChild(div);
-        messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    });
+        // Efectos visuales adicionales
+        document.querySelectorAll('.btn, .action-btn').forEach(btn => {
+            btn.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.05)';
+            });
+            
+            btn.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
     </script>
 </body>
 </html>
