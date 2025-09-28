@@ -3,738 +3,655 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beaver Trading - Galería Cloudinary</title>
+    <title>Analizador de Trading Avanzado</title>
     <style>
         :root {
-            --primary: #00d9ff;
-            --secondary: #0084ff;
-            --accent: #00ffcc;
-            --dark: #0a0e17;
-            --darker: #050811;
-            --light: #ccf5ff;
-            --success: #00ff95;
-            --danger: #ff006a;
-            --neon-glow: 0 0 10px var(--primary), 0 0 20px var(--primary), 0 0 30px rgba(0, 217, 255, 0.5);
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --light: #ecf0f1;
+            --dark: #34495e;
         }
         
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Exo 2', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-        body {
-            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
-            min-height: 100vh;
-            padding: 2rem;
-            color: var(--light);
+       body {
+            font-family: 'Exo 2', sans-serif;
+            background: url('https://raw.githubusercontent.com/welding30001994/vip/refs/heads/main/unnamed%20(1).jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
             line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
         }
+        
+      
+        /* Capa oscura sobre la imagen de fondo */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+        
+      
         
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-            animation: fadeIn 0.5s ease-out;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
         
         h1 {
-            text-align: center;
-            margin-bottom: 2rem;
-            color: var(--light);
-            font-size: 3rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: var(--neon-glow);
-            position: relative;
-            padding-bottom: 1rem;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #3498db, #2ecc71);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
         
-        h1::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 200px;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-            box-shadow: 0 0 15px var(--accent);
-        }
-        
-        .upload-section {
-            background: rgba(10, 14, 23, 0.7);
-            border-radius: 15px;
-            padding: 2rem;
-            margin-bottom: 3rem;
-            border: 1px solid rgba(0, 217, 255, 0.2);
-            box-shadow: 0 0 25px rgba(0, 217, 255, 0.1);
-            backdrop-filter: blur(5px);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .upload-section::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            z-index: -1;
-            background: linear-gradient(45deg, transparent, transparent, var(--primary), transparent, transparent);
-            animation: borderAnimation 3s linear infinite;
-        }
-        
-        .upload-section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 35px rgba(0, 217, 255, 0.2);
-        }
-        
-        .file-upload {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-            padding: 3rem 2rem;
-            border: 2px dashed rgba(0, 217, 255, 0.4);
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: rgba(5, 8, 17, 0.5);
-        }
-        
-        .file-upload:hover {
-            background: rgba(0, 217, 255, 0.05);
-            border-color: var(--primary);
-            box-shadow: inset 0 0 15px rgba(0, 217, 255, 0.1);
-        }
-        
-        .file-upload i {
-            font-size: 3.5rem;
-            color: var(--primary);
-            transition: all 0.3s;
-            text-shadow: var(--neon-glow);
-        }
-        
-        .file-upload:hover i {
-            transform: scale(1.1) rotate(5deg);
-            color: var(--accent);
-        }
-        
-        .file-upload p {
+        .subtitle {
             font-size: 1.2rem;
-            text-align: center;
-            color: var(--light);
+            opacity: 0.8;
         }
         
-        #fileInput {
-            display: none;
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
         }
         
-        #preview {
-            max-width: 100%;
-            max-height: 400px;
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .upload-section, .results-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary);
+        }
+        
+        .upload-area {
+            border: 2px dashed var(--secondary);
             border-radius: 10px;
-            display: none;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-            animation: fadeIn 0.5s ease-out;
-            border: 1px solid rgba(0, 217, 255, 0.3);
-        }
-        
-        #uploadBtn {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: var(--dark);
-            border: none;
-            padding: 1rem 2.5rem;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
+            padding: 40px 20px;
+            text-align: center;
             cursor: pointer;
             transition: all 0.3s;
-            box-shadow: 0 0 15px rgba(0, 217, 255, 0.4);
+            margin-bottom: 20px;
+        }
+        
+        .upload-area:hover {
+            background: rgba(52, 152, 219, 0.1);
+        }
+        
+        .upload-area i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+        
+        .upload-text {
+            font-size: 1.1rem;
+        }
+        
+        #imageInput {
             display: none;
-            margin: 1.5rem auto 0;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
         }
         
-        #uploadBtn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: 0.5s;
-            z-index: -1;
+        .preview-container {
+            margin-top: 20px;
+            text-align: center;
         }
         
-        #uploadBtn:hover::before {
-            left: 100%;
-        }
-        
-        #uploadBtn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 25px rgba(0, 217, 255, 0.6);
-        }
-        
-        #uploadBtn:disabled {
-            background: #333;
-            color: #999;
-            transform: none;
-            box-shadow: none;
-            cursor: not-allowed;
-        }
-        
-        .progress-container {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50px;
-            margin: 1.5rem 0;
-            overflow: hidden;
-            display: none;
-            height: 12px;
-            border: 1px solid rgba(0, 217, 255, 0.2);
-        }
-        
-        #progressBar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent), var(--success));
-            width: 0%;
-            transition: width 0.3s ease;
-            box-shadow: 0 0 10px var(--success);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        #progressBar::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            animation: progressShine 1.5s infinite;
-        }
-        
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-        
-        .gallery-item {
-            background: rgba(10, 14, 23, 0.7);
+        #imagePreview {
+            max-width: 100%;
+            max-height: 300px;
             border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-            position: relative;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            display: none;
+        }
+        
+        .analyze-btn {
+            background: linear-gradient(to right, var(--secondary), var(--success));
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            border-radius: 50px;
             cursor: pointer;
-            border: 1px solid rgba(0, 217, 255, 0.1);
-            backdrop-filter: blur(5px);
-        }
-        
-        .gallery-item:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 15px 30px rgba(0, 217, 255, 0.2);
-            border-color: rgba(0, 217, 255, 0.3);
-        }
-        
-        .gallery-img {
+            transition: all 0.3s;
+            margin-top: 20px;
             width: 100%;
-            height: 300px;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.5s;
+            font-weight: bold;
+            letter-spacing: 1px;
         }
         
-        .gallery-item:hover .gallery-img {
-            transform: scale(1.1);
+        .analyze-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(0, 0, 0, 0.3);
         }
         
-        .gallery-info {
-            padding: 1.5rem;
-            background: rgba(5, 8, 17, 0.7);
+        .analyze-btn:active {
+            transform: translateY(0);
         }
         
-        .gallery-info p {
-            margin-bottom: 0.5rem;
+        .signal {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .signal-buy {
+            border-left: 5px solid var(--success);
+        }
+        
+        .signal-sell {
+            border-left: 5px solid var(--danger);
+        }
+        
+        .signal-icon {
+            font-size: 2.5rem;
+            margin-right: 15px;
+        }
+        
+        .signal-buy .signal-icon {
+            color: var(--success);
+        }
+        
+        .signal-sell .signal-icon {
+            color: var(--danger);
+        }
+        
+        .signal-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .levels {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        @media (max-width: 576px) {
+            .levels {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .level-card {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .level-card h4 {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
+        
+        .level-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        
+        .entry .level-value {
+            color: var(--secondary);
+        }
+        
+        .sl .level-value {
+            color: var(--danger);
+        }
+        
+        .tp .level-value {
+            color: var(--success);
+        }
+        
+        .chart-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .chart {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .history-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        .history-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .history-item:last-child {
+            border-bottom: none;
+        }
+        
+        .history-signal {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .signal-buy-tag {
+            background: var(--success);
+        }
+        
+        .signal-sell-tag {
+            background: var(--danger);
+        }
+        
+        .loader {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .spinner {
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 5px solid var(--secondary);
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            opacity: 0.7;
             font-size: 0.9rem;
         }
-        
-        .gallery-info strong {
-            color: var(--accent);
-        }
-        
-        .gallery-url {
-            font-size: 0.8rem;
-            color: #8b9bbd;
-            word-break: break-all;
-            margin-top: 0.5rem;
-            font-family: 'Courier New', monospace;
-        }
-        
-        .copy-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(0, 0, 0, 0.6);
-            color: var(--light);
-            border: 1px solid rgba(0, 217, 255, 0.3);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            opacity: 0;
-            transition: all 0.3s;
-            backdrop-filter: blur(5px);
-        }
-        
-        .copy-btn:hover {
-            background: var(--primary);
-            color: var(--dark);
-            box-shadow: 0 0 15px var(--primary);
-        }
-        
-        .gallery-item:hover .copy-btn {
-            opacity: 1;
-        }
-        
-        .status {
-            text-align: center;
-            padding: 1.2rem;
-            margin: 1rem 0;
-            border-radius: 8px;
-            display: none;
-            animation: fadeIn 0.3s ease-out;
-            font-weight: 500;
-            backdrop-filter: blur(5px);
-            border: 1px solid;
-        }
-        
-        .success {
-            background: rgba(0, 255, 149, 0.1);
-            color: var(--success);
-            border-color: rgba(0, 255, 149, 0.3);
-            text-shadow: 0 0 5px rgba(0, 255, 149, 0.5);
-        }
-        
-        .error {
-            background: rgba(255, 0, 106, 0.1);
-            color: var(--danger);
-            border-color: rgba(255, 0, 106, 0.3);
-            text-shadow: 0 0 5px rgba(255, 0, 106, 0.5);
-        }
-        
-        /* Modal para imagen expandida */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(5, 8, 17, 0.95);
-            overflow: auto;
-            animation: fadeIn 0.3s;
-        }
-        
-        .modal-content {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            padding: 2rem;
-        }
-        
-        .modal-img {
-            max-width: 90%;
-            max-height: 90%;
-            object-fit: contain;
-            animation: zoomIn 0.3s;
-            border-radius: 8px;
-            box-shadow: 0 0 30px rgba(0, 217, 255, 0.3);
-            border: 1px solid rgba(0, 217, 255, 0.2);
-        }
-        
-        .close {
-            position: absolute;
-            top: 25px;
-            right: 35px;
-            color: var(--light);
-            font-size: 40px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-            text-shadow: 0 0 10px var(--primary);
-            z-index: 1001;
-        }
-        
-        .close:hover {
-            color: var(--accent);
-            transform: rotate(90deg);
-        }
-        
-        /* Animaciones */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes zoomIn {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-        
-        @keyframes borderAnimation {
-            0% { background-position: 0 0; }
-            100% { background-position: 200% 0; }
-        }
-        
-        @keyframes progressShine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-        
-        /* Efectos de partículas para fondo futurista */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-        
-        .particle {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: var(--primary);
-            border-radius: 50%;
-            opacity: 0.5;
-            animation: particleFloat 20s infinite linear;
-        }
-        
-        @keyframes particleFloat {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.7;
-            }
-            90% {
-                opacity: 0.7;
-            }
-            100% {
-                transform: translateY(-100px) rotate(720deg);
-                opacity: 0;
-            }
-        }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Efecto de partículas de fondo -->
-    <div class="particles" id="particles"></div>
-    
     <div class="container">
-        <h1>Beaver Trading</h1>
+        <header>
+            <h1>Beaver Trading </h1>
+            <p class="subtitle">sube la imagen en beaver trading para aser el analicis tecnico </p>
+        </header>
         
-        <div class="upload-section">
-            <div class="file-upload" id="dropArea">
-                <i class="fas fa-cloud-upload-alt"></i>
-                <p>Arrastra tu imagen aquí o haz clic para seleccionar</p>
-                <input type="file" id="fileInput" accept="image/*">
+        <div class="main-content">
+            <div class="upload-section">
+                <h2 class="section-title">Subir Gráfico</h2>
+                <div class="upload-area" id="uploadArea">
+                    <i>📊</i>
+                    <p class="upload-text">Haz clic aquí o arrastra una imagen del gráfico</p>
+                    <input type="file" id="imageInput" accept="image/*">
+                </div>
+                
+                <div class="preview-container">
+                    <img id="imagePreview" alt="Vista previa del gráfico">
+                </div>
+                
+                <button class="analyze-btn" id="analyzeBtn">Analizar Gráfico</button>
+                
+                <div class="loader" id="loader">
+                    <div class="spinner"></div>
+                    <p>Analizando gráfico...</p>
+                </div>
             </div>
             
-            <img id="preview" alt="Vista previa">
-            
-            <div class="progress-container" id="progressContainer">
-                <div id="progressBar"></div>
+            <div class="results-section">
+                <h2 class="section-title">Señal de Trading</h2>
+                
+                <div class="signal" id="signalResult">
+                    <div class="signal-icon">⏳</div>
+                    <div class="signal-info">
+                        <h3>Esperando análisis</h3>
+                        <p>Sube una imagen para obtener una señal</p>
+                    </div>
+                </div>
+                
+                <div class="levels">
+                    <div class="level-card entry">
+                        <h4>ENTRADA</h4>
+                        <div class="level-value" id="entryValue">-</div>
+                    </div>
+                    <div class="level-card sl">
+                        <h4>STOP LOSS</h4>
+                        <div class="level-value" id="slValue">-</div>
+                    </div>
+                    <div class="level-card tp">
+                        <h4>TAKE PROFIT</h4>
+                        <div class="level-value" id="tpValue">-</div>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart" id="priceChart">
+                        <!-- Gráfico simple se generará con JavaScript -->
+                    </div>
+                </div>
             </div>
-            
-            <button id="uploadBtn">Subir Imagen <i class="fas fa-upload"></i></button>
-            
-            <div id="statusMessage" class="status"></div>
         </div>
         
-        <div class="gallery" id="gallery">
-            <!-- Las imágenes se cargarán aquí -->
+        <div class="history-section">
+            <h2 class="section-title">Historial de Señales</h2>
+            <div class="history-list" id="historyList">
+                <!-- Historial se generará con JavaScript -->
+            </div>
         </div>
-    </div>
-
-    <!-- Modal para imagen expandida -->
-    <div id="imageModal" class="modal">
-        <span class="close">&times;</span>
-        <div class="modal-content">
-            <img id="expandedImg" class="modal-img" src="" alt="Imagen expandida">
-        </div>
+        
+        <footer>
+            <p>© 2024 BEAVER TRADING | Sistema de Trading | Todos los derechos reservados</p>
+        </footer>
     </div>
 
     <script>
-        // Configuración de Cloudinary
-        const cloudName = 'dba9d8';
-        const apiKey = '528757166221984';
-        const unsignedUploadPreset = 'web_upload';
-        
-        // Elementos del DOM
-        const fileInput = document.getElementById('fileInput');
-        const dropArea = document.getElementById('dropArea');
-        const uploadBtn = document.getElementById('uploadBtn');
-        const preview = document.getElementById('preview');
-        const progressContainer = document.getElementById('progressContainer');
-        const progressBar = document.getElementById('progressBar');
-        const statusMessage = document.getElementById('statusMessage');
-        const gallery = document.getElementById('gallery');
-        const modal = document.getElementById('imageModal');
-        const expandedImg = document.getElementById('expandedImg');
-        const closeBtn = document.querySelector('.close');
-        
-        // Crear efecto de partículas
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = 50;
+        document.addEventListener('DOMContentLoaded', function() {
+            const imageInput = document.getElementById('imageInput');
+            const uploadArea = document.getElementById('uploadArea');
+            const imagePreview = document.getElementById('imagePreview');
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            const loader = document.getElementById('loader');
+            const signalResult = document.getElementById('signalResult');
+            const entryValue = document.getElementById('entryValue');
+            const slValue = document.getElementById('slValue');
+            const tpValue = document.getElementById('tpValue');
+            const priceChart = document.getElementById('priceChart');
+            const historyList = document.getElementById('historyList');
             
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
+            let currentImage = null;
+            
+            // Manejar la subida de imágenes
+            uploadArea.addEventListener('click', () => imageInput.click());
+            
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.style.background = 'rgba(52, 152, 219, 0.2)';
+            });
+            
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.style.background = '';
+            });
+            
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.style.background = '';
                 
-                // Posición aleatoria
-                const posX = Math.random() * 100;
-                const posY = Math.random() * 100;
-                particle.style.left = `${posX}vw`;
-                particle.style.top = `${posY}vh`;
-                
-                // Tamaño aleatorio
-                const size = Math.random() * 3 + 1;
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                
-                // Color aleatorio (variaciones de azul/cian)
-                const hue = Math.random() * 30 + 180; // Entre 180-210 (azul/cian)
-                particle.style.background = `hsl(${hue}, 100%, 70%)`;
-                
-                // Animación con retraso aleatorio
-                const delay = Math.random() * 20;
-                const duration = Math.random() * 10 + 15;
-                particle.style.animationDelay = `${delay}s`;
-                particle.style.animationDuration = `${duration}s`;
-                
-                particlesContainer.appendChild(particle);
-            }
-        }
-        
-        // Cargar imágenes al iniciar
-        document.addEventListener('DOMContentLoaded', () => {
-            createParticles();
-            loadImagesFromStorage();
-            setupEventListeners();
-        });
-        
-        function loadImagesFromStorage() {
-            const savedImages = JSON.parse(localStorage.getItem('cloudinary_images')) || [];
-            savedImages.forEach(img => {
-                createGalleryItem(img);
-            });
-        }
-        
-        function saveImageToStorage(imageData) {
-            const savedImages = JSON.parse(localStorage.getItem('cloudinary_images')) || [];
-            savedImages.push(imageData);
-            localStorage.setItem('cloudinary_images', JSON.stringify(savedImages));
-        }
-        
-        function createGalleryItem(imgData) {
-            const galleryItem = document.createElement('div');
-            galleryItem.className = 'gallery-item';
-            galleryItem.innerHTML = `
-                <img src="${imgData.secure_url}" alt="Imagen subida" class="gallery-img">
-                <div class="gallery-info">
-                    <p><strong>Tamaño:</strong> ${(imgData.bytes/1024).toFixed(1)} KB</p>
-                    <p class="gallery-url">${imgData.public_id || 'Imagen subida'}</p>
-                </div>
-                <button class="copy-btn" title="Copiar URL" data-url="${imgData.secure_url}">
-                    <i class="fas fa-copy"></i>
-                </button>
-            `;
-            
-            gallery.appendChild(galleryItem);
-            
-            // Evento para expandir imagen
-            galleryItem.querySelector('img').addEventListener('click', () => {
-                expandedImg.src = imgData.secure_url;
-                modal.style.display = "flex";
-            });
-            
-            // Evento para copiar URL
-            galleryItem.querySelector('.copy-btn').addEventListener('click', (e) => {
-                e.stopPropagation();
-                copyToClipboard(imgData.secure_url, e.currentTarget);
-            });
-        }
-        
-        function setupEventListeners() {
-            // Drag and drop
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                dropArea.addEventListener(eventName, preventDefaults, false);
-            });
-            
-            ['dragenter', 'dragover'].forEach(eventName => {
-                dropArea.addEventListener(eventName, highlight, false);
-            });
-            
-            ['dragleave', 'drop'].forEach(eventName => {
-                dropArea.addEventListener(eventName, unhighlight, false);
-            });
-            
-            dropArea.addEventListener('drop', handleDrop, false);
-            dropArea.addEventListener('click', () => fileInput.click());
-            fileInput.addEventListener('change', handleFileSelect);
-            uploadBtn.addEventListener('click', uploadImage);
-            
-            // Modal
-            closeBtn.addEventListener('click', () => {
-                modal.style.display = "none";
-            });
-            
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.style.display = "none";
+                if (e.dataTransfer.files.length) {
+                    imageInput.files = e.dataTransfer.files;
+                    handleImageUpload(e.dataTransfer.files[0]);
                 }
             });
-        }
-        
-        function preventDefaults(e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-        
-        function highlight() {
-            dropArea.classList.add('highlight');
-        }
-        
-        function unhighlight() {
-            dropArea.classList.remove('highlight');
-        }
-        
-        function handleDrop(e) {
-            const dt = e.dataTransfer;
-            const files = dt.files;
-            fileInput.files = files;
-            handleFileSelect({ target: fileInput });
-        }
-        
-        function handleFileSelect(e) {
-            const file = e.target.files[0];
-            if (file) {
-                // Validar tipo y tamaño
+            
+            imageInput.addEventListener('change', (e) => {
+                if (e.target.files.length) {
+                    handleImageUpload(e.target.files[0]);
+                }
+            });
+            
+            function handleImageUpload(file) {
                 if (!file.type.match('image.*')) {
-                    showStatus('Solo se permiten archivos de imagen', 'error');
+                    alert('Por favor, sube solo archivos de imagen.');
                     return;
                 }
                 
-                if (file.size > 10 * 1024 * 1024) {
-                    showStatus('La imagen es demasiado grande (máx. 10MB)', 'error');
-                    return;
-                }
-                
-                // Mostrar vista previa
                 const reader = new FileReader();
-                reader.onload = function(event) {
-                    preview.src = event.target.result;
-                    preview.style.display = 'block';
-                    uploadBtn.style.display = 'block';
-                    uploadBtn.disabled = false;
+                
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                    currentImage = e.target.result;
                 };
+                
                 reader.readAsDataURL(file);
             }
-        }
-        
-        async function uploadImage() {
-            const file = fileInput.files[0];
-            if (!file) return;
             
-            uploadBtn.disabled = true;
-            uploadBtn.innerHTML = 'Subiendo... <i class="fas fa-spinner fa-spin"></i>';
-            progressContainer.style.display = 'block';
-            
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('upload_preset', unsignedUploadPreset);
-            formData.append('cloud_name', cloudName);
-            formData.append('api_key', apiKey);
-            
-            try {
-                const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-                    method: 'POST',
-                    body: formData
-                });
-                
-                const data = await response.json();
-                
-                if (!response.ok) {
-                    throw new Error(data.error.message || 'Error al subir la imagen');
+            // Analizar la imagen
+            analyzeBtn.addEventListener('click', () => {
+                if (!currentImage) {
+                    alert('Por favor, sube una imagen primero.');
+                    return;
                 }
                 
-                showStatus('¡Imagen subida con éxito!', 'success');
-                saveImageToStorage(data);
-                createGalleryItem(data);
-                resetUploadForm();
-            } catch (error) {
-                showStatus(`Error: ${error.message}`, 'error');
-            } finally {
-                uploadBtn.disabled = false;
-                uploadBtn.innerHTML = 'Subir Imagen <i class="fas fa-upload"></i>';
-            }
-        }
-        
-        function resetUploadForm() {
-            fileInput.value = '';
-            preview.style.display = 'none';
-            progressContainer.style.display = 'none';
-            progressBar.style.width = '0%';
-        }
-        
-        function showStatus(message, type) {
-            statusMessage.textContent = message;
-            statusMessage.className = `status ${type}`;
-            statusMessage.style.display = 'block';
-            
-            setTimeout(() => {
-                statusMessage.style.display = 'none';
-            }, 5000);
-        }
-        
-        function copyToClipboard(url, button) {
-            navigator.clipboard.writeText(url).then(() => {
-                const icon = button.querySelector('i');
-                const originalClass = icon.className;
-                icon.className = 'fas fa-check';
+                // Mostrar loader
+                loader.style.display = 'block';
+                analyzeBtn.disabled = true;
                 
+                // Simular análisis (en un caso real, aquí se enviaría la imagen a un servidor)
                 setTimeout(() => {
-                    icon.className = originalClass;
-                }, 2000);
+                    // Ocultar loader
+                    loader.style.display = 'none';
+                    analyzeBtn.disabled = false;
+                    
+                    // Generar señal aleatoria (compra/venta)
+                    const isBuy = Math.random() > 0.5;
+                    
+                    // Actualizar la interfaz con la señal
+                    if (isBuy) {
+                        signalResult.innerHTML = `
+                            <div class="signal-icon">📈</div>
+                            <div class="signal-info">
+                                <h3>SEÑAL DE COMPRA</h3>
+                                <p>Posible tendencia alcista identificada</p>
+                            </div>
+                        `;
+                        signalResult.className = 'signal signal-buy';
+                    } else {
+                        signalResult.innerHTML = `
+                            <div class="signal-icon">📉</div>
+                            <div class="signal-info">
+                                <h3>SEÑAL DE VENTA</h3>
+                                <p>Posible tendencia bajista identificada</p>
+                            </div>
+                        `;
+                        signalResult.className = 'signal signal-sell';
+                    }
+                    
+                    // Generar niveles basados en la señal
+                    const basePrice = 3770 + Math.random() * 20; // Precio base alrededor de 3770
+                    const entry = basePrice.toFixed(2);
+                    const sl = (isBuy ? basePrice - 5 - Math.random() * 3 : basePrice + 5 + Math.random() * 3).toFixed(2);
+                    const tp = (isBuy ? basePrice + 10 + Math.random() * 5 : basePrice - 10 - Math.random() * 5).toFixed(2);
+                    
+                    entryValue.textContent = entry;
+                    slValue.textContent = sl;
+                    tpValue.textContent = tp;
+                    
+                    // Dibujar gráfico simple
+                    drawSimpleChart(isBuy, parseFloat(entry), parseFloat(sl), parseFloat(tp));
+                    
+                    // Añadir al historial
+                    addToHistory(isBuy, entry, sl, tp);
+                    
+                }, 2000); // Simular tiempo de análisis de 2 segundos
             });
-        }
+            
+            function drawSimpleChart(isBuy, entry, sl, tp) {
+                // Limpiar gráfico anterior
+                priceChart.innerHTML = '';
+                
+                // Crear un canvas para el gráfico
+                const canvas = document.createElement('canvas');
+                canvas.width = priceChart.clientWidth;
+                canvas.height = priceChart.clientHeight;
+                priceChart.appendChild(canvas);
+                
+                const ctx = canvas.getContext('2d');
+                const width = canvas.width;
+                const height = canvas.height;
+                
+                // Dibujar fondo
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+                ctx.fillRect(0, 0, width, height);
+                
+                // Calcular posiciones en el gráfico
+                const minPrice = Math.min(entry, sl, tp) - 5;
+                const maxPrice = Math.max(entry, sl, tp) + 5;
+                const priceRange = maxPrice - minPrice;
+                
+                function getY(price) {
+                    return height - ((price - minPrice) / priceRange * height);
+                }
+                
+                // Dibujar líneas de niveles
+                ctx.strokeStyle = '#3498db';
+                ctx.setLineDash([]);
+                ctx.beginPath();
+                ctx.moveTo(0, getY(entry));
+                ctx.lineTo(width, getY(entry));
+                ctx.stroke();
+                
+                ctx.strokeStyle = '#e74c3c';
+                ctx.beginPath();
+                ctx.moveTo(0, getY(sl));
+                ctx.lineTo(width, getY(sl));
+                ctx.stroke();
+                
+                ctx.strokeStyle = '#2ecc71';
+                ctx.beginPath();
+                ctx.moveTo(0, getY(tp));
+                ctx.lineTo(width, getY(tp));
+                ctx.stroke();
+                
+                // Dibujar línea de precio simulada
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)';
+                ctx.beginPath();
+                ctx.moveTo(0, getY(entry));
+                
+                // Crear una línea de precio que se mueva hacia el TP o SL según la señal
+                const segments = 20;
+                const segmentWidth = width / segments;
+                
+                for (let i = 1; i <= segments; i++) {
+                    const x = i * segmentWidth;
+                    let y;
+                    
+                    if (i < segments / 2) {
+                        // Primera mitad: fluctuación alrededor del entry
+                        y = getY(entry + (Math.random() - 0.5) * 3);
+                    } else {
+                        // Segunda mitad: movimiento hacia TP o SL
+                        const progress = (i - segments / 2) / (segments / 2);
+                        if (isBuy) {
+                            y = getY(entry + (tp - entry) * progress * 0.8 + (Math.random() - 0.5) * 2);
+                        } else {
+                            y = getY(entry - (entry - tp) * progress * 0.8 + (Math.random() - 0.5) * 2);
+                        }
+                    }
+                    
+                    ctx.lineTo(x, y);
+                }
+                
+                ctx.stroke();
+                
+                // Añadir etiquetas
+                ctx.fillStyle = '#3498db';
+                ctx.fillText('ENTRY', 10, getY(entry) - 5);
+                
+                ctx.fillStyle = '#e74c3c';
+                ctx.fillText('SL', 10, getY(sl) - 5);
+                
+                ctx.fillStyle = '#2ecc71';
+                ctx.fillText('TP', 10, getY(tp) - 5);
+            }
+            
+            function addToHistory(isBuy, entry, sl, tp) {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString();
+                
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                
+                historyItem.innerHTML = `
+                    <div>
+                        <span class="history-signal ${isBuy ? 'signal-buy-tag' : 'signal-sell-tag'}">
+                            ${isBuy ? 'COMPRA' : 'VENTA'}
+                        </span>
+                        <span>${timeString}</span>
+                    </div>
+                    <div>
+                        E: ${entry} | SL: ${sl} | TP: ${tp}
+                    </div>
+                `;
+                
+                historyList.insertBefore(historyItem, historyList.firstChild);
+                
+                // Limitar historial a 10 elementos
+                if (historyList.children.length > 10) {
+                    historyList.removeChild(historyList.lastChild);
+                }
+            }
+            
+            // Inicializar con un ejemplo de historial
+            addToHistory(true, '3773.50', '3768.20', '3785.80');
+            addToHistory(false, '3789.10', '3794.50', '3775.30');
+        });
     </script>
 </body>
 </html>
