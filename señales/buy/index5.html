@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chat en Vivo - Beaver Trading</title>
+<title>QR Chat - Beaver Trading</title>
 <style>
     :root {
         --primary: #0a0e17;
@@ -218,6 +218,66 @@
         margin-bottom: 15px;
         padding-bottom: 10px;
         border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+    }
+    
+    .qr-section {
+        margin-bottom: 20px;
+        text-align: center;
+        padding: 15px;
+        background: rgba(0, 212, 255, 0.1);
+        border-radius: 10px;
+        border: 1px solid rgba(0, 212, 255, 0.3);
+    }
+    
+    .qr-code {
+        width: 150px;
+        height: 150px;
+        margin: 0 auto 15px;
+        background: white;
+        padding: 10px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .qr-refresh {
+        font-size: 0.8rem;
+        margin-top: 5px;
+        opacity: 0.7;
+    }
+    
+    .qr-instructions {
+        font-size: 0.8rem;
+        opacity: 0.8;
+        margin-top: 10px;
+    }
+    
+    .scan-options {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+    }
+    
+    .scan-option {
+        flex: 1;
+        text-align: center;
+        padding: 10px;
+        background: rgba(255, 107, 53, 0.1);
+        border-radius: 8px;
+        border: 1px solid rgba(255, 107, 53, 0.3);
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    .scan-option:hover {
+        background: rgba(255, 107, 53, 0.2);
+        transform: translateY(-2px);
+    }
+    
+    .scan-option.active {
+        background: rgba(255, 107, 53, 0.3);
+        border-color: var(--accent);
     }
     
     .search-container {
@@ -473,6 +533,119 @@
         opacity: 0.7;
     }
     
+    .no-chat-selected {
+        text-align: center;
+        padding: 50px 20px;
+        opacity: 0.7;
+    }
+    
+    .scan-section {
+        text-align: center;
+        margin-top: 20px;
+        padding: 15px;
+        background: rgba(255, 107, 53, 0.1);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 107, 53, 0.3);
+    }
+    
+    .scan-btn {
+        background: linear-gradient(to right, var(--accent), #e55a2b);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        margin-top: 10px;
+        transition: all 0.3s;
+    }
+    
+    .scan-btn:hover {
+        background: linear-gradient(to right, #e55a2b, var(--accent));
+        box-shadow: 0 0 10px rgba(255, 107, 53, 0.7);
+    }
+    
+    .qr-scanner {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(10, 14, 23, 0.95);
+        z-index: 1000;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .scanner-container {
+        width: 300px;
+        height: 300px;
+        border: 3px solid var(--secondary);
+        border-radius: 10px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: var(--glow);
+    }
+    
+    .scanner-line {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: var(--secondary);
+        animation: scan 2s linear infinite;
+    }
+    
+    @keyframes scan {
+        0% { top: 0; }
+        50% { top: 100%; }
+        100% { top: 0; }
+    }
+    
+    .scanner-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: rgba(255, 107, 53, 0.8);
+        border: none;
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        font-size: 1.5rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .scanner-instructions {
+        margin-top: 20px;
+        text-align: center;
+        max-width: 300px;
+    }
+    
+    .camera-switch {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        background: rgba(0, 212, 255, 0.8);
+        border: none;
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        font-size: 1.5rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1001;
+    }
+    
     @media (max-width: 768px) {
         .panels-container {
             flex-direction: column;
@@ -490,11 +663,20 @@
         
         .users-panel {
             width: 100%;
-            height: 250px;
+            height: auto;
         }
         
         .message {
             max-width: 90%;
+        }
+        
+        .scanner-container {
+            width: 250px;
+            height: 250px;
+        }
+        
+        .scan-options {
+            flex-direction: column;
         }
     }
 </style>
@@ -532,6 +714,21 @@
                     <input id="password" type="password" class="input-field" placeholder="Contraseña">
                 </div>
                 <button class="btn btn-accent" onclick="login()">Acceder</button>
+                
+                <div class="scan-section">
+                    <p>¿Tienes un código QR?</p>
+                    <div class="scan-options">
+                        <div class="scan-option active" id="qrOption" onclick="selectScanOption('qr')">
+                            <div>📷</div>
+                            <div>Escanear QR</div>
+                        </div>
+                        <div class="scan-option" id="cameraOption" onclick="selectScanOption('camera')">
+                            <div>📱</div>
+                            <div>Usar Cámara</div>
+                        </div>
+                    </div>
+                    <button class="scan-btn" onclick="openQRScanner()">Iniciar Escaneo</button>
+                </div>
             </div>
         </div>
         
@@ -548,13 +745,26 @@
                         </div>
                     </div>
                     
+                    <!-- Sección QR -->
+                    <div class="qr-section">
+                        <h4>Mi Código QR</h4>
+                        <div class="qr-code" id="myQrCode">
+                            <!-- QR se generará aquí -->
+                        </div>
+                        <div class="qr-refresh" id="qrRefresh">Actualizando en 2:00</div>
+                        <p>Comparte este código para chatear</p>
+                        <div class="qr-instructions">
+                            Otros usuarios pueden escanear este código para iniciar un chat contigo
+                        </div>
+                    </div>
+                    
                     <div class="search-container">
                         <div class="search-icon">🔍</div>
                         <input type="text" class="search-input" id="userSearch" placeholder="Buscar usuario...">
                     </div>
                     
                     <div class="users-list" id="usersList">
-                        <!-- Los usuarios se cargarán aquí dinámicamente -->
+                        <div class="no-users">Cargando usuarios...</div>
                     </div>
                 </div>
                 
@@ -590,17 +800,37 @@
         </div>
     </div>
     
+    <!-- Scanner de QR -->
+    <div class="qr-scanner" id="qrScanner">
+        <button class="scanner-close" onclick="closeQRScanner()">×</button>
+        <h3 id="scannerTitle">Escanear Código QR</h3>
+        <div class="scanner-container">
+            <div class="scanner-line"></div>
+            <video id="qrVideo" width="300" height="300" style="display: none;"></video>
+            <canvas id="qrCanvas" width="300" height="300" style="display: none;"></canvas>
+        </div>
+        <div class="scanner-instructions" id="scannerInstructions">
+            <p>Enfoca el código QR con la cámara</p>
+            <p>El chat se abrirá automáticamente</p>
+        </div>
+        <button class="camera-switch" onclick="switchCamera()" id="cameraSwitchBtn" style="display: none;">↻</button>
+    </div>
+    
     <div class="footer">
         Beaver Trading &copy; 2023 - Plataforma de trading avanzada
     </div>
     
     <div class="notification" id="notification"></div>
 
+    <!-- Librerías -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+
     <!-- Firebase -->
     <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
-    import { getDatabase, ref, push, onChildAdded, onValue, set } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+    import { getDatabase, ref, push, onChildAdded, onValue, set, get, child } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
     // 🔑 Configuración de Firebase
@@ -630,6 +860,12 @@
     let currentUser = null;
     let selectedChatUser = null;
     let users = [];
+    let onlineUsers = {};
+    let qrScanInterval = null;
+    let qrRefreshInterval = null;
+    let currentStream = null;
+    let currentFacingMode = "environment"; // Cámara trasera por defecto
+    let scanOption = "qr"; // Opción por defecto: QR
 
     // Función para mostrar notificaciones
     function showNotification(message, isError = false) {
@@ -695,6 +931,11 @@
             set(ref(db, 'onlineUsers/' + currentUser.uid), null);
         }
         
+        // Detener intervalos
+        if (qrRefreshInterval) {
+            clearInterval(qrRefreshInterval);
+        }
+        
         signOut(auth);
         showNotification("Sesión cerrada correctamente");
     };
@@ -718,11 +959,193 @@
     };
 
     // Permitir enviar mensaje con Enter
-    document.getElementById("messageInput").addEventListener("keypress", function(e) {
-        if (e.key === "Enter") {
+    document.getElementById("messageInput").addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
             sendMessage();
         }
     });
+
+    // Seleccionar opción de escaneo
+    window.selectScanOption = function(option) {
+        scanOption = option;
+        
+        // Actualizar interfaz
+        document.getElementById('qrOption').classList.toggle('active', option === 'qr');
+        document.getElementById('cameraOption').classList.toggle('active', option === 'camera');
+        
+        // Actualizar texto del botón
+        const scanBtn = document.querySelector('.scan-btn');
+        scanBtn.textContent = option === 'qr' ? 'Escanear QR' : 'Abrir Cámara';
+    };
+
+    // Generar código QR para el usuario actual
+    function generateQRCode() {
+        if (!currentUser) return;
+        
+        const qrData = JSON.stringify({
+            type: 'beaver-chat',
+            userId: currentUser.uid,
+            userEmail: currentUser.email,
+            timestamp: Date.now()
+        });
+        
+        const qrCodeElement = document.getElementById('myQrCode');
+        qrCodeElement.innerHTML = '';
+        
+        QRCode.toCanvas(qrCodeElement, qrData, {
+            width: 128,
+            height: 128,
+            colorDark: "#00d4ff",
+            colorLight: "transparent",
+            correctLevel: QRCode.CorrectLevel.H
+        }, function(error) {
+            if (error) {
+                console.error('Error generando QR:', error);
+                qrCodeElement.innerHTML = '<p>Error generando QR</p>';
+            }
+        });
+    }
+
+    // Iniciar contador de refresco de QR (cada 2 minutos)
+    function startQRRefreshTimer() {
+        let timeLeft = 120; // 2 minutos en segundos
+        
+        // Actualizar inmediatamente
+        updateQRRefreshTimer(timeLeft);
+        
+        qrRefreshInterval = setInterval(() => {
+            timeLeft--;
+            
+            if (timeLeft <= 0) {
+                // Regenerar QR
+                generateQRCode();
+                timeLeft = 120; // Reiniciar contador
+            }
+            
+            updateQRRefreshTimer(timeLeft);
+        }, 1000);
+    }
+    
+    // Actualizar el texto del contador de QR
+    function updateQRRefreshTimer(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+        document.getElementById('qrRefresh').textContent = 
+            `Actualizando en ${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+    }
+
+    // Abrir escáner de QR o cámara
+    window.openQRScanner = function() {
+        if (scanOption === 'qr') {
+            // Modo QR - mostrar imagen de QR
+            document.getElementById('scannerTitle').textContent = 'Escanear Código QR';
+            document.getElementById('scannerInstructions').innerHTML = 
+                '<p>Enfoca el código QR con la cámara</p><p>El chat se abrirá automáticamente</p>';
+            document.getElementById('cameraSwitchBtn').style.display = 'block';
+            startQRScan();
+        } else {
+            // Modo cámara - abrir cámara trasera directamente
+            document.getElementById('scannerTitle').textContent = 'Cámara para Escanear';
+            document.getElementById('scannerInstructions').innerHTML = 
+                '<p>Usa la cámara trasera para escanear códigos QR</p><p>El chat se abrirá automáticamente</p>';
+            document.getElementById('cameraSwitchBtn').style.display = 'block';
+            startQRScan();
+        }
+        
+        document.getElementById('qrScanner').style.display = 'flex';
+    };
+
+    // Cerrar escáner de QR
+    window.closeQRScanner = function() {
+        document.getElementById('qrScanner').style.display = 'none';
+        stopQRScan();
+    };
+
+    // Cambiar entre cámaras frontal y trasera
+    window.switchCamera = function() {
+        currentFacingMode = currentFacingMode === "environment" ? "user" : "environment";
+        stopQRScan();
+        setTimeout(() => {
+            startQRScan();
+        }, 500);
+    };
+
+    // Iniciar escaneo de QR
+    function startQRScan() {
+        const video = document.getElementById('qrVideo');
+        const canvas = document.getElementById('qrCanvas');
+        const context = canvas.getContext('2d');
+        
+        // Solicitar acceso a la cámara
+        navigator.mediaDevices.getUserMedia({ 
+            video: { 
+                facingMode: currentFacingMode,
+                width: { ideal: 1280 },
+                height: { ideal: 720 }
+            } 
+        })
+        .then(function(stream) {
+            currentStream = stream;
+            video.srcObject = stream;
+            video.setAttribute("playsinline", true);
+            video.play();
+            video.style.display = 'block';
+            
+            // Escanear cada 100ms
+            qrScanInterval = setInterval(function() {
+                if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                    canvas.height = video.videoHeight;
+                    canvas.width = video.videoWidth;
+                    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    
+                    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+                    const code = jsQR(imageData.data, imageData.width, imageData.height, {
+                        inversionAttempts: "dontInvert",
+                    });
+                    
+                    if (code) {
+                        try {
+                            const qrData = JSON.parse(code.data);
+                            if (qrData.type === 'beaver-chat' && qrData.userId) {
+                                // Encontrar el usuario por ID
+                                const userToChat = users.find(u => u.uid === qrData.userId);
+                                if (userToChat) {
+                                    stopQRScan();
+                                    closeQRScanner();
+                                    selectUser(userToChat);
+                                    showNotification(`Chat iniciado con ${userToChat.displayName}`);
+                                } else {
+                                    showNotification("Usuario no encontrado", true);
+                                }
+                            }
+                        } catch (e) {
+                            console.log("QR no válido");
+                        }
+                    }
+                }
+            }, 100);
+        })
+        .catch(function(err) {
+            console.error("Error accediendo a la cámara:", err);
+            showNotification("Error accediendo a la cámara. Asegúrate de permitir el acceso.", true);
+        });
+    }
+
+    // Detener escaneo de QR
+    function stopQRScan() {
+        if (qrScanInterval) {
+            clearInterval(qrScanInterval);
+            qrScanInterval = null;
+        }
+        
+        if (currentStream) {
+            currentStream.getTracks().forEach(track => track.stop());
+            currentStream = null;
+        }
+        
+        const video = document.getElementById('qrVideo');
+        video.style.display = 'none';
+    }
 
     // Función para cargar la lista de usuarios
     function loadUsersList() {
@@ -732,7 +1155,7 @@
             
             if (usersData) {
                 Object.keys(usersData).forEach(uid => {
-                    if (uid !== currentUser.uid) { // Excluir al usuario actual
+                    if (!currentUser || uid !== currentUser.uid) {
                         users.push({
                             uid: uid,
                             ...usersData[uid]
@@ -741,6 +1164,8 @@
                 });
                 
                 renderUsersList();
+            } else {
+                document.getElementById('usersList').innerHTML = '<div class="no-users">No hay otros usuarios registrados</div>';
             }
         });
     }
@@ -748,7 +1173,6 @@
     // Función para renderizar la lista de usuarios
     function renderUsersList(filter = '') {
         const usersList = document.getElementById('usersList');
-        usersList.innerHTML = '';
         
         if (users.length === 0) {
             usersList.innerHTML = '<div class="no-users">No hay otros usuarios registrados</div>';
@@ -765,13 +1189,14 @@
             return;
         }
         
+        usersList.innerHTML = '';
+        
         filteredUsers.forEach(user => {
             const userItem = document.createElement('div');
             userItem.className = 'user-item';
             userItem.dataset.uid = user.uid;
             
-            // Verificar si el usuario está en línea
-            const isOnline = onlineUsers[user.uid];
+            const isOnline = onlineUsers && onlineUsers[user.uid];
             
             userItem.innerHTML = `
                 <div class="user-avatar">${user.displayName.charAt(0).toUpperCase()}</div>
@@ -793,22 +1218,21 @@
     function selectUser(user) {
         selectedChatUser = user;
         
-        // Actualizar la interfaz
         document.getElementById('currentUserName').textContent = user.displayName;
         document.getElementById('currentUserAvatar').textContent = user.displayName.charAt(0).toUpperCase();
         
-        const isOnline = onlineUsers[user.uid];
-        document.getElementById('currentUserStatus').className = `indicator ${isOnline ? '' : 'offline'}`;
+        const isOnline = onlineUsers && onlineUsers[user.uid];
+        const statusIndicator = document.getElementById('currentUserStatus');
+        statusIndicator.className = `indicator ${isOnline ? '' : 'offline'}`;
         document.getElementById('currentUserStatusText').textContent = isOnline ? 'En línea' : 'Desconectado';
         
-        // Activar el campo de mensaje
+        document.getElementById('noChatSelected').style.display = 'none';
+        
         document.getElementById('messageInput').disabled = false;
         document.getElementById('sendButton').disabled = false;
         
-        // Cargar mensajes con este usuario
         loadMessagesWithUser(user.uid);
         
-        // Resaltar el usuario seleccionado en la lista
         document.querySelectorAll('.user-item').forEach(item => {
             item.classList.remove('active');
             if (item.dataset.uid === user.uid) {
@@ -832,7 +1256,6 @@
                 Object.keys(messagesData).forEach(key => {
                     const msg = messagesData[key];
                     
-                    // Mostrar mensajes entre el usuario actual y el usuario seleccionado
                     if ((msg.from === currentUser.uid && msg.to === userId) || 
                         (msg.from === userId && msg.to === currentUser.uid)) {
                         messages.push({
@@ -842,15 +1265,12 @@
                     }
                 });
                 
-                // Ordenar mensajes por tiempo
                 messages.sort((a, b) => a.time - b.time);
                 
-                // Mostrar mensajes
                 messages.forEach(msg => {
                     const div = document.createElement("div");
                     div.classList.add("message");
                     
-                    // Determinar si el mensaje es del usuario actual
                     if (msg.from === currentUser.uid) {
                         div.classList.add("own");
                     } else {
@@ -877,18 +1297,17 @@
                 });
                 
                 messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            } else {
+                messagesDiv.innerHTML = '<div class="no-chat-selected"><p>No hay mensajes aún. ¡Envía el primero!</p></div>';
             }
         });
     }
 
     // Función para actualizar el contador de usuarios en línea
     function updateOnlineCount() {
-        const onlineCount = Object.keys(onlineUsers).length;
+        const onlineCount = onlineUsers ? Object.keys(onlineUsers).length : 0;
         document.getElementById('online-count').textContent = onlineCount;
     }
-
-    // Objeto para rastrear usuarios en línea
-    let onlineUsers = {};
 
     // 👉 Cambios de sesión
     onAuthStateChanged(auth, (user) => {
@@ -898,27 +1317,31 @@
             document.getElementById("login").style.display = "none";
             document.getElementById("register").style.display = "none";
             
-            // Marcar usuario como en línea
             set(ref(db, 'onlineUsers/' + user.uid), {
                 email: user.email,
+                displayName: user.email.split('@')[0],
                 lastSeen: Date.now()
             });
             
-            // Escuchar cambios en usuarios en línea
             onValue(onlineUsersRef, (snapshot) => {
                 onlineUsers = snapshot.val() || {};
                 if (users.length > 0) {
                     renderUsersList();
                 }
+                updateOnlineCount();
             });
             
-            // Cargar lista de usuarios
             loadUsersList();
             
-            // Configurar búsqueda de usuarios
             document.getElementById('userSearch').addEventListener('input', (e) => {
                 renderUsersList(e.target.value);
             });
+            
+            // Generar QR después de iniciar sesión
+            setTimeout(() => {
+                generateQRCode();
+                startQRRefreshTimer();
+            }, 500);
             
             showNotification(`Bienvenido, ${user.email.split('@')[0]}`);
         } else {
@@ -926,6 +1349,12 @@
             document.getElementById("chat").style.display = "none";
             document.getElementById("login").style.display = "block";
             document.getElementById("register").style.display = "block";
+            
+            // Detener intervalos al cerrar sesión
+            if (qrRefreshInterval) {
+                clearInterval(qrRefreshInterval);
+                qrRefreshInterval = null;
+            }
         }
     });
 
@@ -934,15 +1363,15 @@
         if (selectedChatUser) {
             const msg = data.val();
             
-            // Si el mensaje es para la conversación actual, mostrarlo
             if ((msg.from === currentUser.uid && msg.to === selectedChatUser.uid) || 
                 (msg.from === selectedChatUser.uid && msg.to === currentUser.uid)) {
                 
                 const messagesDiv = document.getElementById('messages');
+                document.getElementById('noChatSelected').style.display = 'none';
+                
                 const div = document.createElement("div");
                 div.classList.add("message");
                 
-                // Determinar si el mensaje es del usuario actual
                 if (msg.from === currentUser.uid) {
                     div.classList.add("own");
                 } else {
