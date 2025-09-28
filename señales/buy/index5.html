@@ -411,10 +411,14 @@
             display: flex;
             justify-content: space-between;
             padding: 4px 0;
+            align-items: center;
         }
         
         .detail-label {
             color: rgba(224, 224, 255, 0.7);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
         .detail-value {
@@ -429,6 +433,7 @@
             padding: 12px;
             border-radius: 6px;
             font-size: 0.95rem;
+            white-space: pre-line;
         }
         
         .signal-actions {
@@ -664,7 +669,7 @@
                         <path d="M12 2L13.09 8.26L20 9.27L15 14.14L16.18 21.02L12 17.77L7.82 21.02L9 14.14L4 9.27L10.91 8.26L12 2Z" fill="currentColor"/>
                     </svg>
                 </div>
-                <h1>Beaver Trading</h1>
+                <h1>Beaver Trading </h1>
             </div>
             <div class="auth-section" id="authSection">
                 <button class="btn" id="loginBtn">Iniciar Sesión</button>
@@ -1114,7 +1119,7 @@
                         
                         let tpContent = `
                             <div class="detail-line">
-                                <span class="detail-label">TP1</span>
+                                <span class="detail-label">🎯 TP1</span>
                                 <span class="detail-value">${signal.tp1}</span>
                             </div>
                         `;
@@ -1122,7 +1127,7 @@
                         if (signal.tp2) {
                             tpContent += `
                                 <div class="detail-line">
-                                    <span class="detail-label">TP2</span>
+                                    <span class="detail-label">🎯 TP2</span>
                                     <span class="detail-value">${signal.tp2}</span>
                                 </div>
                             `;
@@ -1131,7 +1136,7 @@
                         if (signal.tp3) {
                             tpContent += `
                                 <div class="detail-line">
-                                    <span class="detail-label">TP3</span>
+                                    <span class="detail-label">🎯 TP3</span>
                                     <span class="detail-value">${signal.tp3}</span>
                                 </div>
                             `;
@@ -1154,12 +1159,12 @@
                             
                             <div class="signal-details">
                                 <div class="detail-line">
-                                    <span class="detail-label">SL</span>
-                                    <span class="detail-value">${signal.sl}</span>
+                                    <span class="detail-label">👉 ENTRADA</span>
+                                    <span class="detail-value">${signal.entry}</span>
                                 </div>
                                 <div class="detail-line">
-                                    <span class="detail-label">ENTRADA</span>
-                                    <span class="detail-value">${signal.entry}</span>
+                                    <span class="detail-label">⚠️ SL</span>
+                                    <span class="detail-value">${signal.sl}</span>
                                 </div>
                                 ${tpContent}
                             </div>
@@ -1256,7 +1261,7 @@
         // Inicializar la aplicación
         activeUsers.textContent = "5"; // Simulamos 5 usuarios activos
         
-        // Efectos visuales adicionaleas
+        // Efectos visuales adicionales
         document.querySelectorAll('.btn, .action-btn').forEach(btn => {
             btn.addEventListener('mouseenter', function() {
                 this.style.transform = 'scale(1.05)';
