@@ -3,305 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asistente Beaver Trading</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Asistente de Trading con Voz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
         body {
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            font-family: 'Exo 2', sans-serif;
+            background: url('https://raw.githubusercontent.com/welding30001994/vip/refs/heads/main/unnamed%20(1).jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            line-height: 1.6;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+            margin: 0;
         }
-        
-        .container {
+
+        /* Capa oscura sobre la imagen de fondo */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 1000px;
-            background-color: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #4FC3F7;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #B3E5FC;
+        }
+
+        .chat-container {
             display: flex;
             flex-direction: column;
+            height: 70vh;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
-        
-        header {
-            background: linear-gradient(90deg, #1a2a6c, #2c3e50);
-            color: white;
-            padding: 25px;
-            text-align: center;
-            position: relative;
-        }
-        
-        h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            flex-direction: column;
             gap: 15px;
         }
-        
-        .logo {
-            font-size: 2.5rem;
-            color: #fdbb2d;
-        }
-        
-        .subtitle {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-        
-        .status {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            display: flex;
-            align-items: center;
-            background-color: rgba(255, 255, 255, 0.2);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-        }
-        
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            background-color: #4cc759;
-            border-radius: 50%;
-            margin-right: 8px;
-            animation: pulse 1.5s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-        
-        .content {
-            display: flex;
-            flex: 1;
-        }
-        
-        .main-content {
-            flex: 7;
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .sidebar {
-            flex: 3;
-            background-color: #f8f9fa;
-            padding: 25px;
-            border-left: 1px solid #e9ecef;
-        }
-        
-        .voice-controls {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-        
-        .mic-btn {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #4b6cb7, #182848);
-            border: none;
-            color: white;
-            font-size: 2rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        
-        .mic-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-        }
-        
-        .mic-btn.listening {
-            background: linear-gradient(135deg, #ff416c, #ff4b2b);
-            animation: pulse 1.5s infinite;
-        }
-        
-        .status-text {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            text-align: center;
-            min-height: 30px;
-            color: #333;
-            font-weight: 500;
-        }
-        
-        .conversation {
-            background-color: #f8f9fa;
-            border-radius: 15px;
-            padding: 20px;
-            height: 300px;
-            overflow-y: auto;
-            margin-bottom: 20px;
-            border: 1px solid #e9ecef;
-        }
-        
+
         .message {
-            margin-bottom: 15px;
+            max-width: 80%;
             padding: 12px 18px;
             border-radius: 18px;
-            max-width: 80%;
-            line-height: 1.5;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            line-height: 1.4;
+            position: relative;
+            animation: fadeIn 0.3s ease;
         }
-        
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .user-message {
-            background-color: #e3f2fd;
-            margin-left: auto;
+            align-self: flex-end;
+            background: linear-gradient(135deg, #1E88E5, #0D47A1);
             border-bottom-right-radius: 5px;
-            text-align: right;
         }
-        
-        .ai-message {
-            background-color: #f1f3f4;
-            margin-right: auto;
+
+        .assistant-message {
+            align-self: flex-start;
+            background: rgba(30, 30, 40, 0.8);
             border-bottom-left-radius: 5px;
+            border: 1px solid rgba(100, 100, 150, 0.3);
         }
-        
-        .suggestions {
+
+        .input-area {
             display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
-        .suggestion-btn {
-            background-color: #e9ecef;
+
+        #user-input {
+            flex: 1;
+            padding: 12px 15px;
             border: none;
-            border-radius: 20px;
-            padding: 10px 20px;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        #user-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        #send-btn {
+            background: #1E88E5;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            margin-left: 10px;
             cursor: pointer;
-            transition: background-color 0.2s;
-            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+
+        #send-btn:hover {
+            background: #1565C0;
+        }
+
+        .voice-controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            gap: 10px;
+        }
+
+        .voice-btn {
+            background: rgba(30, 30, 40, 0.8);
+            color: white;
+            border: 1px solid rgba(100, 100, 150, 0.5);
+            border-radius: 20px;
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: all 0.3s;
             display: flex;
             align-items: center;
             gap: 5px;
         }
-        
-        .suggestion-btn:hover {
-            background-color: #dde1e6;
+
+        .voice-btn:hover {
+            background: rgba(50, 50, 70, 0.8);
         }
-        
-        .search-box {
+
+        .voice-btn.active {
+            background: #E91E63;
+        }
+
+        .quick-actions {
             display: flex;
-            margin-top: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: center;
         }
-        
-        .search-input {
-            flex: 1;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 25px 0 0 25px;
-            font-size: 1rem;
-            outline: none;
-        }
-        
-        .search-btn {
-            padding: 12px 20px;
-            background: linear-gradient(90deg, #4b6cb7, #182848);
+
+        .quick-btn {
+            background: rgba(30, 30, 40, 0.7);
             color: white;
-            border: none;
-            border-radius: 0 25px 25px 0;
+            border: 1px solid rgba(100, 100, 150, 0.3);
+            border-radius: 20px;
+            padding: 8px 15px;
             cursor: pointer;
-        }
-        
-        .sidebar-title {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            color: #2c3e50;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #fdbb2d;
-        }
-        
-        .info-section {
-            margin-bottom: 25px;
-        }
-        
-        .info-section h3 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .info-section p {
-            color: #555;
-            line-height: 1.5;
-            font-size: 0.95rem;
-        }
-        
-        .feature-list {
-            list-style-type: none;
-            margin-top: 10px;
-        }
-        
-        .feature-list li {
-            padding: 8px 0;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .feature-list li i {
-            color: #4b6cb7;
-        }
-        
-        footer {
-            text-align: center;
-            padding: 20px;
-            background-color: #f8f9fa;
-            color: #6c757d;
+            transition: all 0.3s;
             font-size: 0.9rem;
-            border-top: 1px solid #e9ecef;
         }
-        
+
+        .quick-btn:hover {
+            background: rgba(50, 50, 70, 0.7);
+            transform: translateY(-2px);
+        }
+
+        .typing-indicator {
+            display: none;
+            align-self: flex-start;
+            background: rgba(30, 30, 40, 0.8);
+            padding: 12px 18px;
+            border-radius: 18px;
+            border-bottom-left-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
         @media (max-width: 768px) {
-            .content {
-                flex-direction: column;
-            }
-            
-            .sidebar {
-                border-left: none;
-                border-top: 1px solid #e9ecef;
+            .message {
+                max-width: 90%;
             }
             
             h1 {
-                font-size: 1.8rem;
-            }
-            
-            .mic-btn {
-                width: 70px;
-                height: 70px;
-            }
-            
-            .message {
-                max-width: 90%;
+                font-size: 2rem;
             }
         }
     </style>
@@ -309,242 +241,449 @@
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-robot logo"></i> Asistente Beaver Trading</h1>
-            <p class="subtitle">Habla conmigo y te proporcionaré información de trading y búsquedas web</p>
-            <div class="status">
-                <div class="status-dot"></div>
-                <span>Conectado</span>
-            </div>
+            <h1>Beaver Trading</h1>
+            <p class="subtitle">Consulta información sobre indicadores técnicos y recibe respuestas habladas</p>
         </header>
-        
-        <div class="content">
-            <div class="main-content">
-                <div class="voice-controls">
-                    <button class="mic-btn" id="micButton">
-                        <i class="fas fa-microphone"></i>
-                    </button>
-                    <div class="status-text" id="statusText">Presiona el botón y habla</div>
-                </div>
-                
-                <div class="conversation" id="conversation">
-                    <div class="message ai-message">
-                        <strong>Asistente:</strong> Hola! Soy tu asistente de Beaver Trading. Puedes preguntarme sobre trading, análisis técnico o pedirme que busque información en Google.
-                    </div>
-                </div>
-                
-                <div class="suggestions">
-                    <button class="suggestion-btn" data-query="¿Qué es Beaver Trading?">
-                        <i class="fas fa-building"></i> Beaver Trading
-                    </button>
-                    <button class="suggestion-btn" data-query="Explícame los FVG">
-                        <i class="fas fa-chart-line"></i> Concepto FVG
-                    </button>
-                    <button class="suggestion-btn" data-query="Busca noticias de trading">
-                        <i class="fas fa-search"></i> Noticias Trading
-                    </button>
-                    <button class="suggestion-btn" data-query="¿Qué es un sweep?">
-                        <i class="fas fa-exchange-alt"></i> Sweep Trading
-                    </button>
-                </div>
-                
-                <div class="search-box">
-                    <input type="text" class="search-input" id="searchInput" placeholder="Escribe aquí para buscar en Google...">
-                    <button class="search-btn" id="searchBtn">
-                        <i class="fas fa-search"></i>
-                    </button>
+
+        <div class="chat-container">
+            <div class="chat-messages" id="chat-messages">
+                <div class="message assistant-message">
+                    ¡Hola! Soy tu asistente de trading. Puedes preguntarme sobre cualquier indicador técnico: tendencia, momentum, volatilidad, volumen, osciladores avanzados o patrones y ciclos. También puedo leer las respuestas en voz alta.
                 </div>
             </div>
             
-            <div class="sidebar">
-                <h2 class="sidebar-title">Beaver Trading</h2>
-                
-                <div class="info-section">
-                    <h3><i class="fas fa-info-circle"></i> Acerca de nosotros</h3>
-                    <p>Beaver Trading es una empresa especializada en educación y herramientas para traders. Ofrecemos cursos, señales de trading y software de análisis técnico.</p>
-                </div>
-                
-                <div class="info-section">
-                    <h3><i class="fas fa-graduation-cap"></i> Nuestros Servicios</h3>
-                    <ul class="feature-list">
-                        <li><i class="fas fa-check"></i> Cursos de trading para todos los niveles</li>
-                        <li><i class="fas fa-check"></i> Señales de trading en tiempo real</li>
-                        <li><i class="fas fa-check"></i> Herramientas de análisis técnico</li>
-                        <li><i class="fas fa-check"></i> Mentoría personalizada</li>
-                        <li><i class="fas fa-check"></i> Comunidad de traders</li>
-                    </ul>
-                </div>
-                
-                <div class="info-section">
-                    <h3><i class="fas fa-lightbulb"></i> Consejos de Trading</h3>
-                    <p>Nunca inviertas más de lo que estás dispuesto a perder. Diversifica tu portfolio y mantén una estrategia de gestión de riesgos.</p>
+            <div class="typing-indicator" id="typing-indicator">
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
                 </div>
             </div>
+            
+            <div class="input-area">
+                <input type="text" id="user-input" placeholder="Escribe tu pregunta sobre indicadores de trading...">
+                <button id="send-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z" fill="white"/>
+                    </svg>
+                </button>
+            </div>
         </div>
-        
-        <footer>
-            <p>Asistente Virtual Beaver Trading &copy; 2023 - Habla claro y con un ritmo normal para mejor reconocimiento</p>
-        </footer>
+
+        <div class="voice-controls">
+            <button id="voice-toggle" class="voice-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 15C13.6569 15 15 13.6569 15 12V5C15 3.34315 13.6569 2 12 2C10.3431 2 9 3.34315 9 5V12C9 13.6569 10.3431 15 12 15Z" fill="currentColor"/>
+                    <path d="M17 12C17 14.7614 14.7614 17 12 17C9.23858 17 7 14.7614 7 12M12 19V22M5 22H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                Voz: OFF
+            </button>
+            <button id="test-voice" class="voice-btn">
+                Probar voz
+            </button>
+        </div>
+
+        <div class="quick-actions">
+            <div class="quick-btn" data-query="¿Qué es el RSI?">RSI</div>
+            <div class="quick-btn" data-query="¿Cómo funciona el MACD?">MACD</div>
+            <div class="quick-btn" data-query="¿Para qué sirven las Bandas de Bollinger?">Bollinger Bands</div>
+            <div class="quick-btn" data-query="Explica el indicador ADX">ADX</div>
+            <div class="quick-btn" data-query="¿Qué mide el volumen en trading?">Volumen</div>
+            <div class="quick-btn" data-query="Diferencia entre SMA y EMA">SMA vs EMA</div>
+            <div class="quick-btn" data-query="¿Cómo usar Fibonacci en trading?">Fibonacci</div>
+            <div class="quick-btn" data-query="Lista todos los tipos de indicadores">Tipos de indicadores</div>
+        </div>
     </div>
 
     <script>
+        // Base de conocimiento de indicadores de trading
+        const tradingKnowledge = {
+            "tendencia": {
+                "sma": {
+                    nombre: "Media Móvil Simple (SMA)",
+                    descripcion: "Promedia los precios de cierre de un activo durante un período específico. Suaviza las fluctuaciones de precio para mostrar la dirección general de la tendencia.",
+                    formula: "SMA = (P1 + P2 + ... + Pn) / n, donde P es el precio de cierre y n es el número de períodos.",
+                    uso: "Identificar la dirección de la tendencia y posibles niveles de soporte/resistencia.",
+                    señales: "Cruce de precios por encima/abajo de la SMA indica cambio potencial de tendencia."
+                },
+                "ema": {
+                    nombre: "Media Móvil Exponencial (EMA)",
+                    descripcion: "Similar a la SMA pero da más peso a los precios recientes, lo que la hace más sensible a los cambios recientes de precio.",
+                    formula: "EMA = (Precio actual * (2/(n+1))) + (EMA anterior * (1 - (2/(n+1))))",
+                    uso: "Detectar cambios de tendencia más rápidamente que con la SMA.",
+                    señales: "Similar a SMA, pero con respuestas más rápidas a cambios de precio."
+                },
+                "sar": {
+                    nombre: "Parabolic SAR",
+                    descripcion: "Indica puntos de stop y reversa. Aparece como puntos por encima o debajo del precio, mostrando la dirección de la tendencia.",
+                    uso: "Identificar puntos de entrada y salida, y cambios de tendencia.",
+                    señales: "Cuando los puntos pasan de estar debajo a encima del precio, indica posible cambio a tendencia bajista."
+                },
+                "macd": {
+                    nombre: "MACD (Moving Average Convergence Divergence)",
+                    descripcion: "Muestra la relación entre dos medias móviles exponenciales. Consiste en el MACD, la línea de señal y el histograma.",
+                    formula: "MACD = EMA(12) - EMA(26), Señal = EMA(9) del MACD, Histograma = MACD - Señal",
+                    uso: "Identificar cambios de tendencia, momentum y posibles puntos de entrada.",
+                    señales: "Cruce del MACD por encima/abajo de la línea de señal indica compra/venta."
+                },
+                "adx": {
+                    nombre: "ADX (Average Directional Index)",
+                    descripcion: "Mide la fuerza de una tendencia, no su dirección. Valores por encima de 25 indican tendencia fuerte.",
+                    uso: "Determinar si un mercado está en tendencia o lateral.",
+                    señales: "ADX > 25 = tendencia fuerte, ADX < 20 = mercado lateral."
+                },
+                "ichimoku": {
+                    nombre: "Ichimoku Kinko Hyo",
+                    descripcion: "Sistema completo de análisis que muestra tendencia, soporte/resistencia y momentum en una sola vista.",
+                    componentes: "Línea de Conversión, Línea de Base, Nube, Línea de Retraso",
+                    uso: "Análisis completo del mercado con un solo indicador.",
+                    señales: "Precio por encima/abajo de la nube indica tendencia alcista/bajista."
+                }
+            },
+            "momentum": {
+                "rsi": {
+                    nombre: "RSI (Relative Strength Index)",
+                    descripcion: "Oscilador que mula la velocidad y cambio de movimientos de precio. Rango de 0 a 100.",
+                    formula: "RSI = 100 - (100 / (1 + RS)), donde RS = Promedio de ganancias / Promedio de pérdidas",
+                    uso: "Identificar condiciones de sobrecompra (>70) y sobreventa (<30).",
+                    señales: "Divergencias entre RSI y precio pueden indicar reversiones."
+                },
+                "stochastic": {
+                    nombre: "Estocástico (Stochastic Oscillator)",
+                    descripcion: "Compara el precio de cierre con el rango de precios durante un período específico.",
+                    formula: "%K = 100 * (C - L14) / (H14 - L14), donde C=precio actual, L14=mínimo de 14 períodos, H14=máximo de 14 períodos",
+                    uso: "Identificar puntos de reversión y condiciones de sobrecompra/sobreventa.",
+                    señales: "Cruce de %K por encima/abajo de %D en zonas extremas indica posibles reversiones."
+                },
+                "cci": {
+                    nombre: "CCI (Commodity Channel Index)",
+                    descripcion: "Mide la desviación del precio de su media estadística.",
+                    uso: "Identificar ciclos de precios y condiciones extremas.",
+                    señales: "Valores por encima de +100 indican fortaleza, por debajo de -100 indican debilidad."
+                },
+                "roc": {
+                    nombre: "ROC (Rate of Change)",
+                    descripcion: "Mide el cambio porcentual en el precio entre el período actual y uno anterior.",
+                    formula: "ROC = ((Precio actual - Precio de n períodos atrás) / Precio de n períodos atrás) * 100",
+                    uso: "Medir la velocidad del cambio de precio.",
+                    señales: "Cambios bruscos pueden indicar aceleración del momentum."
+                },
+                "momentum": {
+                    nombre: "Momentum",
+                    descripcion: "Mide la tasa de cambio del precio comparando el precio actual con el de hace n períodos.",
+                    formula: "Momentum = Precio actual - Precio de n períodos atrás",
+                    uso: "Identificar la fuerza detrás de los movimientos de precio.",
+                    señales: "Valores positivos indican momentum alcista, negativos indican momentum bajista."
+                }
+            },
+            "volatilidad": {
+                "bollinger": {
+                    nombre: "Bandas de Bollinger (Bollinger Bands)",
+                    descripcion: "Consiste en una media móvil central con dos bandas que representan desviaciones estándar.",
+                    formula: "Banda superior = SMA + (2 * Desviación estándar), Banda inferior = SMA - (2 * Desviación estándar)",
+                    uso: "Medir volatilidad y identificar condiciones extremas.",
+                    señales: "Precio tocando las bandas puede indicar continuación o reversión."
+                },
+                "atr": {
+                    nombre: "ATR (Average True Range)",
+                    descripcion: "Mide la volatilidad considerando los rangos verdaderos de precio.",
+                    formula: "TR = Máximo(H-L, |H-C anterior|, |L-C anterior|), ATR = Media móvil de TR",
+                    uso: "Establecer stops y objetivos basados en la volatilidad actual.",
+                    señales: "ATR alto = alta volatilidad, ATR bajo = baja volatilidad."
+                },
+                "donchian": {
+                    nombre: "Canal de Donchian (Donchian Channel)",
+                    descripcion: "Muestra el máximo y mínimo de los últimos n períodos.",
+                    uso: "Identificar rupturas y tendencias.",
+                    señales: "Ruptura por encima/abajo del canal indica posible inicio de tendencia."
+                },
+                "keltner": {
+                    nombre: "Canal de Keltner (Keltner Channel)",
+                    descripcion: "Similar a Bollinger Bands pero usa ATR para las bandas en lugar de desviación estándar.",
+                    formula: "Banda media = EMA, Bandas = EMA ± (Multiplicador * ATR)",
+                    uso: "Identificar tendencias y condiciones extremas.",
+                    señales: "Similar a Bollinger Bands pero generalmente más suave."
+                }
+            },
+            "volumen": {
+                "volume": {
+                    nombre: "Volumen",
+                    descripcion: "Cantidad de contratos o acciones negociadas en un período.",
+                    uso: "Confirmar la fortaleza de movimientos de precio.",
+                    señales: "Movimientos con alto volumen tienen más validez."
+                },
+                "obv": {
+                    nombre: "OBV (On Balance Volume)",
+                    descripcion: "Acumula volumen en días alcistas y resta en días bajistas.",
+                    formula: "Si precio actual > precio anterior: OBV = OBV anterior + volumen, Si precio actual < precio anterior: OBV = OBV anterior - volumen",
+                    uso: "Confirmar tendencias y detectar divergencias.",
+                    señales: "Divergencia entre OBV y precio puede indicar debilidad de tendencia."
+                },
+                "cmf": {
+                    nombre: "CMF (Chaikin Money Flow)",
+                    descripcion: "Mide el flujo de dinero en o fuera de un activo.",
+                    formula: "CMF = Suma((((C-L)-(H-C))/(H-L)) * Volumen) / Suma(volumen) durante n períodos",
+                    uso: "Identificar presión compradora o vendedora.",
+                    señales: "Valores positivos indican acumulación, negativos indican distribución."
+                },
+                "ad": {
+                    nombre: "A/D (Accumulation/Distribution)",
+                    descripcion: "Similar al OBV pero considera el rango de precios.",
+                    formula: "MFM = ((C-L)-(H-C))/(H-L), A/D = A/D anterior + (MFM * Volumen)",
+                    uso: "Identificar acumulación (compras institucionales) o distribución (ventas).",
+                    señales: "Tendencia alcista en A/D confirma tendencia alcista en precio."
+                }
+            },
+            "osciladores": {
+                "macd histogram": {
+                    nombre: "MACD Histogram",
+                    descripcion: "Representa la diferencia entre el MACD y su línea de señal.",
+                    uso: "Anticipar cruces del MACD.",
+                    señales: "Cambio de dirección del histograma puede preceder a cruces del MACD."
+                },
+                "williams": {
+                    nombre: "Williams %R",
+                    descripcion: "Similar al estocástico pero invertido (0 a -100).",
+                    formula: "%R = ((H14 - C) / (H14 - L14)) * -100",
+                    uso: "Identificar condiciones de sobrecompra (>-20) y sobreventa (<-80).",
+                    señales: "Salida de zonas extremas puede indicar posibles entradas."
+                },
+                "ultimate": {
+                    nombre: "Ultimate Oscillator",
+                    descripcion: "Combina tres períodos diferentes para reducir señales falsas.",
+                    uso: "Identificar momentum con menos ruido.",
+                    señales: "Divergencias y cruces de niveles clave proporcionan señales."
+                },
+                "trix": {
+                    nombre: "TRIX (Triple Exponential Average)",
+                    descripcion: "Muestra el cambio porcentual de una media móvil exponencial triple.",
+                    uso: "Filtrar ruido del mercado para tendencias a largo plazo.",
+                    señales: "Cruces por encima/abajo de cero indican cambios de tendencia."
+                }
+            },
+            "patrones": {
+                "fibonacci": {
+                    nombre: "Retrocesos de Fibonacci",
+                    descripcion: "Usa ratios matemáticos (23.6%, 38.2%, 50%, 61.8%, 78.6%) para identificar niveles de soporte/resistencia.",
+                    uso: "Predecir posibles niveles de corrección en una tendencia.",
+                    señales: "Rebotes o rupturas en niveles Fibonacci pueden indicar continuación o reversión."
+                },
+                "elliott": {
+                    nombre: "Ondas de Elliott",
+                    descripcion: "Teoría que postula que los mercados se mueven en patrones de 5 ondas en dirección de la tendencia y 3 ondas correctivas.",
+                    uso: "Identificar fases del mercado y predecir movimientos futuros.",
+                    señales: "Completación de patrones de onda indica posibles cambios de dirección."
+                },
+                "gann": {
+                    nombre: "Ángulos de Gann (Gann Fan)",
+                    descripcion: "Usa ángulos geométricos para predecir soportes y resistencias futuros.",
+                    uso: "Proyectar niveles de precio y tiempo.",
+                    señales: "Precio respetando ángulos de Gann confirma tendencia."
+                },
+                "pivot": {
+                    nombre: "Puntos Pivote (Pivot Points)",
+                    descripcion: "Calcula niveles de soporte y resistencia basados en el máximo, mínimo y cierre del día anterior.",
+                    formula: "Pivote = (H + L + C) / 3, R1 = (2*P) - L, S1 = (2*P) - H, etc.",
+                    uso: "Identificar niveles clave para el trading intradía.",
+                    señales: "Rebotes o rupturas en niveles pivote indican dirección del día."
+                }
+            }
+        };
+
+        // Elementos del DOM
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const voiceToggle = document.getElementById('voice-toggle');
+        const testVoice = document.getElementById('test-voice');
+        const typingIndicator = document.getElementById('typing-indicator');
+        const quickBtns = document.querySelectorAll('.quick-btn');
+
+        // Estado de voz
+        let voiceEnabled = false;
+        let speechSynthesis = window.speechSynthesis;
+
+        // Inicialización
         document.addEventListener('DOMContentLoaded', function() {
-            const micButton = document.getElementById('micButton');
-            const statusText = document.getElementById('statusText');
-            const conversation = document.getElementById('conversation');
-            const suggestionButtons = document.querySelectorAll('.suggestion-btn');
-            const searchInput = document.getElementById('searchInput');
-            const searchBtn = document.getElementById('searchBtn');
+            // Verificar compatibilidad con síntesis de voz
+            if (!speechSynthesis) {
+                voiceToggle.disabled = true;
+                voiceToggle.innerHTML = 'Voz no compatible';
+            }
             
-            // Comprobar compatibilidad con reconocimiento de voz
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            // Event listeners
+            sendBtn.addEventListener('click', sendMessage);
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') sendMessage();
+            });
             
-            if (!SpeechRecognition) {
-                statusText.textContent = "Tu navegador no soporta reconocimiento de voz. Prueba con Chrome o Edge.";
-                micButton.disabled = true;
+            voiceToggle.addEventListener('click', toggleVoice);
+            testVoice.addEventListener('click', testVoiceFunction);
+            
+            // Botones rápidos
+            quickBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    userInput.value = this.getAttribute('data-query');
+                    sendMessage();
+                });
+            });
+        });
+
+        // Función para enviar mensaje
+        function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+            
+            // Agregar mensaje del usuario
+            addMessage(message, 'user');
+            userInput.value = '';
+            
+            // Mostrar indicador de escritura
+            showTypingIndicator();
+            
+            // Procesar después de un breve retraso (simular procesamiento)
+            setTimeout(() => {
+                hideTypingIndicator();
+                const response = generateResponse(message);
+                addMessage(response, 'assistant');
+                
+                // Leer respuesta si la voz está habilitada
+                if (voiceEnabled) {
+                    speakText(response);
+                }
+            }, 1000);
+        }
+
+        // Función para agregar mensaje al chat
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(sender === 'user' ? 'user-message' : 'assistant-message');
+            messageDiv.textContent = text;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Función para mostrar indicador de escritura
+        function showTypingIndicator() {
+            typingIndicator.style.display = 'block';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Función para ocultar indicador de escritura
+        function hideTypingIndicator() {
+            typingIndicator.style.display = 'none';
+        }
+
+        // Función para generar respuesta
+        function generateResponse(query) {
+            query = query.toLowerCase();
+            
+            // Buscar coincidencias en la base de conocimiento
+            for (const category in tradingKnowledge) {
+                for (const indicator in tradingKnowledge[category]) {
+                    const indicatorData = tradingKnowledge[category][indicator];
+                    const indicatorName = indicatorData.nombre.toLowerCase();
+                    
+                    if (query.includes(indicator) || query.includes(indicatorName) || 
+                        indicatorName.includes(query) || query.includes(indicatorData.nombre.split(' ')[0].toLowerCase())) {
+                        
+                        return formatIndicatorResponse(indicatorData);
+                    }
+                }
+            }
+            
+            // Respuestas para consultas generales
+            if (query.includes('hola') || query.includes('hi') || query.includes('hello')) {
+                return "¡Hola! Soy tu asistente de trading. Puedes preguntarme sobre cualquier indicador técnico. Por ejemplo: '¿Qué es el RSI?' o 'Explícame las Bandas de Bollinger'.";
+            }
+            
+            if (query.includes('tipos') || query.includes('clases') || query.includes('categorías')) {
+                return "Los indicadores técnicos se clasifican en:\n\n1. Tendencia (SMA, EMA, MACD, ADX, etc.)\n2. Momentum (RSI, Estocástico, CCI, etc.)\n3. Volatilidad (Bollinger Bands, ATR, etc.)\n4. Volumen (OBV, CMF, A/D, etc.)\n5. Osciladores avanzados (Williams %R, Ultimate Oscillator, etc.)\n6. Patrones y ciclos (Fibonacci, Elliott, etc.)\n\n¿Sobre cuál te gustaría saber más?";
+            }
+            
+            if (query.includes('gracias') || query.includes('thanks')) {
+                return "¡De nada! Estoy aquí para ayudarte con cualquier duda sobre indicadores de trading.";
+            }
+            
+            // Respuesta por defecto
+            return "No estoy seguro de entender tu pregunta. Puedes preguntar sobre indicadores específicos como RSI, MACD, Bandas de Bollinger, Fibonacci, etc. O preguntar por 'tipos de indicadores' para ver una lista completa.";
+        }
+
+        // Función para formatear la respuesta de un indicador
+        function formatIndicatorResponse(indicatorData) {
+            let response = `**${indicatorData.nombre}**\n\n`;
+            response += `**Descripción:** ${indicatorData.descripcion}\n\n`;
+            
+            if (indicatorData.formula) {
+                response += `**Fórmula:** ${indicatorData.formula}\n\n`;
+            }
+            
+            if (indicatorData.uso) {
+                response += `**Uso principal:** ${indicatorData.uso}\n\n`;
+            }
+            
+            if (indicatorData.señales) {
+                response += `**Señales de trading:** ${indicatorData.señales}\n\n`;
+            }
+            
+            response += "¿Necesitas más detalles sobre este indicador o prefieres información sobre otro?";
+            
+            return response;
+        }
+
+        // Función para alternar la voz
+        function toggleVoice() {
+            voiceEnabled = !voiceEnabled;
+            voiceToggle.classList.toggle('active', voiceEnabled);
+            voiceToggle.innerHTML = voiceEnabled ? 
+                '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 15C13.6569 15 15 13.6569 15 12V5C15 3.34315 13.6569 2 12 2C10.3431 2 9 3.34315 9 5V12C9 13.6569 10.3431 15 12 15Z" fill="currentColor"/><path d="M17 12C17 14.7614 14.7614 17 12 17C9.23858 17 7 14.7614 7 12M12 19V22M5 22H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> Voz: ON' : 
+                '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 15C13.6569 15 15 13.6569 15 12V5C15 3.34315 13.6569 2 12 2C10.3431 2 9 3.34315 9 5V12C9 13.6569 10.3431 15 12 15Z" fill="currentColor"/><path d="M17 12C17 14.7614 14.7614 17 12 17C9.23858 17 7 14.7614 7 12M12 19V22M5 22H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> Voz: OFF';
+        }
+
+        // Función para probar la voz
+        function testVoiceFunction() {
+            if (!voiceEnabled) {
+                addMessage("Primero activa la función de voz usando el botón 'Voz: ON'.", 'assistant');
                 return;
             }
             
-            const recognition = new SpeechRecognition();
-            recognition.continuous = false;
-            recognition.lang = 'es-ES';
-            recognition.interimResults = false;
-            recognition.maxAlternatives = 1;
+            const testText = "¡Hola! Esta es una prueba de la función de voz. Si puedes escuchar este mensaje, la síntesis de voz está funcionando correctamente.";
+            speakText(testText);
+            addMessage("Reproduciendo prueba de voz...", 'assistant');
+        }
+
+        // Función para leer texto en voz alta
+        function speakText(text) {
+            if (!speechSynthesis) return;
             
-            // Síntesis de voz
-            const synth = window.speechSynthesis;
+            // Cancelar cualquier speech en curso
+            speechSynthesis.cancel();
             
-            micButton.addEventListener('click', function() {
-                if (micButton.classList.contains('listening')) {
-                    recognition.stop();
-                    micButton.classList.remove('listening');
-                    statusText.textContent = "Reconocimiento detenido";
-                } else {
-                    recognition.start();
-                    micButton.classList.add('listening');
-                    statusText.textContent = "Escuchando... habla ahora";
-                }
-            });
+            // Crear utterance
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'es-ES';
+            utterance.rate = 1.0;
+            utterance.pitch = 1.0;
+            utterance.volume = 1.0;
             
-            recognition.onresult = function(event) {
-                const speechResult = event.results[0][0].transcript;
-                micButton.classList.remove('listening');
-                statusText.textContent = "Procesando...";
-                
-                // Mostrar mensaje del usuario
-                addMessage(speechResult, 'user');
-                
-                // Procesar la consulta y obtener respuesta
-                setTimeout(() => {
-                    const response = getResponse(speechResult);
-                    addMessage(response, 'ai');
-                    speakResponse(response);
-                    statusText.textContent = "Presiona el botón y habla";
-                }, 1000);
-            };
-            
-            recognition.onerror = function(event) {
-                micButton.classList.remove('listening');
-                statusText.textContent = "Error: " + event.error;
-            };
-            
-            recognition.onend = function() {
-                if (micButton.classList.contains('listening')) {
-                    micButton.classList.remove('listening');
-                    statusText.textContent = "Presiona el botón y habla";
-                }
-            };
-            
-            // Añadir funcionalidad a los botones de sugerencias
-            suggestionButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const query = this.getAttribute('data-query');
-                    addMessage(query, 'user');
-                    
-                    setTimeout(() => {
-                        const response = getResponse(query);
-                        addMessage(response, 'ai');
-                        speakResponse(response);
-                    }, 500);
-                });
-            });
-            
-            // Funcionalidad de búsqueda
-            searchBtn.addEventListener('click', function() {
-                const query = searchInput.value.trim();
-                if (query) {
-                    addMessage(query, 'user');
-                    searchInput.value = '';
-                    
-                    setTimeout(() => {
-                        const response = getResponse(query, true);
-                        addMessage(response, 'ai');
-                        speakResponse(response);
-                    }, 500);
-                }
-            });
-            
-            // También buscar al presionar Enter
-            searchInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    searchBtn.click();
-                }
-            });
-            
-            function addMessage(text, type) {
-                const messageElement = document.createElement('div');
-                messageElement.classList.add('message');
-                messageElement.classList.add(type === 'user' ? 'user-message' : 'ai-message');
-                
-                if (type === 'user') {
-                    messageElement.innerHTML = `<strong>Tú:</strong> ${text}`;
-                } else {
-                    messageElement.innerHTML = `<strong>Asistente:</strong> ${text}`;
-                }
-                
-                conversation.appendChild(messageElement);
-                conversation.scrollTop = conversation.scrollHeight;
+            // Seleccionar voz en español si está disponible
+            const voices = speechSynthesis.getVoices();
+            const spanishVoice = voices.find(voice => voice.lang.startsWith('es'));
+            if (spanishVoice) {
+                utterance.voice = spanishVoice;
             }
             
-            function speakResponse(text) {
-                if (synth.speaking) {
-                    synth.cancel();
-                }
-                
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'es-ES';
-                utterance.rate = 1.0;
-                utterance.pitch = 1.0;
-                
-                synth.speak(utterance);
-            }
-            
-            function getResponse(query, isSearch = false) {
-                query = query.toLowerCase();
-                
-                // Respuestas predefinidas según las palabras clave
-                if (query.includes('hola') || query.includes('buenos días') || query.includes('buenas tardes')) {
-                    return "¡Hola! Soy tu asistente de Beaver Trading. Puedes preguntarme sobre trading, análisis técnico o pedirme que busque información en Google.";
-                } else if (query.includes('beaver trading') || query.includes('beaver') || query.includes('empresa')) {
-                    return "Beaver Trading es una empresa líder en educación y herramientas para traders. Ofrecemos cursos de trading para todos los niveles, señales en tiempo real, herramientas de análisis técnico y mentoría personalizada. Nuestro enfoque es proporcionar educación de calidad y herramientas prácticas para ayudar a los traders a mejorar sus resultados.";
-                } else if (query.includes('fvg') || query.includes('fair value gap')) {
-                    return "FVG son las siglas de Fair Value Gap. Es un concepto de trading que se refiere a un espacio de valor justo en el gráfico de precios. Ocurre cuando hay una diferencia significativa entre el cierre de una vela y la apertura de la siguiente, dejando un 'hueco' en el gráfico. Los traders suelen observar estos espacios como posibles zonas de soporte o resistencia en el futuro.";
-                } else if (query.includes('sweep')) {
-                    return "En trading, un 'sweep' se refiere a cuando el precio 'barre' o supera un nivel clave de soporte o resistencia, a menudo tomando órdenes de stop loss antes de revertir la dirección. Esto crea una mecha o sombra larga en la vela y puede indicar un agotamiento del movimiento actual.";
-                } else if (query.includes('trading') || query.includes('conceptos')) {
-                    return "Conceptos básicos de trading incluyen: 1) Soporte y resistencia - niveles donde el precio tiende a rebotar, 2) Tendencia - dirección general del mercado, 3) Velas japonesas - representación visual de movimientos de precio, 4) Indicadores técnicos - herramientas para analizar el mercado, y 5) Gestión de riesgo - proteger tu capital con stops y posición sizing.";
-                } else if (query.includes('qué puedes hacer') || query.includes('qué sabes')) {
-                    return "Puedo explicarte conceptos de trading como FVG, sweeps, soporte y resistencia, tendencias y más. También puedo buscar información en Google sobre temas que me pidas. Solo tienes que preguntar!";
-                } else if (query.includes('gracias')) {
-                    return "De nada! Estoy aquí para ayudarte cuando lo necesites. ¿Hay algo más en lo que pueda asistirte?";
-                } else if (isSearch || query.includes('busca') || query.includes('buscar') || query.includes('noticias')) {
-                    // Simular búsqueda en Google
-                    const searchTopic = query.replace(/busca|buscar|noticias|sobre|de/gi, '').trim();
-                    return `He buscado información sobre "${searchTopic}" en Google. Según los resultados más recientes, te recomiendo: 1) Revisar las últimas noticias del mercado, 2) Consultar análisis técnico actualizado, 3) Verificar el calendario económico para eventos relevantes. ¿Te gustaría que profundice en algún aspecto específico de ${searchTopic}?`;
-                } else {
-                    return "Interesante pregunta. Basándome en tu consulta sobre '" + query + "', te recomiendo estudiar más sobre análisis técnico y patrones de precio. ¿Te gustaría que busque más información en Google sobre este tema?";
-                }
-            }
-        });
+            // Reproducir
+            speechSynthesis.speak(utterance);
+        }
+
+        // Cargar voces cuando estén disponibles
+        if (speechSynthesis) {
+            speechSynthesis.onvoiceschanged = function() {
+                // Voces cargadas, listas para usar
+            };
+        }
     </script>
 </body>
 </html>

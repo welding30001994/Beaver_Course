@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analizador de Trading Avanzado</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --light: #ecf0f1;
+            --dark: #34495e;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+       body {
+            font-family: 'Exo 2', sans-serif;
+            background: url('https://raw.githubusercontent.com/welding30001994/vip/refs/heads/main/unnamed%20(1).jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+      
+        /* Capa oscura sobre la imagen de fondo */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+        
+      
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #3498db, #2ecc71);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .upload-section, .results-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary);
+        }
+        
+        .upload-area {
+            border: 2px dashed var(--secondary);
+            border-radius: 10px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+        
+        .upload-area:hover {
+            background: rgba(52, 152, 219, 0.1);
+        }
+        
+        .upload-area i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+        
+        .upload-text {
+            font-size: 1.1rem;
+        }
+        
+        #imageInput {
+            display: none;
+        }
+        
+        .preview-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        #imagePreview {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            display: none;
+        }
+        
+        .analyze-btn {
+            background: linear-gradient(to right, var(--secondary), var(--success));
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+            width: 100%;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        
+        .analyze-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .analyze-btn:active {
+            transform: translateY(0);
+        }
+        
+        .signal {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .signal-buy {
+            border-left: 5px solid var(--success);
+        }
+        
+        .signal-sell {
+            border-left: 5px solid var(--danger);
+        }
+        
+        .signal-icon {
+            font-size: 2.5rem;
+            margin-right: 15px;
+        }
+        
+        .signal-buy .signal-icon {
+            color: var(--success);
+        }
+        
+        .signal-sell .signal-icon {
+            color: var(--danger);
+        }
+        
+        .signal-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .levels {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        @media (max-width: 576px) {
+            .levels {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .level-card {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .level-card h4 {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
+        
+        .level-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        
+        .entry .level-value {
+            color: var(--secondary);
+        }
+        
+        .sl .level-value {
+            color: var(--danger);
+        }
+        
+        .tp .level-value {
+            color: var(--success);
+        }
+        
+        .chart-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .chart {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .history-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        .history-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .history-item:last-child {
+            border-bottom: none;
+        }
+        
+        .history-signal {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .signal-buy-tag {
+            background: var(--success);
+        }
+        
+        .signal-sell-tag {
+            background: var(--danger);
+        }
+        
+        .loader {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .spinner {
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 5px solid var(--secondary);
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Beaver Trading </h1>
+            <p class="subtitle">sube la imagen en beaver trading para aser el analicis tecnico </p>
+        </header>
+        
+        <div class="main-content">
+            <div class="upload-section">
+                <h2 class="section-title">Subir Gráfico</h2>
+                <div class="upload-area" id="uploadArea">
+                    <i>📊</i>
+                    <p class="upload-text">Haz clic aquí o arrastra una imagen del gráfico</p>
+                    <input type="file" id="imageInput" accept="image/*">
+                </div>
+                
+                <div class="preview-container">
+                    <img id="imagePreview" alt="Vista previa del gráfico">
+                </div>
+                
+                <button class="analyze-btn" id="analyzeBtn">Analizar Gráfico</button>
+                
+                <div class="loader" id="loader">
+                    <div class="spinner"></div>
+                    <p>Analizando gráfico...</p>
+                </div>
+            </div>
+            
+            <div class="results-section">
+                <h2 class="section-title">Señal de Trading</h2>
+                
+                <div class="signal" id="signalResult">
+                    <div class="signal-icon">⏳</div>
+                    <div class="signal-info">
+                        <h3>Esperando análisis</h3>
+                        <p>Sube una imagen para obtener una señal</p>
+                    </div>
+                </div>
+                
+                <div class="levels">
+                    <div class="level-card entry">
+                        <h4>ENTRADA</h4>
+                        <div class="level-value" id="entryValue">-</div>
+                    </div>
+                    <div class="level-card sl">
+                        <h4>STOP LOSS</h4>
+                        <div class="level-value" id="slValue">-</div>
+                    </div>
+                    <div class="level-card tp">
+                        <h4>TAKE PROFIT</h4>
+                        <div class="level-value" id="tpValue">-</div>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart" id="priceChart">
+                        <!-- Gráfico simple se generará con JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="history-section">
+            <h2 class="section-title">Historial de Señales</h2>
+            <div class="history-list" id="historyList">
+                <!-- Historial se generará con JavaScript -->
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2024 BEAVER TRADING | Sistema de Trading | Todos los derechos reservados</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const imageInput = document.getElementById('imageInput');
+            const uploadArea = document.getElementById('uploadArea');
+            const imagePreview = document.getElementById('imagePreview');
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            const loader = document.getElementById('loader');
+            const signalResult = document.getElementById('signalResult');
+            const entryValue = document.getElementById('entryValue');
+            const slValue = document.getElementById('slValue');
+            const tpValue = document.getElementById('tpValue');
+            const priceChart = document.getElementById('priceChart');
+            const historyList = document.getElementById('historyList');
+            
+            let currentImage = null;
+            
+            // Manejar la subida de imágenes
+            uploadArea.addEventListener('click', () => imageInput.click());
+            
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.style.background = 'rgba(52, 152, 219, 0.2)';
+            });
+            
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.style.background = '';
+            });
+            
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.style.background = '';
+                
+                if (e.dataTransfer.files.length) {
+                    imageInput.files = e.dataTransfer.files;
+                    handleImageUpload(e.dataTransfer.files[0]);
+                }
+            });
+            
+            imageInput.addEventListener('change', (e) => {
+                if (e.target.files.length) {
+                    handleImageUpload(e.target.files[0]);
+                }
+            });
+            
+            function handleImageUpload(file) {
+                if (!file.type.match('image.*')) {
+                    alert('Por favor, sube solo archivos de imagen.');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                    currentImage = e.target.result;
+                };
+                
+                reader.readAsDataURL(file);
+            }
+            
+            // Analizar la imagen
+            analyzeBtn.addEventListener('click', () => {
+                if (!currentImage) {
+                    alert('Por favor, sube una imagen primero.');
+                    return;
+                }
+                
+                // Mostrar loader
+                loader.style.display = 'block';
+                analyzeBtn.disabled = true;
+                
+                // Simular análisis (en un caso real, aquí se enviaría la imagen a un servidor)
+                setTimeout(() => {
+                    // Ocultar loader
+                    loader.style.display = 'none';
+                    analyzeBtn.disabled = false;
+                    
+                    // Generar señal aleatoria (compra/venta)
+                    const isBuy = Math.random() > 0.5;
+                    
+                    // Actualizar la interfaz con la señal
+                    if (isBuy) {
+                        signalResult.innerHTML = `
+                            <div class="signal-icon">📈</div>
+                            <div class="signal-info">
+                                <h3>SEÑAL DE COMPRA</h3>
+                                <p>Posible tendencia alcista identificada</p>
+                            </div>
+                        `;
+                        signalResult.className = 'signal signal-buy';
+                    } else {
+                        signalResult.innerHTML = `
+                            <div class="signal-icon">📉</div>
+                            <div class="signal-info">
+                                <h3>SEÑAL DE VENTA</h3>
+                                <p>Posible tendencia bajista identificada</p>
+                            </div>
+                        `;
+                        signalResult.className = 'signal signal-sell';
+                    }
+                    
+                    // Generar niveles basados en la señal
+                    const basePrice = 3770 + Math.random() * 20; // Precio base alrededor de 3770
+                    const entry = basePrice.toFixed(2);
+                    const sl = (isBuy ? basePrice - 5 - Math.random() * 3 : basePrice + 5 + Math.random() * 3).toFixed(2);
+                    const tp = (isBuy ? basePrice + 10 + Math.random() * 5 : basePrice - 10 - Math.random() * 5).toFixed(2);
+                    
+                    entryValue.textContent = entry;
+                    slValue.textContent = sl;
+                    tpValue.textContent = tp;
+                    
+                    // Dibujar gráfico simple
+                    drawSimpleChart(isBuy, parseFloat(entry), parseFloat(sl), parseFloat(tp));
+                    
+                    // Añadir al historial
+                    addToHistory(isBuy, entry, sl, tp);
+                    
+                }, 2000); // Simular tiempo de análisis de 2 segundos
+            });
+            
+            function drawSimpleChart(isBuy, entry, sl, tp) {
+                // Limpiar gráfico anterior
+                priceChart.innerHTML = '';
+                
+                // Crear un canvas para el gráfico
+                const canvas = document.createElement('canvas');
+                canvas.width = priceChart.clientWidth;
+                canvas.height = priceChart.clientHeight;
+                priceChart.appendChild(canvas);
+                
+                const ctx = canvas.getContext('2d');
+                const width = canvas.width;
+                const height = canvas.height;
+                
+                // Dibujar fondo
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+                ctx.fillRect(0, 0, width, height);
+                
+                // Calcular posiciones en el gráfico
+                const minPrice = Math.min(entry, sl, tp) - 5;
+                const maxPrice = Math.max(entry, sl, tp) + 5;
+                const priceRange = maxPrice - minPrice;
+                
+                function getY(price) {
+                    return height - ((price - minPrice) / priceRange * height);
+                }
+                
+                // Dibujar líneas de niveles
+                ctx.strokeStyle = '#3498db';
+                ctx.setLineDash([]);
+                ctx.beginPath();
+                ctx.moveTo(0, getY(entry));
+                ctx.lineTo(width, getY(entry));
+                ctx.stroke();
+                
+                ctx.strokeStyle = '#e74c3c';
+                ctx.beginPath();
+                ctx.moveTo(0, getY(sl));
+                ctx.lineTo(width, getY(sl));
+                ctx.stroke();
+                
+                ctx.strokeStyle = '#2ecc71';
+                ctx.beginPath();
+                ctx.moveTo(0, getY(tp));
+                ctx.lineTo(width, getY(tp));
+                ctx.stroke();
+                
+                // Dibujar línea de precio simulada
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)';
+                ctx.beginPath();
+                ctx.moveTo(0, getY(entry));
+                
+                // Crear una línea de precio que se mueva hacia el TP o SL según la señal
+                const segments = 20;
+                const segmentWidth = width / segments;
+                
+                for (let i = 1; i <= segments; i++) {
+                    const x = i * segmentWidth;
+                    let y;
+                    
+                    if (i < segments / 2) {
+                        // Primera mitad: fluctuación alrededor del entry
+                        y = getY(entry + (Math.random() - 0.5) * 3);
+                    } else {
+                        // Segunda mitad: movimiento hacia TP o SL
+                        const progress = (i - segments / 2) / (segments / 2);
+                        if (isBuy) {
+                            y = getY(entry + (tp - entry) * progress * 0.8 + (Math.random() - 0.5) * 2);
+                        } else {
+                            y = getY(entry - (entry - tp) * progress * 0.8 + (Math.random() - 0.5) * 2);
+                        }
+                    }
+                    
+                    ctx.lineTo(x, y);
+                }
+                
+                ctx.stroke();
+                
+                // Añadir etiquetas
+                ctx.fillStyle = '#3498db';
+                ctx.fillText('ENTRY', 10, getY(entry) - 5);
+                
+                ctx.fillStyle = '#e74c3c';
+                ctx.fillText('SL', 10, getY(sl) - 5);
+                
+                ctx.fillStyle = '#2ecc71';
+                ctx.fillText('TP', 10, getY(tp) - 5);
+            }
+            
+            function addToHistory(isBuy, entry, sl, tp) {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString();
+                
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                
+                historyItem.innerHTML = `
+                    <div>
+                        <span class="history-signal ${isBuy ? 'signal-buy-tag' : 'signal-sell-tag'}">
+                            ${isBuy ? 'COMPRA' : 'VENTA'}
+                        </span>
+                        <span>${timeString}</span>
+                    </div>
+                    <div>
+                        E: ${entry} | SL: ${sl} | TP: ${tp}
+                    </div>
+                `;
+                
+                historyList.insertBefore(historyItem, historyList.firstChild);
+                
+                // Limitar historial a 10 elementos
+                if (historyList.children.length > 10) {
+                    historyList.removeChild(historyList.lastChild);
+                }
+            }
+            
+            // Inicializar con un ejemplo de historial
+            addToHistory(true, '3773.50', '3768.20', '3785.80');
+            addToHistory(false, '3789.10', '3794.50', '3775.30');
+        });
+    </script>
+</body>
+</html>
