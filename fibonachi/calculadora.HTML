@@ -25,14 +25,28 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-        body {
-            background: linear-gradient(135deg, var(--darker), var(--dark));
-            color: var(--text);
+          body {
+            font-family: 'Exo 2', sans-serif;
+            background: url('https://raw.githubusercontent.com/welding30001994/vip/refs/heads/main/unnamed%20(1).jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            line-height: 1.6;
             min-height: 100vh;
             padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Capa oscura sobre la imagen de fondo */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: -1;
         }
         
         .container {
@@ -288,98 +302,52 @@
             opacity: 0.3;
         }
         
-        /* VISTA DESKTOP - Tabla Completa */
+        /* VISTA DESKTOP - Lista de Niveles */
         .desktop-view {
             display: block;
         }
         
-        .desktop-table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: center;
+        .levels-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 500px;
+            margin: 0 auto;
         }
         
-        .desktop-table th, 
-        .desktop-table td {
-            padding: 14px 18px;
+        .level-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: rgba(26, 35, 58, 0.9);
+            border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: clamp(0.8rem, 1.5vw, 1.05rem);
+            transition: all 0.3s ease;
         }
         
-        .desktop-table th {
+        .level-row:hover {
             background: rgba(0, 243, 255, 0.1);
-            color: var(--primary);
+            transform: translateX(5px);
+        }
+        
+        .level-name {
             font-weight: 600;
-            font-size: clamp(0.9rem, 1.6vw, 1.1rem);
+            font-size: clamp(1rem, 2vw, 1.1rem);
+            color: var(--primary);
         }
         
-        .desktop-table td {
-            background: rgba(10, 14, 23, 0.5);
-        }
-        
-        .maximo-cell {
+        .level-value {
             font-weight: bold;
-            font-size: clamp(1rem, 1.8vw, 1.2rem);
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
         }
         
-        .buy .maximo-cell {
+        .buy .level-value {
             color: var(--buy-primary);
-            background: rgba(0, 168, 255, 0.1);
         }
         
-        .sell .maximo-cell {
+        .sell .level-value {
             color: var(--sell-primary);
-            background: rgba(255, 56, 56, 0.1);
-        }
-        
-        .nivel-cell {
-            font-weight: 600;
-            font-size: clamp(0.9rem, 1.6vw, 1.1rem);
-        }
-        
-        .buy .nivel-cell {
-            color: var(--buy-secondary);
-            background: rgba(0, 151, 230, 0.1);
-        }
-        
-        .sell .nivel-cell {
-            color: var(--sell-secondary);
-            background: rgba(255, 46, 99, 0.1);
-        }
-        
-        .positive {
-            color: #00ff9d;
-            font-weight: 600;
-        }
-        
-        .negative {
-            color: #ff2e63;
-            font-weight: 600;
-        }
-        
-        .zero {
-            color: var(--primary);
-            font-weight: 600;
-        }
-        
-        .buy .positive {
-            color: #00ff9d;
-            background: rgba(0, 255, 157, 0.1);
-        }
-        
-        .buy .negative {
-            color: #ff2e63;
-            background: rgba(255, 46, 99, 0.1);
-        }
-        
-        .sell .positive {
-            color: #00ff9d;
-            background: rgba(0, 255, 157, 0.1);
-        }
-        
-        .sell .negative {
-            color: #ff2e63;
-            background: rgba(255, 46, 99, 0.1);
         }
         
         /* VISTA MÓVIL - Grid de Niveles */
@@ -420,14 +388,14 @@
             box-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
         }
         
-        .level-name {
+        .mobile-level-name {
             font-weight: 600;
             font-size: clamp(0.8rem, 3vw, 0.9rem);
             margin-bottom: 5px;
             color: var(--primary);
         }
         
-        .level-value {
+        .mobile-level-value {
             font-size: clamp(0.9rem, 3vw, 1rem);
             font-weight: bold;
         }
@@ -472,6 +440,14 @@
         
         .difference-value {
             font-weight: bold;
+        }
+        
+        .positive {
+            color: #00ff9d;
+        }
+        
+        .negative {
+            color: #ff2e63;
         }
         
         /* RESPONSIVE - Cambios entre desktop y móvil */
@@ -562,8 +538,8 @@
 <body>
     <div class="container">
         <header>
-            <h1>CALCULADORA FIBONACCI</h1>
-            <p class="subtitle">Análisis de retrocesos y extensiones</p>
+            <h1>Beaver Trading</h1>
+            <p class="subtitle">Análisis de retrocesos </p>
         </header>
         
         <div class="input-section">
@@ -593,16 +569,16 @@
         
         <div class="results-section" id="results-section">
             <div class="table-tabs">
-                <button class="tab-btn active" data-tab="desktop">Vista Completa</button>
+                <button class="tab-btn active" data-tab="desktop">Lista de Niveles</button>
                 <button class="tab-btn" data-tab="mobile">Ver Diferencias</button>
             </div>
             
             <div class="table-container">
-                <!-- VISTA DESKTOP - Tabla Completa -->
+                <!-- VISTA DESKTOP - Lista de Niveles -->
                 <div class="desktop-view">
-                    <table class="desktop-table" id="fibonacci-table">
-                        <!-- La tabla se generará dinámicamente con JavaScript -->
-                    </table>
+                    <div class="levels-list" id="levels-list">
+                        <!-- Los niveles se generarán dinámicamente con JavaScript -->
+                    </div>
                 </div>
                 
                 <!-- VISTA MÓVIL - Grid Interactivo -->
@@ -633,7 +609,7 @@
             const calcularBtn = document.getElementById('calcular');
             const actionCircle = document.getElementById('action-circle');
             const resultsSection = document.getElementById('results-section');
-            const fibTable = document.getElementById('fibonacci-table');
+            const levelsList = document.getElementById('levels-list');
             const mobileLevelsGrid = document.getElementById('mobile-levels-grid');
             const mobileDifferences = document.getElementById('mobile-differences');
             const mobileSelectedLevel = document.getElementById('mobile-selected-level');
@@ -647,14 +623,6 @@
             let currentTab = 'desktop';
             let currentLevels = {};
             let selectedLevel = null;
-            
-            // Niveles de Fibonacci para zona horizontal
-            const fibLevelsHorizontal = [
-                { level: '423.6%', value: 4.236 },
-                { level: '261.8%', value: 2.618 },
-                { level: '161.8%', value: 1.618 },
-                { level: '100.0%', value: 1.0 }
-            ];
             
             // Niveles de Fibonacci para zona vertical
             const fibLevelsVertical = [
@@ -731,9 +699,7 @@
                 const diff = maximo - minimo;
                 const levels = {};
                 
-                // Combinar todos los niveles para calcular
-                const allLevels = [...new Set([...fibLevelsHorizontal, ...fibLevelsVertical])];
-                allLevels.forEach(item => {
+                fibLevelsVertical.forEach(item => {
                     levels[item.level] = minimo + (diff * item.value);
                 });
                 
@@ -743,7 +709,7 @@
             // Función para actualizar todas las vistas
             function updateAllViews(maximo, minimo, levels) {
                 currentLevels = levels;
-                generateDesktopTable(maximo, minimo, levels);
+                generateDesktopLevelsList(maximo, minimo, levels);
                 generateMobileLevelsGrid(maximo, minimo);
                 
                 if (selectedLevel) {
@@ -751,54 +717,34 @@
                 }
             }
             
-            // Función para generar la tabla desktop
-            function generateDesktopTable(maximo, minimo, levels) {
-                let tableHTML = '<thead><tr><th></th><th>Máximo</th>';
+            // Función para generar la lista de niveles en desktop
+            function generateDesktopLevelsList(maximo, minimo, levels) {
+                levelsList.innerHTML = '';
                 
-                // Encabezados de niveles horizontales
-                fibLevelsHorizontal.forEach(item => {
-                    tableHTML += `<th>Nivel ${item.level}</th>`;
-                });
-                tableHTML += '</tr></thead><tbody>';
+                const allLevels = [
+                    { level: 'Máximo', value: maximo, type: 'maximo' },
+                    ...fibLevelsVertical.map(item => ({ level: item.level, value: levels[item.level], type: 'nivel' })),
+                    { level: 'Mínimo', value: minimo, type: 'minimo' }
+                ];
                 
-                // Fila de máximos
-                tableHTML += `<tr><td class="nivel-cell">Máximo</td><td class="maximo-cell">${maximo.toFixed(2)}</td>`;
-                fibLevelsHorizontal.forEach(item => {
-                    tableHTML += `<td class="maximo-cell">${levels[item.level].toFixed(2)}</td>`;
-                });
-                tableHTML += '</tr>';
+                // Ordenar según el modo BUY/SELL
+                const displayLevels = currentAction === 'sell' 
+                    ? [...allLevels].reverse() 
+                    : allLevels;
                 
-                // Filas de niveles verticales - En SELL invertimos el orden
-                const verticalLevels = currentAction === 'sell' 
-                    ? [...fibLevelsVertical].reverse() 
-                    : fibLevelsVertical;
-                
-                verticalLevels.forEach(rowItem => {
-                    tableHTML += `<tr><td class="nivel-cell">Nivel ${rowItem.level}</td><td class="nivel-cell">${levels[rowItem.level].toFixed(2)}</td>`;
+                displayLevels.forEach(item => {
+                    const levelRow = document.createElement('div');
+                    levelRow.className = 'level-row';
+                    levelRow.innerHTML = `
+                        <span class="level-name">${item.type === 'maximo' ? 'MÁXIMO' : item.type === 'minimo' ? 'MÍNIMO' : 'Nivel ' + item.level}</span>
+                        <span class="level-value">${item.value.toFixed(2)}</span>
+                    `;
                     
-                    fibLevelsHorizontal.forEach(colItem => {
-                        const diff = levels[rowItem.level] - levels[colItem.level];
-                        const diffClass = diff > 0 ? 'positive' : (diff < 0 ? 'negative' : 'zero');
-                        tableHTML += `<td class="${diffClass}">${diff.toFixed(2)}</td>`;
-                    });
-                    
-                    tableHTML += '</tr>';
+                    levelsList.appendChild(levelRow);
                 });
                 
-                // Fila de mínimos
-                tableHTML += `<tr><td class="nivel-cell">Mínimo</td><td class="maximo-cell">${minimo.toFixed(2)}</td>`;
-                fibLevelsHorizontal.forEach(item => {
-                    const diff = minimo - levels[item.level];
-                    const diffClass = diff > 0 ? 'positive' : (diff < 0 ? 'negative' : 'zero');
-                    tableHTML += `<td class="${diffClass}">${diff.toFixed(2)}</td>`;
-                });
-                tableHTML += '</tr>';
-                
-                tableHTML += '</tbody>';
-                fibTable.innerHTML = tableHTML;
-                
-                // Aplicar clase de modo (buy/sell) a la tabla
-                fibTable.className = currentAction;
+                // Aplicar clase de modo (buy/sell) a la lista
+                levelsList.className = currentAction;
             }
             
             // Función para generar el grid de niveles móvil
@@ -820,8 +766,8 @@
                     const card = document.createElement('div');
                     card.className = 'level-card';
                     card.innerHTML = `
-                        <div class="level-name">${item.type === 'maximo' ? 'MÁXIMO' : item.type === 'minimo' ? 'MÍNIMO' : item.level}</div>
-                        <div class="level-value">${item.value.toFixed(2)}</div>
+                        <div class="mobile-level-name">${item.type === 'maximo' ? 'MÁXIMO' : item.type === 'minimo' ? 'MÍNIMO' : item.level}</div>
+                        <div class="mobile-level-value">${item.value.toFixed(2)}</div>
                     `;
                     
                     card.addEventListener('click', function() {
@@ -864,7 +810,7 @@
                 allLevels.forEach(item => {
                     if (item.level !== level) {
                         const diff = currentValue - item.value;
-                        const diffClass = diff > 0 ? 'positive' : (diff < 0 ? 'negative' : 'zero');
+                        const diffClass = diff > 0 ? 'positive' : (diff < 0 ? 'negative' : '');
                         
                         const diffItem = document.createElement('div');
                         diffItem.className = 'difference-item';
