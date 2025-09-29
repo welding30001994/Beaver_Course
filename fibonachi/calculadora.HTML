@@ -25,7 +25,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-           body {
+               body {
             font-family: 'Exo 2', sans-serif;
             background: url('https://raw.githubusercontent.com/welding30001994/vip/refs/heads/main/unnamed%20(1).jpg') no-repeat center center fixed;
             background-size: cover;
@@ -48,6 +48,7 @@
             background-color: rgba(0, 0, 0, 0.7);
             z-index: -1;
         }
+        
         
         .container {
             width: 100%;
@@ -380,113 +381,86 @@
             background: rgba(255, 46, 99, 0.1);
         }
         
-        /* Estilos para el menú desplegable */
-        .dropdown-section {
-            width: 100%;
+        /* Estilos para vista móvil simplificada */
+        .mobile-levels-grid {
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
             margin-bottom: 20px;
         }
         
-        .dropdown-container {
-            position: relative;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        
-        .dropdown-header {
-            padding: 15px 20px;
+        .level-card {
             background: rgba(26, 35, 58, 0.9);
             border: 2px solid var(--primary);
             border-radius: 10px;
+            padding: 15px 10px;
+            text-align: center;
             cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
             transition: all 0.3s ease;
         }
         
-        .dropdown-header:hover {
-            background: rgba(0, 243, 255, 0.1);
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
-        }
-        
-        .dropdown-header.active {
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-            background: rgba(0, 243, 255, 0.15);
-        }
-        
-        .dropdown-arrow {
-            transition: transform 0.3s ease;
-        }
-        
-        .dropdown-arrow.active {
-            transform: rotate(180deg);
-        }
-        
-        .dropdown-content {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: rgba(26, 35, 58, 0.95);
-            border: 2px solid var(--primary);
-            border-top: none;
-            border-radius: 0 0 10px 10px;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease;
-            z-index: 100;
-        }
-        
-        .dropdown-content.active {
-            max-height: 400px;
-            overflow-y: auto;
-        }
-        
-        .dropdown-item {
-            padding: 12px 20px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .dropdown-item:last-child {
-            border-bottom: none;
-        }
-        
-        .dropdown-item:hover {
+        .level-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 243, 255, 0.3);
             background: rgba(0, 243, 255, 0.1);
         }
         
-        .dropdown-item.active {
+        .level-card.active {
             background: rgba(0, 243, 255, 0.2);
-            color: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
+        }
+        
+        .level-name {
             font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: var(--primary);
         }
         
-        .differences-table {
-            width: 100%;
-            margin-top: 20px;
+        .level-value {
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        
+        .mobile-differences {
             display: none;
+            width: 100%;
         }
         
-        .differences-table.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .selected-level-info {
+        .selected-level-header {
             text-align: center;
             margin-bottom: 15px;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: var(--primary);
             font-weight: 600;
+            padding: 10px;
+            background: rgba(0, 243, 255, 0.1);
+            border-radius: 8px;
+        }
+        
+        .differences-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .difference-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            background: rgba(26, 35, 58, 0.7);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .difference-level {
+            font-weight: 600;
+        }
+        
+        .difference-value {
+            font-weight: bold;
         }
         
         @media (max-width: 768px) {
@@ -531,8 +505,22 @@
                 max-width: 300px;
             }
             
-            .dropdown-container {
-                max-width: 100%;
+            /* Mostrar vista móvil en tablets y teléfonos */
+            .desktop-table {
+                display: none;
+            }
+            
+            .mobile-levels-grid {
+                display: grid;
+            }
+            
+            .mobile-differences {
+                display: block;
+            }
+            
+            /* Ocultar vista horizontal compleja en móviles */
+            #horizontal-view {
+                display: none !important;
             }
         }
         
@@ -557,6 +545,22 @@
             
             .table-container {
                 padding: 10px;
+            }
+            
+            .mobile-levels-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .level-card {
+                padding: 12px 8px;
+            }
+            
+            .level-name {
+                font-size: 0.8rem;
+            }
+            
+            .level-value {
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -595,37 +599,33 @@
         
         <div class="results-section" id="results-section">
             <div class="table-tabs">
-                <button class="tab-btn active" data-tab="vertical">Vista Vertical</button>
-                <button class="tab-btn" data-tab="horizontal">Diferencias por Nivel</button>
+                <button class="tab-btn active" data-tab="vertical">Vista Completa</button>
+                <button class="tab-btn" data-tab="differences">Ver Diferencias</button>
             </div>
             
             <div class="table-container">
-                <!-- Vista Vertical (Tabla Completa) -->
+                <!-- Vista Vertical (Tabla Completa para Desktop) -->
                 <div id="vertical-view" class="desktop-table">
                     <table id="fibonacci-table">
                         <!-- La tabla se generará dinámicamente con JavaScript -->
                     </table>
                 </div>
                 
-                <!-- Vista Horizontal (Menú Desplegable) -->
-                <div id="horizontal-view" style="display: none;">
-                    <div class="dropdown-section">
-                        <div class="dropdown-container">
-                            <div class="dropdown-header" id="dropdown-header">
-                                <span>Selecciona un nivel para ver diferencias</span>
-                                <span class="dropdown-arrow">▼</span>
-                            </div>
-                            <div class="dropdown-content" id="dropdown-content">
-                                <!-- Los niveles se generarán dinámicamente con JavaScript -->
-                            </div>
-                        </div>
+                <!-- Vista Móvil Simplificada -->
+                <div id="mobile-view">
+                    <!-- Grid de niveles para móviles -->
+                    <div class="mobile-levels-grid" id="mobile-levels-grid">
+                        <!-- Los niveles se generarán dinámicamente con JavaScript -->
                     </div>
                     
-                    <div class="differences-table" id="differences-table">
-                        <div class="selected-level-info" id="selected-level-info"></div>
-                        <table id="differences-data">
-                            <!-- Los datos de diferencias se generarán dinámicamente con JavaScript -->
-                        </table>
+                    <!-- Diferencias para nivel seleccionado -->
+                    <div class="mobile-differences" id="mobile-differences">
+                        <div class="selected-level-header" id="mobile-selected-level">
+                            Selecciona un nivel para ver diferencias
+                        </div>
+                        <div class="differences-list" id="mobile-differences-list">
+                            <!-- Las diferencias se generarán dinámicamente con JavaScript -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -640,16 +640,14 @@
             const actionCircle = document.getElementById('action-circle');
             const resultsSection = document.getElementById('results-section');
             const fibTable = document.getElementById('fibonacci-table');
+            const mobileLevelsGrid = document.getElementById('mobile-levels-grid');
+            const mobileDifferences = document.getElementById('mobile-differences');
+            const mobileSelectedLevel = document.getElementById('mobile-selected-level');
+            const mobileDifferencesList = document.getElementById('mobile-differences-list');
             const container = document.querySelector('.container');
             const tabBtns = document.querySelectorAll('.tab-btn');
-            const dropdownHeader = document.getElementById('dropdown-header');
-            const dropdownContent = document.getElementById('dropdown-content');
-            const dropdownArrow = document.querySelector('.dropdown-arrow');
-            const differencesTable = document.getElementById('differences-table');
-            const selectedLevelInfo = document.getElementById('selected-level-info');
-            const differencesData = document.getElementById('differences-data');
             const verticalView = document.getElementById('vertical-view');
-            const horizontalView = document.getElementById('horizontal-view');
+            const mobileView = document.getElementById('mobile-view');
             
             let currentAction = 'buy';
             let currentTab = 'vertical';
@@ -704,7 +702,7 @@
                     const levels = calculateFibonacciLevels(maximo, minimo);
                     generateTable(maximo, minimo, levels);
                     if (selectedLevel) {
-                        showDifferencesForLevel(selectedLevel, levels);
+                        showMobileDifferencesForLevel(selectedLevel, levels);
                     }
                 }
             });
@@ -721,27 +719,20 @@
                     // Mostrar la vista correspondiente
                     if (currentTab === 'vertical') {
                         verticalView.style.display = 'block';
-                        horizontalView.style.display = 'none';
+                        mobileView.style.display = 'none';
                     } else {
                         verticalView.style.display = 'none';
-                        horizontalView.style.display = 'block';
+                        mobileView.style.display = 'block';
                         
-                        // Generar menú desplegable si hay datos
+                        // Generar grid móvil si hay datos
                         const maximo = parseFloat(maximoInput.value);
                         const minimo = parseFloat(minimoInput.value);
                         
                         if (!isNaN(maximo) && !isNaN(minimo) && maximo > minimo) {
-                            generateDropdownMenu();
+                            generateMobileLevelsGrid();
                         }
                     }
                 });
-            });
-            
-            // Abrir/cerrar menú desplegable
-            dropdownHeader.addEventListener('click', function() {
-                dropdownHeader.classList.toggle('active');
-                dropdownContent.classList.toggle('active');
-                dropdownArrow.classList.toggle('active');
             });
             
             // Función para calcular los niveles de Fibonacci
@@ -809,63 +800,63 @@
                 // Aplicar clase de modo (buy/sell) a la tabla
                 fibTable.className = currentAction;
                 
-                // Generar menú desplegable si estamos en la vista horizontal
-                if (currentTab === 'horizontal') {
-                    generateDropdownMenu();
+                // Generar grid móvil si estamos en la vista de diferencias
+                if (currentTab === 'differences') {
+                    generateMobileLevelsGrid();
                 }
             }
             
-            // Función para generar el menú desplegable
-            function generateDropdownMenu() {
-                dropdownContent.innerHTML = '';
-                
-                const allLevels = [
-                    { level: 'Máximo', value: 'maximo' },
-                    ...fibLevelsVertical,
-                    { level: 'Mínimo', value: 'minimo' }
-                ];
-                
-                allLevels.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'dropdown-item';
-                    div.textContent = item.level === 'maximo' || item.level === 'minimo' 
-                        ? item.level.charAt(0).toUpperCase() + item.level.slice(1)
-                        : `Nivel ${item.level}`;
-                    
-                    div.addEventListener('click', function() {
-                        // Remover clase active de todos los items
-                        document.querySelectorAll('.dropdown-item').forEach(i => {
-                            i.classList.remove('active');
-                        });
-                        
-                        // Agregar clase active al item seleccionado
-                        this.classList.add('active');
-                        
-                        // Actualizar header
-                        dropdownHeader.querySelector('span:first-child').textContent = this.textContent;
-                        
-                        // Cerrar dropdown
-                        dropdownHeader.classList.remove('active');
-                        dropdownContent.classList.remove('active');
-                        dropdownArrow.classList.remove('active');
-                        
-                        // Mostrar diferencias
-                        selectedLevel = item.level;
-                        showDifferencesForLevel(item.level, currentLevels);
-                    });
-                    
-                    dropdownContent.appendChild(div);
-                });
-            }
-            
-            // Función para mostrar diferencias de un nivel específico
-            function showDifferencesForLevel(level, levels) {
+            // Función para generar el grid de niveles móvil
+            function generateMobileLevelsGrid() {
+                mobileLevelsGrid.innerHTML = '';
                 const maximo = parseFloat(maximoInput.value);
                 const minimo = parseFloat(minimoInput.value);
                 
-                selectedLevelInfo.textContent = `Diferencias para: ${level === 'maximo' ? 'Máximo' : level === 'minimo' ? 'Mínimo' : 'Nivel ' + level}`;
+                const allLevels = [
+                    { level: 'Máximo', value: maximo, type: 'maximo' },
+                    ...fibLevelsVertical.map(item => ({ level: item.level, value: currentLevels[item.level], type: 'nivel' })),
+                    { level: 'Mínimo', value: minimo, type: 'minimo' }
+                ];
                 
-                let tableHTML = '<thead><tr><th>Nivel</th><th>Valor</th><th>Diferencia</th></tr></thead><tbody>';
+                // Ordenar según el modo BUY/SELL
+                const displayLevels = currentAction === 'sell' 
+                    ? [...allLevels].reverse() 
+                    : allLevels;
+                
+                displayLevels.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'level-card';
+                    card.innerHTML = `
+                        <div class="level-name">${item.type === 'maximo' ? 'MÁXIMO' : item.type === 'minimo' ? 'MÍNIMO' : item.level}</div>
+                        <div class="level-value">${item.value.toFixed(2)}</div>
+                    `;
+                    
+                    card.addEventListener('click', function() {
+                        // Remover clase active de todas las cards
+                        document.querySelectorAll('.level-card').forEach(c => {
+                            c.classList.remove('active');
+                        });
+                        
+                        // Agregar clase active a la card seleccionada
+                        this.classList.add('active');
+                        
+                        // Mostrar diferencias
+                        selectedLevel = item.level;
+                        showMobileDifferencesForLevel(item.level, currentLevels);
+                    });
+                    
+                    mobileLevelsGrid.appendChild(card);
+                });
+            }
+            
+            // Función para mostrar diferencias en móvil
+            function showMobileDifferencesForLevel(level, levels) {
+                const maximo = parseFloat(maximoInput.value);
+                const minimo = parseFloat(minimoInput.value);
+                
+                mobileSelectedLevel.textContent = `Diferencias para: ${level === 'Máximo' ? 'MÁXIMO' : level === 'Mínimo' ? 'MÍNIMO' : level}`;
+                
+                mobileDifferencesList.innerHTML = '';
                 
                 const allLevels = [
                     { level: 'Máximo', value: maximo },
@@ -873,8 +864,8 @@
                     { level: 'Mínimo', value: minimo }
                 ];
                 
-                const currentValue = level === 'maximo' ? maximo : 
-                                   level === 'minimo' ? minimo : 
+                const currentValue = level === 'Máximo' ? maximo : 
+                                   level === 'Mínimo' ? minimo : 
                                    levels[level];
                 
                 allLevels.forEach(item => {
@@ -882,18 +873,18 @@
                         const diff = currentValue - item.value;
                         const diffClass = diff > 0 ? 'positive' : (diff < 0 ? 'negative' : 'zero');
                         
-                        tableHTML += `<tr>
-                            <td class="nivel-cell">${item.level === 'maximo' ? 'Máximo' : item.level === 'minimo' ? 'Mínimo' : 'Nivel ' + item.level}</td>
-                            <td class="maximo-cell">${item.value.toFixed(2)}</td>
-                            <td class="${diffClass}">${diff.toFixed(2)}</td>
-                        </tr>`;
+                        const diffItem = document.createElement('div');
+                        diffItem.className = 'difference-item';
+                        diffItem.innerHTML = `
+                            <span class="difference-level">${item.level === 'Máximo' ? 'MÁXIMO' : item.level === 'Mínimo' ? 'MÍNIMO' : item.level}</span>
+                            <span class="difference-value ${diffClass}">${diff > 0 ? '+' : ''}${diff.toFixed(2)}</span>
+                        `;
+                        
+                        mobileDifferencesList.appendChild(diffItem);
                     }
                 });
                 
-                tableHTML += '</tbody>';
-                differencesData.innerHTML = tableHTML;
-                differencesData.className = currentAction;
-                differencesTable.classList.add('active');
+                mobileDifferences.style.display = 'block';
             }
             
             // Event Listener para calcular
