@@ -25,30 +25,15 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-               body {
-            font-family: 'Exo 2', sans-serif;
-            background: url('https://raw.githubusercontent.com/welding30001994/vip/refs/heads/main/unnamed%20(1).jpg') no-repeat center center fixed;
-            background-size: cover;
-            color: #fff;
-            line-height: 1.6;
+        body {
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            color: var(--text);
             min-height: 100vh;
             padding: 20px;
-            position: relative;
-            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        
-        /* Capa oscura sobre la imagen de fondo */
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: -1;
-        }
-        
         
         .container {
             width: 100%;
@@ -62,10 +47,11 @@
         header {
             text-align: center;
             margin-bottom: 20px;
+            width: 100%;
         }
         
         h1 {
-            font-size: 2.5rem;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
             background: linear-gradient(to right, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             background-clip: text;
@@ -75,7 +61,7 @@
         }
         
         .subtitle {
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 2vw, 1.2rem);
             opacity: 0.8;
         }
         
@@ -85,12 +71,16 @@
             flex-wrap: wrap;
             justify-content: center;
             margin-bottom: 20px;
+            width: 100%;
         }
         
         .input-group {
             display: flex;
             flex-direction: column;
             gap: 8px;
+            flex: 1;
+            min-width: 200px;
+            max-width: 300px;
         }
         
         .input-container {
@@ -125,7 +115,7 @@
             background-color: rgba(26, 35, 58, 0.9);
             color: var(--text);
             font-size: 1rem;
-            width: 200px;
+            width: 100%;
             transition: all 0.3s ease;
         }
         
@@ -148,6 +138,7 @@
             align-self: flex-end;
             position: relative;
             overflow: hidden;
+            min-width: 150px;
         }
         
         .calculate-btn::before {
@@ -174,6 +165,7 @@
             align-items: center;
             gap: 20px;
             margin-bottom: 30px;
+            width: 100%;
         }
         
         .action-container {
@@ -198,15 +190,15 @@
         }
         
         .action-circle {
-            width: 150px;
-            height: 150px;
+            width: clamp(100px, 20vw, 150px);
+            height: clamp(100px, 20vw, 150px);
             border-radius: 50%;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 1.5rem;
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
             cursor: pointer;
             transition: all 0.4s ease;
             position: relative;
@@ -229,7 +221,7 @@
         }
         
         .action-label {
-            font-size: 0.9rem;
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
             margin-top: 5px;
             opacity: 0.9;
         }
@@ -245,6 +237,7 @@
             margin-bottom: 15px;
             flex-wrap: wrap;
             justify-content: center;
+            width: 100%;
         }
         
         .tab-btn {
@@ -259,6 +252,7 @@
             flex: 1;
             max-width: 200px;
             text-align: center;
+            font-size: clamp(0.9rem, 2vw, 1rem);
         }
         
         .tab-btn.active {
@@ -278,6 +272,7 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             overflow-x: auto;
             position: relative;
+            width: 100%;
         }
         
         .table-container::before {
@@ -293,32 +288,38 @@
             opacity: 0.3;
         }
         
-        table {
+        /* VISTA DESKTOP - Tabla Completa */
+        .desktop-view {
+            display: block;
+        }
+        
+        .desktop-table {
             width: 100%;
             border-collapse: collapse;
             text-align: center;
         }
         
-        th, td {
+        .desktop-table th, 
+        .desktop-table td {
             padding: 14px 18px;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: clamp(0.8rem, 1.5vw, 1.05rem);
         }
         
-        th {
+        .desktop-table th {
             background: rgba(0, 243, 255, 0.1);
             color: var(--primary);
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: clamp(0.9rem, 1.6vw, 1.1rem);
         }
         
-        td {
+        .desktop-table td {
             background: rgba(10, 14, 23, 0.5);
-            font-size: 1.05rem;
         }
         
         .maximo-cell {
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 1.8vw, 1.2rem);
         }
         
         .buy .maximo-cell {
@@ -333,7 +334,7 @@
         
         .nivel-cell {
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: clamp(0.9rem, 1.6vw, 1.1rem);
         }
         
         .buy .nivel-cell {
@@ -381,22 +382,30 @@
             background: rgba(255, 46, 99, 0.1);
         }
         
-        /* Estilos para vista móvil simplificada */
-        .mobile-levels-grid {
+        /* VISTA MÓVIL - Grid de Niveles */
+        .mobile-view {
             display: none;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 10px;
-            margin-bottom: 20px;
+        }
+        
+        .mobile-levels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 25px;
         }
         
         .level-card {
             background: rgba(26, 35, 58, 0.9);
             border: 2px solid var(--primary);
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 15px 10px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
         
         .level-card:hover {
@@ -413,13 +422,13 @@
         
         .level-name {
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: clamp(0.8rem, 3vw, 0.9rem);
             margin-bottom: 5px;
             color: var(--primary);
         }
         
         .level-value {
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 3vw, 1rem);
             font-weight: bold;
         }
         
@@ -430,29 +439,31 @@
         
         .selected-level-header {
             text-align: center;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-size: clamp(1rem, 4vw, 1.2rem);
             color: var(--primary);
             font-weight: 600;
-            padding: 10px;
+            padding: 15px;
             background: rgba(0, 243, 255, 0.1);
-            border-radius: 8px;
+            border-radius: 10px;
+            border: 1px solid var(--primary);
         }
         
         .differences-list {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
         }
         
         .difference-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 15px;
+            padding: 15px;
             background: rgba(26, 35, 58, 0.7);
-            border-radius: 8px;
+            border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: clamp(0.9rem, 3vw, 1rem);
         }
         
         .difference-level {
@@ -463,20 +474,31 @@
             font-weight: bold;
         }
         
-        @media (max-width: 768px) {
+        /* RESPONSIVE - Cambios entre desktop y móvil */
+        @media (max-width: 1024px) {
             .input-section {
                 flex-direction: column;
                 align-items: center;
             }
             
+            .input-group {
+                max-width: 400px;
+            }
+            
             .calculate-btn {
                 align-self: center;
                 width: 100%;
-                max-width: 200px;
+                max-width: 400px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .desktop-view {
+                display: none;
             }
             
-            h1 {
-                font-size: 2rem;
+            .mobile-view {
+                display: block;
             }
             
             .table-tabs {
@@ -489,78 +511,50 @@
                 max-width: 300px;
             }
             
-            th, td {
-                padding: 10px 12px;
-                font-size: 0.9rem;
-            }
-            
-            .action-circle {
-                width: 120px;
-                height: 120px;
-                font-size: 1.3rem;
-            }
-            
-            input {
-                width: 100%;
-                max-width: 300px;
-            }
-            
-            /* Mostrar vista móvil en tablets y teléfonos */
-            .desktop-table {
-                display: none;
-            }
-            
             .mobile-levels-grid {
-                display: grid;
-            }
-            
-            .mobile-differences {
-                display: block;
-            }
-            
-            /* Ocultar vista horizontal compleja en móviles */
-            #horizontal-view {
-                display: none !important;
+                grid-template-columns: repeat(2, 1fr);
             }
         }
         
         @media (max-width: 480px) {
-            h1 {
-                font-size: 1.8rem;
+            body {
+                padding: 15px;
             }
             
-            .subtitle {
-                font-size: 1rem;
+            .container {
+                gap: 20px;
             }
             
-            .action-circle {
-                width: 100px;
-                height: 100px;
-                font-size: 1.1rem;
-            }
-            
-            .action-label {
-                font-size: 0.8rem;
+            .input-section {
+                gap: 15px;
             }
             
             .table-container {
-                padding: 10px;
+                padding: 15px;
             }
             
             .mobile-levels-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: 1fr;
+                gap: 10px;
             }
             
             .level-card {
                 padding: 12px 8px;
+                min-height: 70px;
             }
             
-            .level-name {
-                font-size: 0.8rem;
+            .difference-item {
+                padding: 12px;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .desktop-view {
+                display: block;
             }
             
-            .level-value {
-                font-size: 0.9rem;
+            .mobile-view {
+                display: none;
             }
         }
     </style>
@@ -568,7 +562,7 @@
 <body>
     <div class="container">
         <header>
-            <h1>Beaver Trading</h1>
+            <h1>CALCULADORA FIBONACCI</h1>
             <p class="subtitle">Análisis de retrocesos y extensiones</p>
         </header>
         
@@ -599,20 +593,20 @@
         
         <div class="results-section" id="results-section">
             <div class="table-tabs">
-                <button class="tab-btn active" data-tab="vertical">Vista Completa</button>
-                <button class="tab-btn" data-tab="differences">Ver Diferencias</button>
+                <button class="tab-btn active" data-tab="desktop">Vista Completa</button>
+                <button class="tab-btn" data-tab="mobile">Ver Diferencias</button>
             </div>
             
             <div class="table-container">
-                <!-- Vista Vertical (Tabla Completa para Desktop) -->
-                <div id="vertical-view" class="desktop-table">
-                    <table id="fibonacci-table">
+                <!-- VISTA DESKTOP - Tabla Completa -->
+                <div class="desktop-view">
+                    <table class="desktop-table" id="fibonacci-table">
                         <!-- La tabla se generará dinámicamente con JavaScript -->
                     </table>
                 </div>
                 
-                <!-- Vista Móvil Simplificada -->
-                <div id="mobile-view">
+                <!-- VISTA MÓVIL - Grid Interactivo -->
+                <div class="mobile-view">
                     <!-- Grid de niveles para móviles -->
                     <div class="mobile-levels-grid" id="mobile-levels-grid">
                         <!-- Los niveles se generarán dinámicamente con JavaScript -->
@@ -646,11 +640,11 @@
             const mobileDifferencesList = document.getElementById('mobile-differences-list');
             const container = document.querySelector('.container');
             const tabBtns = document.querySelectorAll('.tab-btn');
-            const verticalView = document.getElementById('vertical-view');
-            const mobileView = document.getElementById('mobile-view');
+            const desktopView = document.querySelector('.desktop-view');
+            const mobileView = document.querySelector('.mobile-view');
             
             let currentAction = 'buy';
-            let currentTab = 'vertical';
+            let currentTab = 'desktop';
             let currentLevels = {};
             let selectedLevel = null;
             
@@ -694,16 +688,13 @@
                     container.classList.add('buy');
                 }
                 
-                // Regenerar tabla si ya hay datos
+                // Regenerar datos si ya hay información
                 const maximo = parseFloat(maximoInput.value);
                 const minimo = parseFloat(minimoInput.value);
                 
                 if (!isNaN(maximo) && !isNaN(minimo) && maximo > minimo) {
                     const levels = calculateFibonacciLevels(maximo, minimo);
-                    generateTable(maximo, minimo, levels);
-                    if (selectedLevel) {
-                        showMobileDifferencesForLevel(selectedLevel, levels);
-                    }
+                    updateAllViews(maximo, minimo, levels);
                 }
             });
             
@@ -717,11 +708,11 @@
                     currentTab = this.getAttribute('data-tab');
                     
                     // Mostrar la vista correspondiente
-                    if (currentTab === 'vertical') {
-                        verticalView.style.display = 'block';
+                    if (currentTab === 'desktop') {
+                        desktopView.style.display = 'block';
                         mobileView.style.display = 'none';
                     } else {
-                        verticalView.style.display = 'none';
+                        desktopView.style.display = 'none';
                         mobileView.style.display = 'block';
                         
                         // Generar grid móvil si hay datos
@@ -729,7 +720,7 @@
                         const minimo = parseFloat(minimoInput.value);
                         
                         if (!isNaN(maximo) && !isNaN(minimo) && maximo > minimo) {
-                            generateMobileLevelsGrid();
+                            generateMobileLevelsGrid(maximo, minimo);
                         }
                     }
                 });
@@ -749,10 +740,19 @@
                 return levels;
             }
             
-            // Función para generar la tabla vertical
-            function generateTable(maximo, minimo, levels) {
+            // Función para actualizar todas las vistas
+            function updateAllViews(maximo, minimo, levels) {
                 currentLevels = levels;
+                generateDesktopTable(maximo, minimo, levels);
+                generateMobileLevelsGrid(maximo, minimo);
                 
+                if (selectedLevel) {
+                    showMobileDifferencesForLevel(selectedLevel, levels);
+                }
+            }
+            
+            // Función para generar la tabla desktop
+            function generateDesktopTable(maximo, minimo, levels) {
                 let tableHTML = '<thead><tr><th></th><th>Máximo</th>';
                 
                 // Encabezados de niveles horizontales
@@ -799,18 +799,11 @@
                 
                 // Aplicar clase de modo (buy/sell) a la tabla
                 fibTable.className = currentAction;
-                
-                // Generar grid móvil si estamos en la vista de diferencias
-                if (currentTab === 'differences') {
-                    generateMobileLevelsGrid();
-                }
             }
             
             // Función para generar el grid de niveles móvil
-            function generateMobileLevelsGrid() {
+            function generateMobileLevelsGrid(maximo, minimo) {
                 mobileLevelsGrid.innerHTML = '';
-                const maximo = parseFloat(maximoInput.value);
-                const minimo = parseFloat(minimoInput.value);
                 
                 const allLevels = [
                     { level: 'Máximo', value: maximo, type: 'maximo' },
@@ -898,7 +891,7 @@
                 }
                 
                 const levels = calculateFibonacciLevels(maximo, minimo);
-                generateTable(maximo, minimo, levels);
+                updateAllViews(maximo, minimo, levels);
                 resultsSection.style.display = 'block';
                 
                 // Aplicar clase de modo (buy/sell) al contenedor
