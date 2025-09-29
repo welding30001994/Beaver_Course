@@ -25,7 +25,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-         body {
+           body {
             font-family: 'Exo 2', sans-serif;
             background: url('https://raw.githubusercontent.com/welding30001994/vip/refs/heads/main/unnamed%20(1).jpg') no-repeat center center fixed;
             background-size: cover;
@@ -48,7 +48,6 @@
             background-color: rgba(0, 0, 0, 0.7);
             z-index: -1;
         }
-        
         
         .container {
             width: 100%;
@@ -93,6 +92,25 @@
             gap: 8px;
         }
         
+        .input-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        .input-container::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            z-index: -1;
+            opacity: 0.7;
+        }
+        
         label {
             font-size: 0.9rem;
             color: var(--primary);
@@ -101,9 +119,9 @@
         
         input {
             padding: 12px 15px;
-            border: 1px solid var(--light);
+            border: 2px solid transparent;
             border-radius: 8px;
-            background-color: rgba(26, 35, 58, 0.7);
+            background-color: rgba(26, 35, 58, 0.9);
             color: var(--text);
             font-size: 1rem;
             width: 200px;
@@ -113,7 +131,7 @@
         input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
         }
         
         .calculate-btn {
@@ -127,11 +145,26 @@
             cursor: pointer;
             transition: all 0.3s ease;
             align-self: flex-end;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .calculate-btn::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            z-index: -1;
+            opacity: 0.7;
         }
         
         .calculate-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 243, 255, 0.4);
+            box-shadow: 0 5px 20px rgba(0, 243, 255, 0.6);
         }
         
         .action-section {
@@ -140,6 +173,27 @@
             align-items: center;
             gap: 20px;
             margin-bottom: 30px;
+        }
+        
+        .action-container {
+            position: relative;
+            padding: 15px;
+            border-radius: 20px;
+            background: rgba(26, 35, 58, 0.7);
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
+        }
+        
+        .action-container::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 23px;
+            z-index: -1;
+            opacity: 0.5;
         }
         
         .action-circle {
@@ -156,7 +210,6 @@
             transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
         }
         
         .action-circle.buy {
@@ -185,12 +238,58 @@
             display: none;
         }
         
+        .table-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .tab-btn {
+            padding: 12px 25px;
+            background: rgba(26, 35, 58, 0.7);
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            color: var(--text);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            max-width: 200px;
+            text-align: center;
+        }
+        
+        .tab-btn.active {
+            background: var(--primary);
+            color: var(--darker);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
+        }
+        
+        .tab-btn:hover {
+            transform: translateY(-2px);
+        }
+        
         .table-container {
             background: rgba(26, 35, 58, 0.7);
             border-radius: 12px;
             padding: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             overflow-x: auto;
+            position: relative;
+        }
+        
+        .table-container::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 15px;
+            z-index: -1;
+            opacity: 0.3;
         }
         
         table {
@@ -281,6 +380,115 @@
             background: rgba(255, 46, 99, 0.1);
         }
         
+        /* Estilos para el menú desplegable */
+        .dropdown-section {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        
+        .dropdown-container {
+            position: relative;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .dropdown-header {
+            padding: 15px 20px;
+            background: rgba(26, 35, 58, 0.9);
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .dropdown-header:hover {
+            background: rgba(0, 243, 255, 0.1);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+        }
+        
+        .dropdown-header.active {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            background: rgba(0, 243, 255, 0.15);
+        }
+        
+        .dropdown-arrow {
+            transition: transform 0.3s ease;
+        }
+        
+        .dropdown-arrow.active {
+            transform: rotate(180deg);
+        }
+        
+        .dropdown-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(26, 35, 58, 0.95);
+            border: 2px solid var(--primary);
+            border-top: none;
+            border-radius: 0 0 10px 10px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            z-index: 100;
+        }
+        
+        .dropdown-content.active {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .dropdown-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+        
+        .dropdown-item:hover {
+            background: rgba(0, 243, 255, 0.1);
+        }
+        
+        .dropdown-item.active {
+            background: rgba(0, 243, 255, 0.2);
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .differences-table {
+            width: 100%;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .differences-table.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .selected-level-info {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
         @media (max-width: 768px) {
             .input-section {
                 flex-direction: column;
@@ -289,18 +497,66 @@
             
             .calculate-btn {
                 align-self: center;
+                width: 100%;
+                max-width: 200px;
             }
             
             h1 {
                 font-size: 2rem;
             }
             
-            table {
-                font-size: 0.9rem;
+            .table-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tab-btn {
+                width: 100%;
+                max-width: 300px;
             }
             
             th, td {
                 padding: 10px 12px;
+                font-size: 0.9rem;
+            }
+            
+            .action-circle {
+                width: 120px;
+                height: 120px;
+                font-size: 1.3rem;
+            }
+            
+            input {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .dropdown-container {
+                max-width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .action-circle {
+                width: 100px;
+                height: 100px;
+                font-size: 1.1rem;
+            }
+            
+            .action-label {
+                font-size: 0.8rem;
+            }
+            
+            .table-container {
+                padding: 10px;
             }
         }
     </style>
@@ -309,33 +565,69 @@
     <div class="container">
         <header>
             <h1>Beaver Trading</h1>
-         
+            <p class="subtitle">Análisis de retrocesos y extensiones</p>
         </header>
         
         <div class="input-section">
             <div class="input-group">
                 <label for="maximo">MÁXIMO</label>
-                <input type="number" id="maximo" step="0.01" placeholder="Ingresa valor máximo">
+                <div class="input-container">
+                    <input type="number" id="maximo" step="0.01" placeholder="Ingresa valor máximo">
+                </div>
             </div>
             <div class="input-group">
                 <label for="minimo">MÍNIMO</label>
-                <input type="number" id="minimo" step="0.01" placeholder="Ingresa valor mínimo">
+                <div class="input-container">
+                    <input type="number" id="minimo" step="0.01" placeholder="Ingresa valor mínimo">
+                </div>
             </div>
             <button class="calculate-btn" id="calcular">CALCULAR</button>
         </div>
         
         <div class="action-section">
-            <div class="action-circle buy" id="action-circle">
-                <div>BUY</div>
-                <div class="action-label">COMPRAR</div>
+            <div class="action-container">
+                <div class="action-circle buy" id="action-circle">
+                    <div>BUY</div>
+                    <div class="action-label">COMPRAR</div>
+                </div>
             </div>
         </div>
         
         <div class="results-section" id="results-section">
+            <div class="table-tabs">
+                <button class="tab-btn active" data-tab="vertical">Vista Vertical</button>
+                <button class="tab-btn" data-tab="horizontal">Diferencias por Nivel</button>
+            </div>
+            
             <div class="table-container">
-                <table id="fibonacci-table">
-                    <!-- La tabla se generará dinámicamente con JavaScript -->
-                </table>
+                <!-- Vista Vertical (Tabla Completa) -->
+                <div id="vertical-view" class="desktop-table">
+                    <table id="fibonacci-table">
+                        <!-- La tabla se generará dinámicamente con JavaScript -->
+                    </table>
+                </div>
+                
+                <!-- Vista Horizontal (Menú Desplegable) -->
+                <div id="horizontal-view" style="display: none;">
+                    <div class="dropdown-section">
+                        <div class="dropdown-container">
+                            <div class="dropdown-header" id="dropdown-header">
+                                <span>Selecciona un nivel para ver diferencias</span>
+                                <span class="dropdown-arrow">▼</span>
+                            </div>
+                            <div class="dropdown-content" id="dropdown-content">
+                                <!-- Los niveles se generarán dinámicamente con JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="differences-table" id="differences-table">
+                        <div class="selected-level-info" id="selected-level-info"></div>
+                        <table id="differences-data">
+                            <!-- Los datos de diferencias se generarán dinámicamente con JavaScript -->
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -349,8 +641,20 @@
             const resultsSection = document.getElementById('results-section');
             const fibTable = document.getElementById('fibonacci-table');
             const container = document.querySelector('.container');
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const dropdownHeader = document.getElementById('dropdown-header');
+            const dropdownContent = document.getElementById('dropdown-content');
+            const dropdownArrow = document.querySelector('.dropdown-arrow');
+            const differencesTable = document.getElementById('differences-table');
+            const selectedLevelInfo = document.getElementById('selected-level-info');
+            const differencesData = document.getElementById('differences-data');
+            const verticalView = document.getElementById('vertical-view');
+            const horizontalView = document.getElementById('horizontal-view');
             
             let currentAction = 'buy';
+            let currentTab = 'vertical';
+            let currentLevels = {};
+            let selectedLevel = null;
             
             // Niveles de Fibonacci para zona horizontal
             const fibLevelsHorizontal = [
@@ -399,7 +703,45 @@
                 if (!isNaN(maximo) && !isNaN(minimo) && maximo > minimo) {
                     const levels = calculateFibonacciLevels(maximo, minimo);
                     generateTable(maximo, minimo, levels);
+                    if (selectedLevel) {
+                        showDifferencesForLevel(selectedLevel, levels);
+                    }
                 }
+            });
+            
+            // Cambiar entre pestañas
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remover clase active de todos los botones
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    // Agregar clase active al botón clickeado
+                    this.classList.add('active');
+                    currentTab = this.getAttribute('data-tab');
+                    
+                    // Mostrar la vista correspondiente
+                    if (currentTab === 'vertical') {
+                        verticalView.style.display = 'block';
+                        horizontalView.style.display = 'none';
+                    } else {
+                        verticalView.style.display = 'none';
+                        horizontalView.style.display = 'block';
+                        
+                        // Generar menú desplegable si hay datos
+                        const maximo = parseFloat(maximoInput.value);
+                        const minimo = parseFloat(minimoInput.value);
+                        
+                        if (!isNaN(maximo) && !isNaN(minimo) && maximo > minimo) {
+                            generateDropdownMenu();
+                        }
+                    }
+                });
+            });
+            
+            // Abrir/cerrar menú desplegable
+            dropdownHeader.addEventListener('click', function() {
+                dropdownHeader.classList.toggle('active');
+                dropdownContent.classList.toggle('active');
+                dropdownArrow.classList.toggle('active');
             });
             
             // Función para calcular los niveles de Fibonacci
@@ -416,34 +758,11 @@
                 return levels;
             }
             
-            // Función para invertir los niveles para SELL
-            function invertLevelsForSell(maximo, minimo, levels) {
-                const invertedLevels = {};
-                const diff = maximo - minimo;
-                
-                // Para SELL, invertimos el orden de los niveles manteniendo el cálculo correcto
-                Object.keys(levels).forEach(level => {
-                    // En SELL, los niveles se muestran en orden inverso visualmente
-                    // pero manteniendo los valores calculados correctamente
-                    invertedLevels[level] = levels[level];
-                });
-                
-                return {
-                    maximo: maximo,
-                    minimo: minimo,
-                    levels: invertedLevels
-                };
-            }
-            
-            // Función para generar la tabla
+            // Función para generar la tabla vertical
             function generateTable(maximo, minimo, levels) {
-                let tableHTML = '<thead><tr><th></th><th>Máximo</th>';
+                currentLevels = levels;
                 
-                // Si es SELL, invertimos la visualización de los niveles
-                let displayData = { maximo, minimo, levels };
-                if (currentAction === 'sell') {
-                    displayData = invertLevelsForSell(maximo, minimo, levels);
-                }
+                let tableHTML = '<thead><tr><th></th><th>Máximo</th>';
                 
                 // Encabezados de niveles horizontales
                 fibLevelsHorizontal.forEach(item => {
@@ -452,9 +771,9 @@
                 tableHTML += '</tr></thead><tbody>';
                 
                 // Fila de máximos
-                tableHTML += `<tr><td class="nivel-cell">Máximo</td><td class="maximo-cell">${displayData.maximo.toFixed(2)}</td>`;
+                tableHTML += `<tr><td class="nivel-cell">Máximo</td><td class="maximo-cell">${maximo.toFixed(2)}</td>`;
                 fibLevelsHorizontal.forEach(item => {
-                    tableHTML += `<td class="maximo-cell">${displayData.levels[item.level].toFixed(2)}</td>`;
+                    tableHTML += `<td class="maximo-cell">${levels[item.level].toFixed(2)}</td>`;
                 });
                 tableHTML += '</tr>';
                 
@@ -464,10 +783,10 @@
                     : fibLevelsVertical;
                 
                 verticalLevels.forEach(rowItem => {
-                    tableHTML += `<tr><td class="nivel-cell">Nivel ${rowItem.level}</td><td class="nivel-cell">${displayData.levels[rowItem.level].toFixed(2)}</td>`;
+                    tableHTML += `<tr><td class="nivel-cell">Nivel ${rowItem.level}</td><td class="nivel-cell">${levels[rowItem.level].toFixed(2)}</td>`;
                     
                     fibLevelsHorizontal.forEach(colItem => {
-                        const diff = displayData.levels[rowItem.level] - displayData.levels[colItem.level];
+                        const diff = levels[rowItem.level] - levels[colItem.level];
                         const diffClass = diff > 0 ? 'positive' : (diff < 0 ? 'negative' : 'zero');
                         tableHTML += `<td class="${diffClass}">${diff.toFixed(2)}</td>`;
                     });
@@ -476,9 +795,9 @@
                 });
                 
                 // Fila de mínimos
-                tableHTML += `<tr><td class="nivel-cell">Mínimo</td><td class="maximo-cell">${displayData.minimo.toFixed(2)}</td>`;
+                tableHTML += `<tr><td class="nivel-cell">Mínimo</td><td class="maximo-cell">${minimo.toFixed(2)}</td>`;
                 fibLevelsHorizontal.forEach(item => {
-                    const diff = displayData.minimo - displayData.levels[item.level];
+                    const diff = minimo - levels[item.level];
                     const diffClass = diff > 0 ? 'positive' : (diff < 0 ? 'negative' : 'zero');
                     tableHTML += `<td class="${diffClass}">${diff.toFixed(2)}</td>`;
                 });
@@ -489,6 +808,92 @@
                 
                 // Aplicar clase de modo (buy/sell) a la tabla
                 fibTable.className = currentAction;
+                
+                // Generar menú desplegable si estamos en la vista horizontal
+                if (currentTab === 'horizontal') {
+                    generateDropdownMenu();
+                }
+            }
+            
+            // Función para generar el menú desplegable
+            function generateDropdownMenu() {
+                dropdownContent.innerHTML = '';
+                
+                const allLevels = [
+                    { level: 'Máximo', value: 'maximo' },
+                    ...fibLevelsVertical,
+                    { level: 'Mínimo', value: 'minimo' }
+                ];
+                
+                allLevels.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'dropdown-item';
+                    div.textContent = item.level === 'maximo' || item.level === 'minimo' 
+                        ? item.level.charAt(0).toUpperCase() + item.level.slice(1)
+                        : `Nivel ${item.level}`;
+                    
+                    div.addEventListener('click', function() {
+                        // Remover clase active de todos los items
+                        document.querySelectorAll('.dropdown-item').forEach(i => {
+                            i.classList.remove('active');
+                        });
+                        
+                        // Agregar clase active al item seleccionado
+                        this.classList.add('active');
+                        
+                        // Actualizar header
+                        dropdownHeader.querySelector('span:first-child').textContent = this.textContent;
+                        
+                        // Cerrar dropdown
+                        dropdownHeader.classList.remove('active');
+                        dropdownContent.classList.remove('active');
+                        dropdownArrow.classList.remove('active');
+                        
+                        // Mostrar diferencias
+                        selectedLevel = item.level;
+                        showDifferencesForLevel(item.level, currentLevels);
+                    });
+                    
+                    dropdownContent.appendChild(div);
+                });
+            }
+            
+            // Función para mostrar diferencias de un nivel específico
+            function showDifferencesForLevel(level, levels) {
+                const maximo = parseFloat(maximoInput.value);
+                const minimo = parseFloat(minimoInput.value);
+                
+                selectedLevelInfo.textContent = `Diferencias para: ${level === 'maximo' ? 'Máximo' : level === 'minimo' ? 'Mínimo' : 'Nivel ' + level}`;
+                
+                let tableHTML = '<thead><tr><th>Nivel</th><th>Valor</th><th>Diferencia</th></tr></thead><tbody>';
+                
+                const allLevels = [
+                    { level: 'Máximo', value: maximo },
+                    ...fibLevelsVertical.map(item => ({ level: item.level, value: levels[item.level] })),
+                    { level: 'Mínimo', value: minimo }
+                ];
+                
+                const currentValue = level === 'maximo' ? maximo : 
+                                   level === 'minimo' ? minimo : 
+                                   levels[level];
+                
+                allLevels.forEach(item => {
+                    if (item.level !== level) {
+                        const diff = currentValue - item.value;
+                        const diffClass = diff > 0 ? 'positive' : (diff < 0 ? 'negative' : 'zero');
+                        
+                        tableHTML += `<tr>
+                            <td class="nivel-cell">${item.level === 'maximo' ? 'Máximo' : item.level === 'minimo' ? 'Mínimo' : 'Nivel ' + item.level}</td>
+                            <td class="maximo-cell">${item.value.toFixed(2)}</td>
+                            <td class="${diffClass}">${diff.toFixed(2)}</td>
+                        </tr>`;
+                    }
+                });
+                
+                tableHTML += '</tbody>';
+                differencesData.innerHTML = tableHTML;
+                differencesData.className = currentAction;
+                differencesTable.classList.add('active');
             }
             
             // Event Listener para calcular
