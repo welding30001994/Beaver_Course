@@ -54,6 +54,39 @@ git push -u origin main
 🔹 git push: Envía (empuja) los cambios desde tu computadora hacia el repositorio remoto (GitHub).
 🔹 -u: Crea una relación entre la rama local (main) y la remota (main) para que en el futuro solo tengas que escribir:
 
+
+
+
+
+
+
+
+
+
+git push
+git init
+git add .
+git commit -m "Primer commit"
+git branch -M main
+git branch -M main
+git push -u origin main
+
+
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 302 bytes | 100.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/welding30001994/Beaver_Course.git
+   c9858a4..07af78a  main -> main
+branch 'main' set up to track 'origin/main'.
+
+C:\Users\Lenovo\course>
+
+
+
 git push
 
 
