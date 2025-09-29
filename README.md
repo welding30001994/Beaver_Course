@@ -87,6 +87,118 @@ C:\Users\Lenovo\course>
 
 
 
+
+********************************************************
+esta es la forma de subir del cpu 
+
+git remote remove origin
+
+git remote add origin https://github.com/welding30001994/Beaver_Course.git
+git push -u origin main --force
+
+git push
+git add .
+git commit -m "Mensaje descriptivo"
+git push
+
+*******************************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 git push
 
 
