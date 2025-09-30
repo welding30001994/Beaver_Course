@@ -714,58 +714,6 @@
         text-shadow: 0 0 10px rgba(255, 51, 102, 0.5);
     }
     
-    /* Botón de Google */
-    .google-auth-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 12px;
-        padding: 15px;
-        background: transparent;
-        color: white;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: var(--transition);
-        margin-top: 1rem;
-        font-size: 1rem;
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .google-auth-btn:hover {
-        background: rgba(255, 255, 255, 0.1);
-        border-color: rgba(255, 255, 255, 0.5);
-        transform: translateY(-2px);
-    }
-    
-    .google-auth-btn i {
-        font-size: 1.2rem;
-        color: #4285F4;
-    }
-    
-    .divider {
-        display: flex;
-        align-items: center;
-        margin: 1.5rem 0;
-        color: rgba(224, 224, 255, 0.6);
-        font-family: 'Rajdhani', sans-serif;
-        font-weight: 500;
-    }
-    
-    .divider::before,
-    .divider::after {
-        content: '';
-        flex: 1;
-        height: 1px;
-        background: rgba(224, 224, 255, 0.3);
-    }
-    
-    .divider span {
-        padding: 0 15px;
-    }
-    
     /* Efectos de partículas para el fondo */
     #particles-js {
         position: fixed;
@@ -955,15 +903,6 @@
                 <input type="email" id="loginEmail" placeholder="Correo electrónico" required>
                 <input type="password" id="loginPassword" placeholder="Contraseña" required>
                 <button type="submit" class="auth-submit">Acceder</button>
-                
-                <div class="divider">
-                    <span>o continúa con</span>
-                </div>
-                
-                <button type="button" class="google-auth-btn" id="googleLoginBtn">
-                    <i class="fab fa-google"></i>
-                    <span>Iniciar sesión con Google</span>
-                </button>
             </form>
             <form class="auth-form" id="registerForm" style="display: none;">
                 <div id="registerError" class="auth-error"></div>
@@ -972,15 +911,6 @@
                 <input type="password" id="registerPassword" placeholder="Contraseña" required>
                 <input type="password" id="registerConfirmPassword" placeholder="Confirmar contraseña" required>
                 <button type="submit" class="auth-submit">Unirse a VIP</button>
-                
-                <div class="divider">
-                    <span>o continúa con</span>
-                </div>
-                
-                <button type="button" class="google-auth-btn" id="googleRegisterBtn">
-                    <i class="fab fa-google"></i>
-                    <span>Registrarse con Google</span>
-                </button>
             </form>
             <div class="auth-toggle">
                 <span id="toggleAuthForm">¿No tienes una cuenta? Únete a VIP</span>
@@ -1075,8 +1005,6 @@
         const authError = document.getElementById('authError');
         const registerError = document.getElementById('registerError');
         const heroCta = document.getElementById('heroCta');
-        const googleLoginBtn = document.getElementById('googleLoginBtn');
-        const googleRegisterBtn = document.getElementById('googleRegisterBtn');
         
         // Mostrar modal de login
         openLogin.addEventListener('click', () => {
@@ -1131,7 +1059,7 @@
             }
         });
         
-        // Login con email/password
+        // Login
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
             
@@ -1151,7 +1079,7 @@
                 });
         });
         
-        // Registro con email/password
+        // Registro
         registerForm.addEventListener('submit', (e) => {
             e.preventDefault();
             
@@ -1194,58 +1122,6 @@
                     registerError.textContent = error.message;
                 });
         });
-        
-        // Función para autenticación con Google
-        function signInWithGoogle() {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            provider.addScope('email');
-            provider.addScope('profile');
-            
-            auth.signInWithPopup(provider)
-                .then((result) => {
-                    // Autenticación exitosa
-                    const user = result.user;
-                    
-                    // Verificar si el usuario es nuevo
-                    const userRef = database.ref('users/' + user.uid);
-                    userRef.once('value').then((snapshot) => {
-                        if (!snapshot.exists()) {
-                            // Usuario nuevo, guardar en la base de datos
-                            userRef.set({
-                                name: user.displayName,
-                                email: user.email,
-                                createdAt: firebase.database.ServerValue.TIMESTAMP,
-                                vipAccess: true,
-                                lastLogin: firebase.database.ServerValue.TIMESTAMP
-                            });
-                        } else {
-                            // Usuario existente, actualizar último login
-                            userRef.update({
-                                lastLogin: firebase.database.ServerValue.TIMESTAMP
-                            });
-                        }
-                        
-                        authModal.style.display = 'none';
-                        document.body.style.overflow = 'auto';
-                        window.location.href = 'dashboard.html';
-                    });
-                })
-                .catch((error) => {
-                    // Manejar errores
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    
-                    if (loginForm.style.display === 'flex') {
-                        authError.textContent = errorMessage;
-                    } else {
-                        registerError.textContent = errorMessage;
-                    }
-                });
-        }
-        
-        // Asignar la función de autenticación con Google a los botones
-        googleLoginBtn.addEventListener('click', signInWithGoogle);
-        googleRegisterBtn.addEventListener('click', signInWithGoogle);
         
         // CTA button
         heroCta.addEventListener('click', () => {
