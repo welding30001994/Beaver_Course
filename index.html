@@ -17,11 +17,15 @@
     :root {
         --primary: #00f0ff;
         --accent: #7a04eb;
+        --accent-glow: rgba(122, 4, 235, 0.4);
         --dark: #0a0a1a;
         --darker: #050510;
         --light: #e0e0ff;
         --card-bg: rgba(15, 15, 35, 0.6);
+        --card-bg-solid: rgba(15, 15, 35, 0.9);
         --neon-glow: 0 0 10px var(--primary), 0 0 20px rgba(0, 240, 255, 0.3);
+        --neon-glow-strong: 0 0 15px var(--primary), 0 0 30px rgba(0, 240, 255, 0.4);
+        --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     
     * {
@@ -31,36 +35,28 @@
         font-family: 'Orbitron', 'Rajdhani', sans-serif;
     }
     
-        body {
-            font-family: 'Exo 2', sans-serif;
-            background: url('https://raw.githubusercontent.com/welding30001994/vip/refs/heads/main/unnamed%20(1).jpg') no-repeat center center fixed;
-            background-size: cover;
-            color: #fff;
-            line-height: 1.6;
-            min-height: 100vh;
-            padding: 20px;
-            position: relative;
-            overflow-x: hidden;
-        }
-        
-      
-        /* Capa oscura sobre la imagen de fondo */
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: -1;
-        }
-        
-      
-      
-      
-      
-      
+    body {
+        background: url('https://raw.githubusercontent.com/welding30001994/vip/refs/heads/main/unnamed%20(1).jpg') no-repeat center center fixed;
+        background-size: cover;
+        color: #fff;
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 20px;
+        position: relative;
+        overflow-x: hidden;
+    }
+    
+    /* Capa oscura sobre la imagen de fondo */
+    body::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(5, 5, 16, 0.85) 0%, rgba(10, 10, 26, 0.8) 100%);
+        z-index: -1;
+    }
     
     .grid-overlay {
         position: fixed;
@@ -69,8 +65,8 @@
         width: 100%;
         height: 100%;
         background: 
-            linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+            linear-gradient(rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
         background-size: 50px 50px;
         pointer-events: none;
         z-index: -1;
@@ -88,10 +84,11 @@
         color: white;
         padding: 1rem 0;
         border-bottom: 1px solid rgba(0, 240, 255, 0.2);
-        backdrop-filter: blur(10px);
+        backdrop-filter: blur(15px);
         position: sticky;
         top: 0;
         z-index: 100;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     }
     
     nav {
@@ -108,11 +105,13 @@
         gap: 10px;
         letter-spacing: 1px;
         color: var(--primary);
+        text-shadow: var(--neon-glow);
     }
     
     .logo i {
         color: var(--primary);
         font-size: 2rem;
+        filter: drop-shadow(0 0 5px var(--primary));
     }
     
     .nav-links {
@@ -124,26 +123,29 @@
         color: var(--light);
         text-decoration: none;
         font-weight: 600;
-        transition: all 0.3s ease;
+        transition: var(--transition);
         position: relative;
         font-family: 'Rajdhani', sans-serif;
         font-size: 1.1rem;
         letter-spacing: 1px;
+        padding: 5px 0;
     }
     
     .nav-links a:hover {
         color: var(--primary);
+        text-shadow: var(--neon-glow);
     }
     
     .nav-links a::after {
         content: '';
         position: absolute;
         width: 0;
-        height: 1px;
-        bottom: -5px;
+        height: 2px;
+        bottom: 0;
         left: 0;
         background: var(--primary);
-        transition: width 0.3s ease;
+        transition: width 0.4s ease;
+        box-shadow: var(--neon-glow);
     }
     
     .nav-links a:hover::after {
@@ -151,17 +153,18 @@
     }
     
     .auth-buttons button {
-        padding: 10px 20px;
-        border-radius: 4px;
+        padding: 12px 25px;
+        border-radius: 6px;
         font-weight: 700;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: var(--transition);
         font-family: 'Rajdhani', sans-serif;
         text-transform: uppercase;
         letter-spacing: 1.5px;
         position: relative;
         overflow: hidden;
         z-index: 1;
+        font-size: 0.9rem;
     }
     
     .login-btn {
@@ -173,6 +176,7 @@
     
     .login-btn:hover {
         background: rgba(0, 240, 255, 0.1);
+        box-shadow: var(--neon-glow);
     }
     
     .register-btn {
@@ -183,10 +187,11 @@
     
     .register-btn:hover {
         background: rgba(0, 240, 255, 0.2);
+        box-shadow: var(--neon-glow);
     }
     
     .hero {
-        padding: 8rem 0 6rem;
+        padding: 10rem 0 8rem;
         text-align: center;
         position: relative;
         overflow: hidden;
@@ -227,13 +232,20 @@
     }
     
     .hero h1 {
-        font-size: 4rem;
+        font-size: 4.5rem;
         margin-bottom: 1.5rem;
         font-weight: 900;
         letter-spacing: 3px;
         position: relative;
         display: inline-block;
         color: var(--primary);
+        text-shadow: var(--neon-glow-strong);
+        animation: pulse 3s infinite alternate;
+    }
+    
+    @keyframes pulse {
+        0% { text-shadow: 0 0 10px var(--primary), 0 0 20px rgba(0, 240, 255, 0.3); }
+        100% { text-shadow: 0 0 15px var(--primary), 0 0 30px rgba(0, 240, 255, 0.5), 0 0 40px rgba(0, 240, 255, 0.2); }
     }
     
     .hero h1::after {
@@ -245,6 +257,7 @@
         width: 150px;
         height: 2px;
         background: var(--primary);
+        box-shadow: var(--neon-glow);
     }
     
     .hero p {
@@ -255,27 +268,31 @@
         font-family: 'Rajdhani', sans-serif;
         font-weight: 500;
         line-height: 1.8;
+        text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     }
     
     .cta-button {
-        padding: 15px 35px;
+        padding: 18px 40px;
         background-color: transparent;
         color: var(--primary);
         border: 1px solid var(--primary);
-        border-radius: 0;
+        border-radius: 6px;
         font-size: 1.2rem;
         font-weight: 700;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: var(--transition);
         text-transform: uppercase;
         letter-spacing: 2px;
         position: relative;
         overflow: hidden;
         z-index: 1;
+        box-shadow: var(--neon-glow);
     }
     
     .cta-button:hover {
         background-color: rgba(0, 240, 255, 0.1);
+        box-shadow: var(--neon-glow-strong);
+        transform: translateY(-3px);
     }
     
     .features {
@@ -311,6 +328,7 @@
         letter-spacing: 2px;
         position: relative;
         display: inline-block;
+        text-shadow: var(--neon-glow);
     }
     
     .section-title h2::after {
@@ -322,6 +340,7 @@
         width: 100px;
         height: 2px;
         background: var(--primary);
+        box-shadow: var(--neon-glow);
     }
     
     .section-title p {
@@ -342,18 +361,31 @@
     
     .feature-card {
         background: var(--card-bg);
-        border-radius: 8px;
+        border-radius: 12px;
         padding: 3rem 2.5rem;
-        transition: all 0.5s ease;
+        transition: var(--transition);
         border: 1px solid rgba(0, 240, 255, 0.1);
         position: relative;
         overflow: hidden;
-        backdrop-filter: blur(10px);
+        backdrop-filter: blur(15px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     }
     
     .feature-card:hover {
         transform: translateY(-10px);
         border-color: var(--primary);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3), var(--neon-glow);
+    }
+    
+    .feature-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(0, 240, 255, 0.05) 0%, transparent 50%);
+        z-index: -1;
     }
     
     .feature-icon {
@@ -365,6 +397,7 @@
     
     .feature-icon i {
         color: var(--primary);
+        filter: drop-shadow(0 0 5px var(--primary));
     }
     
     .feature-card h3 {
@@ -391,6 +424,7 @@
         border-top: 1px solid rgba(0, 240, 255, 0.2);
         position: relative;
         overflow: hidden;
+        backdrop-filter: blur(15px);
     }
     
     footer::before {
@@ -401,6 +435,7 @@
         width: 100%;
         height: 1px;
         background: linear-gradient(90deg, transparent, var(--primary), transparent);
+        box-shadow: var(--neon-glow);
     }
     
     .footer-content {
@@ -415,11 +450,13 @@
         font-weight: 900;
         color: var(--primary);
         letter-spacing: 1.5px;
+        text-shadow: var(--neon-glow);
     }
     
     .footer-logo i {
         color: var(--primary);
         margin-right: 10px;
+        filter: drop-shadow(0 0 5px var(--primary));
     }
     
     .footer-links {
@@ -436,18 +473,20 @@
         font-family: 'Rajdhani', sans-serif;
         font-weight: 600;
         font-size: 1.1rem;
-        transition: all 0.3s ease;
+        transition: var(--transition);
+        padding: 5px 0;
     }
     
     .footer-links a::after {
         content: '';
         position: absolute;
         width: 0;
-        height: 1px;
-        bottom: -5px;
+        height: 2px;
+        bottom: 0;
         left: 0;
         background: var(--primary);
         transition: width 0.3s ease;
+        box-shadow: var(--neon-glow);
     }
     
     .footer-links a:hover {
@@ -466,21 +505,24 @@
     .social-icons a {
         color: var(--light);
         font-size: 1.8rem;
-        transition: all 0.3s ease;
+        transition: var(--transition);
         position: relative;
-        width: 50px;
-        height: 50px;
+        width: 60px;
+        height: 60px;
         display: flex;
         align-items: center;
         justify-content: center;
         border-radius: 50%;
         background: rgba(0, 240, 255, 0.05);
         border: 1px solid rgba(0, 240, 255, 0.1);
+        overflow: hidden;
     }
     
     .social-icons a:hover {
         color: var(--primary);
         background: rgba(0, 240, 255, 0.1);
+        transform: translateY(-5px);
+        box-shadow: var(--neon-glow);
     }
     
     .copyright {
@@ -503,18 +545,36 @@
         z-index: 1000;
         justify-content: center;
         align-items: center;
-        backdrop-filter: blur(10px);
+        backdrop-filter: blur(15px);
     }
     
     .auth-container {
-        background: var(--card-bg);
-        border-radius: 10px;
+        background: var(--card-bg-solid);
+        border-radius: 15px;
         width: 100%;
         max-width: 500px;
         padding: 3rem;
         border: 1px solid rgba(0, 240, 255, 0.2);
         position: relative;
         overflow: hidden;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3), var(--neon-glow);
+        animation: modal-appear 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    @keyframes modal-appear {
+        0% { transform: scale(0.8); opacity: 0; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+    
+    .auth-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(0, 240, 255, 0.05) 0%, transparent 50%);
+        z-index: -1;
     }
     
     .auth-header {
@@ -529,6 +589,7 @@
         font-weight: 800;
         font-size: 2.2rem;
         letter-spacing: 1.5px;
+        text-shadow: var(--neon-glow);
     }
     
     .close-auth {
@@ -537,7 +598,7 @@
         font-size: 2.5rem;
         cursor: pointer;
         color: var(--light);
-        transition: all 0.3s ease;
+        transition: var(--transition);
         width: 40px;
         height: 40px;
         display: flex;
@@ -548,6 +609,7 @@
     
     .close-auth:hover {
         color: var(--primary);
+        transform: rotate(90deg);
     }
     
     .auth-form {
@@ -560,11 +622,11 @@
         padding: 15px 20px;
         background: rgba(10, 10, 20, 0.8);
         border: 1px solid rgba(0, 240, 255, 0.2);
-        border-radius: 6px;
+        border-radius: 8px;
         font-size: 1.1rem;
         color: white;
         font-family: 'Rajdhani', sans-serif;
-        transition: all 0.3s ease;
+        transition: var(--transition);
         letter-spacing: 1px;
     }
     
@@ -572,6 +634,7 @@
         outline: none;
         border-color: var(--primary);
         background: rgba(10, 10, 20, 0.9);
+        box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
     }
     
     .auth-form input::placeholder {
@@ -584,18 +647,23 @@
         background: transparent;
         color: var(--primary);
         border: 1px solid var(--primary);
-        border-radius: 6px;
+        border-radius: 8px;
         font-weight: 700;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: var(--transition);
         text-transform: uppercase;
         letter-spacing: 1.5px;
         margin-top: 1rem;
         font-size: 1.1rem;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
     }
     
     .auth-submit:hover {
         background: rgba(0, 240, 255, 0.1);
+        box-shadow: var(--neon-glow);
+        transform: translateY(-2px);
     }
     
     .auth-toggle {
@@ -611,12 +679,28 @@
         color: var(--primary);
         cursor: pointer;
         font-weight: 700;
-        transition: all 0.3s ease;
+        transition: var(--transition);
         letter-spacing: 1px;
+        position: relative;
     }
     
     .auth-toggle span:hover {
-        text-decoration: underline;
+        text-shadow: var(--neon-glow);
+    }
+    
+    .auth-toggle span::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 1px;
+        bottom: -2px;
+        left: 0;
+        background: var(--primary);
+        transition: width 0.3s ease;
+    }
+    
+    .auth-toggle span:hover::after {
+        width: 100%;
     }
     
     .auth-error {
@@ -627,6 +711,59 @@
         text-align: center;
         font-family: 'Rajdhani', sans-serif;
         font-weight: 600;
+        text-shadow: 0 0 10px rgba(255, 51, 102, 0.5);
+    }
+    
+    /* Botón de Google */
+    .google-auth-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        padding: 15px;
+        background: transparent;
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        margin-top: 1rem;
+        font-size: 1rem;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .google-auth-btn:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.5);
+        transform: translateY(-2px);
+    }
+    
+    .google-auth-btn i {
+        font-size: 1.2rem;
+        color: #4285F4;
+    }
+    
+    .divider {
+        display: flex;
+        align-items: center;
+        margin: 1.5rem 0;
+        color: rgba(224, 224, 255, 0.6);
+        font-family: 'Rajdhani', sans-serif;
+        font-weight: 500;
+    }
+    
+    .divider::before,
+    .divider::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: rgba(224, 224, 255, 0.3);
+    }
+    
+    .divider span {
+        padding: 0 15px;
     }
     
     /* Efectos de partículas para el fondo */
@@ -643,7 +780,7 @@
     /* Responsive */
     @media (max-width: 992px) {
         .hero h1 {
-            font-size: 3.2rem;
+            font-size: 3.5rem;
         }
         
         .features-grid {
@@ -658,11 +795,11 @@
         }
         
         .hero {
-            padding: 6rem 0 4rem;
+            padding: 8rem 0 6rem;
         }
         
         .hero h1 {
-            font-size: 2.5rem;
+            font-size: 3rem;
         }
         
         .hero p {
@@ -687,7 +824,7 @@
     
     @media (max-width: 480px) {
         .hero h1 {
-            font-size: 2rem;
+            font-size: 2.5rem;
             letter-spacing: 2px;
         }
         
@@ -696,8 +833,8 @@
         }
         
         .auth-buttons button {
-            padding: 8px 12px;
-            font-size: 0.9rem;
+            padding: 10px 15px;
+            font-size: 0.8rem;
         }
         
         .section-title h2 {
@@ -818,6 +955,15 @@
                 <input type="email" id="loginEmail" placeholder="Correo electrónico" required>
                 <input type="password" id="loginPassword" placeholder="Contraseña" required>
                 <button type="submit" class="auth-submit">Acceder</button>
+                
+                <div class="divider">
+                    <span>o continúa con</span>
+                </div>
+                
+                <button type="button" class="google-auth-btn" id="googleLoginBtn">
+                    <i class="fab fa-google"></i>
+                    <span>Iniciar sesión con Google</span>
+                </button>
             </form>
             <form class="auth-form" id="registerForm" style="display: none;">
                 <div id="registerError" class="auth-error"></div>
@@ -826,6 +972,15 @@
                 <input type="password" id="registerPassword" placeholder="Contraseña" required>
                 <input type="password" id="registerConfirmPassword" placeholder="Confirmar contraseña" required>
                 <button type="submit" class="auth-submit">Unirse a VIP</button>
+                
+                <div class="divider">
+                    <span>o continúa con</span>
+                </div>
+                
+                <button type="button" class="google-auth-btn" id="googleRegisterBtn">
+                    <i class="fab fa-google"></i>
+                    <span>Registrarse con Google</span>
+                </button>
             </form>
             <div class="auth-toggle">
                 <span id="toggleAuthForm">¿No tienes una cuenta? Únete a VIP</span>
@@ -840,7 +995,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             particlesJS('particles-js', {
                 particles: {
-                    number: { value: 60, density: { enable: true, value_area: 800 } },
+                    number: { value: 80, density: { enable: true, value_area: 800 } },
                     color: { value: "#00f0ff" },
                     shape: {
                         type: "circle",
@@ -920,6 +1075,8 @@
         const authError = document.getElementById('authError');
         const registerError = document.getElementById('registerError');
         const heroCta = document.getElementById('heroCta');
+        const googleLoginBtn = document.getElementById('googleLoginBtn');
+        const googleRegisterBtn = document.getElementById('googleRegisterBtn');
         
         // Mostrar modal de login
         openLogin.addEventListener('click', () => {
@@ -974,7 +1131,7 @@
             }
         });
         
-        // Login
+        // Login con email/password
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
             
@@ -994,7 +1151,7 @@
                 });
         });
         
-        // Registro
+        // Registro con email/password
         registerForm.addEventListener('submit', (e) => {
             e.preventDefault();
             
@@ -1037,6 +1194,58 @@
                     registerError.textContent = error.message;
                 });
         });
+        
+        // Función para autenticación con Google
+        function signInWithGoogle() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            provider.addScope('email');
+            provider.addScope('profile');
+            
+            auth.signInWithPopup(provider)
+                .then((result) => {
+                    // Autenticación exitosa
+                    const user = result.user;
+                    
+                    // Verificar si el usuario es nuevo
+                    const userRef = database.ref('users/' + user.uid);
+                    userRef.once('value').then((snapshot) => {
+                        if (!snapshot.exists()) {
+                            // Usuario nuevo, guardar en la base de datos
+                            userRef.set({
+                                name: user.displayName,
+                                email: user.email,
+                                createdAt: firebase.database.ServerValue.TIMESTAMP,
+                                vipAccess: true,
+                                lastLogin: firebase.database.ServerValue.TIMESTAMP
+                            });
+                        } else {
+                            // Usuario existente, actualizar último login
+                            userRef.update({
+                                lastLogin: firebase.database.ServerValue.TIMESTAMP
+                            });
+                        }
+                        
+                        authModal.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                        window.location.href = 'dashboard.html';
+                    });
+                })
+                .catch((error) => {
+                    // Manejar errores
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    
+                    if (loginForm.style.display === 'flex') {
+                        authError.textContent = errorMessage;
+                    } else {
+                        registerError.textContent = errorMessage;
+                    }
+                });
+        }
+        
+        // Asignar la función de autenticación con Google a los botones
+        googleLoginBtn.addEventListener('click', signInWithGoogle);
+        googleRegisterBtn.addEventListener('click', signInWithGoogle);
         
         // CTA button
         heroCta.addEventListener('click', () => {
