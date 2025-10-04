@@ -3,29 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora Fibonacci</title>
+    <title>Beaver Trading</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #00f3ff;
-            --secondary: #7b42f6;
-            --dark: #0a0e17;
-            --darker: #050811;
-            --light: #1a233a;
-            --buy-primary: #00a8ff;
-            --buy-secondary: #0097e6;
-            --sell-primary: #ff3838;
-            --sell-secondary: #ff2e63;
-            --text: #e2e8f0;
-        }
-        
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Exo 2', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-          body {
+        body {
             font-family: 'Exo 2', sans-serif;
             background: url('https://raw.githubusercontent.com/welding30001994/vip/refs/heads/main/unnamed%20(1).jpg') no-repeat center center fixed;
             background-size: cover;
@@ -35,6 +24,9 @@
             padding: 20px;
             position: relative;
             overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         
         /* Capa oscura sobre la imagen de fondo */
@@ -50,801 +42,638 @@
         }
         
         .container {
-            width: 100%;
-            max-width: 1200px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 30px;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 20px;
-            width: 100%;
-        }
-        
-        h1 {
-            font-size: clamp(1.8rem, 4vw, 2.5rem);
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 10px;
-            text-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
-        }
-        
-        .subtitle {
-            font-size: clamp(1rem, 2vw, 1.2rem);
-            opacity: 0.8;
-        }
-        
-        .input-section {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-bottom: 20px;
-            width: 100%;
-        }
-        
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            flex: 1;
-            min-width: 200px;
-            max-width: 300px;
-        }
-        
-        .input-container {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-        
-        .input-container::before {
-            content: '';
-            position: absolute;
-            top: -5px;
-            left: -5px;
-            right: -5px;
-            bottom: -5px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 12px;
-            z-index: -1;
-            opacity: 0.7;
-        }
-        
-        label {
-            font-size: 0.9rem;
-            color: var(--primary);
-            font-weight: 600;
-        }
-        
-        input {
-            padding: 12px 15px;
-            border: 2px solid transparent;
-            border-radius: 8px;
-            background-color: rgba(26, 35, 58, 0.9);
-            color: var(--text);
-            font-size: 1rem;
-            width: 100%;
-            transition: all 0.3s ease;
-        }
-        
-        input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
-        }
-        
-        .calculate-btn {
-            padding: 12px 30px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: var(--darker);
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            align-self: flex-end;
-            position: relative;
-            overflow: hidden;
-            min-width: 150px;
-        }
-        
-        .calculate-btn::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 10px;
-            z-index: -1;
-            opacity: 0.7;
-        }
-        
-        .calculate-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(0, 243, 255, 0.6);
-        }
-        
-        .action-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 30px;
-            width: 100%;
-        }
-        
-        .action-container {
-            position: relative;
-            padding: 15px;
+            background-color: rgba(30, 30, 40, 0.9);
             border-radius: 20px;
-            background: rgba(26, 35, 58, 0.7);
-            box-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
-        }
-        
-        .action-container::before {
-            content: '';
-            position: absolute;
-            top: -3px;
-            left: -3px;
-            right: -3px;
-            bottom: -3px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 23px;
-            z-index: -1;
-            opacity: 0.5;
-        }
-        
-        .action-circle {
-            width: clamp(100px, 20vw, 150px);
-            height: clamp(100px, 20vw, 150px);
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: clamp(1.1rem, 3vw, 1.5rem);
-            cursor: pointer;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .action-circle.buy {
-            background: linear-gradient(135deg, var(--buy-primary), var(--buy-secondary));
-            color: white;
-        }
-        
-        .action-circle.sell {
-            background: linear-gradient(135deg, var(--sell-primary), var(--sell-secondary));
-            color: white;
-        }
-        
-        .action-circle:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px currentColor;
-        }
-        
-        .action-label {
-            font-size: clamp(0.8rem, 2vw, 0.9rem);
-            margin-top: 5px;
-            opacity: 0.9;
-        }
-        
-        .results-section {
-            width: 100%;
-            display: none;
-        }
-        
-        .table-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-            justify-content: center;
-            width: 100%;
-        }
-        
-        .tab-btn {
-            padding: 12px 25px;
-            background: rgba(26, 35, 58, 0.7);
-            border: 2px solid var(--primary);
-            border-radius: 8px;
-            color: var(--text);
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            flex: 1;
-            max-width: 200px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+            width: 90%;
+            max-width: 800px;
+            padding: 30px;
             text-align: center;
-            font-size: clamp(0.9rem, 2vw, 1rem);
-        }
-        
-        .tab-btn.active {
-            background: var(--primary);
-            color: var(--darker);
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
-        }
-        
-        .tab-btn:hover {
-            transform: translateY(-2px);
-        }
-        
-        .table-container {
-            background: rgba(26, 35, 58, 0.7);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            overflow-x: auto;
-            position: relative;
-            width: 100%;
-        }
-        
-        .table-container::before {
-            content: '';
-            position: absolute;
-            top: -3px;
-            left: -3px;
-            right: -3px;
-            bottom: -3px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 15px;
-            z-index: -1;
-            opacity: 0.3;
-        }
-        
-        /* VISTA DESKTOP - Lista de Niveles */
-        .desktop-view {
-            display: block;
-        }
-        
-        .levels-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            max-width: 500px;
+            color: #e0e0e0;
             margin: 0 auto;
         }
         
-        .level-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            background: rgba(26, 35, 58, 0.9);
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .level-row:hover {
-            background: rgba(0, 243, 255, 0.1);
-            transform: translateX(5px);
-        }
-        
-        .level-name {
-            font-weight: 600;
-            font-size: clamp(1rem, 2vw, 1.1rem);
-            color: var(--primary);
-        }
-        
-        .level-value {
-            font-weight: bold;
-            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
-        }
-        
-        .buy .level-value {
-            color: var(--buy-primary);
-        }
-        
-        .sell .level-value {
-            color: var(--sell-primary);
-        }
-        
-        /* VISTA MÓVIL - Grid de Niveles */
-        .mobile-view {
-            display: none;
-        }
-        
-        .mobile-levels-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 12px;
+        h1 {
+            color: #fdbb2d;
             margin-bottom: 25px;
+            font-size: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
         }
         
-        .level-card {
-            background: rgba(26, 35, 58, 0.9);
-            border: 2px solid var(--primary);
-            border-radius: 12px;
-            padding: 15px 10px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            min-height: 80px;
+        h1 i {
+            color: #fdbb2d;
+            font-size: 36px;
+        }
+        
+        .description {
+            color: #b0b0b0;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            font-size: 17px;
+        }
+        
+        /* Selector giratorio mejorado */
+        .wheel-selector {
             display: flex;
             flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .wheel-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+        }
+        
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(#2ecc71 0deg 180deg, #e74c3c 180deg 360deg);
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            cursor: pointer;
+        }
+        
+        .wheel-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 22px;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            z-index: 2;
+            pointer-events: none;
+        }
+        
+        .wheel-indicator {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 20px solid #fdbb2d;
+            z-index: 3;
+            filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
+        }
+        
+        .wheel-label {
+            position: absolute;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+        }
+        
+        .label-buy {
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+        }
+        
+        .label-sell {
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+        }
+        
+        .input-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .input-box {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .input-box label {
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #fdbb2d;
+            font-size: 16px;
+        }
+        
+        input {
+            padding: 14px 18px;
+            border: 2px solid #3498db;
+            border-radius: 10px;
+            font-size: 18px;
+            width: 200px;
+            transition: all 0.3s;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
+            background-color: rgba(40, 40, 50, 0.8);
+            color: #e0e0e0;
+        }
+        
+        input:focus {
+            border-color: #fdbb2d;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(253, 187, 45, 0.3);
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        button {
+            background: linear-gradient(to right, #3498db, #2c3e50);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 17px;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(0, 0, 0, 0.4);
+        }
+        
+        button.clear {
+            background: linear-gradient(to right, #e74c3c, #c0392b);
+        }
+        
+        .results-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
             justify-content: center;
         }
         
-        .level-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 243, 255, 0.3);
-            background: rgba(0, 243, 255, 0.1);
+        .results {
+            text-align: left;
+            background: rgba(40, 40, 50, 0.8);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            flex: 1;
+            min-width: 300px;
         }
         
-        .level-card.active {
-            background: rgba(0, 243, 255, 0.2);
-            border-color: var(--primary);
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
-        }
-        
-        .mobile-level-name {
-            font-weight: 600;
-            font-size: clamp(0.8rem, 3vw, 0.9rem);
-            margin-bottom: 5px;
-            color: var(--primary);
-        }
-        
-        .mobile-level-value {
-            font-size: clamp(0.9rem, 3vw, 1rem);
-            font-weight: bold;
-        }
-        
-        .mobile-differences {
-            display: none;
-            width: 100%;
-        }
-        
-        .selected-level-header {
-            text-align: center;
+        .results h2 {
+            color: #fdbb2d;
             margin-bottom: 20px;
-            font-size: clamp(1rem, 4vw, 1.2rem);
-            color: var(--primary);
-            font-weight: 600;
-            padding: 15px;
-            background: rgba(0, 243, 255, 0.1);
-            border-radius: 10px;
-            border: 1px solid var(--primary);
-        }
-        
-        .differences-list {
+            text-align: center;
+            font-size: 26px;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             gap: 10px;
         }
         
-        .difference-item {
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        
+        .result-item {
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(50, 50, 60, 0.8);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px;
-            background: rgba(26, 35, 58, 0.7);
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: clamp(0.9rem, 3vw, 1rem);
+            transition: transform 0.3s;
         }
         
-        .difference-level {
-            font-weight: 600;
+        .result-item:hover {
+            transform: translateY(-3px);
         }
         
-        .difference-value {
+        .result-item.extension {
+            background: rgba(60, 55, 40, 0.8);
+        }
+        
+        .percentage {
             font-weight: bold;
+            font-size: 18px;
         }
         
-        .positive {
-            color: #00ff9d;
+        .level-236 { color: #3498db; }
+        .level-382 { color: #2ecc71; }
+        .level-500 { color: #f39c12; }
+        .level-618 { color: #e74c3c; }
+        .level-786 { color: #9b59b6; }
+        .level-1618 { color: #fdbb2d; }
+        .level-2618 { color: #16a085; }
+        .level-4236 { color: #e67e22; }
+        
+        .fib-sequence {
+            margin-top: 20px;
+            font-style: italic;
+            color: #a0a0a0;
+            text-align: center;
+            font-size: 16px;
+            padding: 10px;
+            background-color: rgba(40, 50, 60, 0.8);
+            border-radius: 8px;
         }
         
-        .negative {
-            color: #ff2e63;
+        .explanation {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(40, 50, 60, 0.8);
+            border-radius: 12px;
+            border-left: 5px solid #3498db;
         }
         
-        /* RESPONSIVE - Cambios entre desktop y móvil */
-        @media (max-width: 1024px) {
-            .input-section {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .input-group {
-                max-width: 400px;
-            }
-            
-            .calculate-btn {
-                align-self: center;
-                width: 100%;
-                max-width: 400px;
-            }
+        .explanation h3 {
+            color: #fdbb2d;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .explanation p {
+            line-height: 1.6;
+            color: #b0b0b0;
         }
         
         @media (max-width: 768px) {
-            .desktop-view {
-                display: none;
+            .container {
+                padding: 25px 20px;
             }
             
-            .mobile-view {
-                display: block;
+            h1 {
+                font-size: 28px;
             }
             
-            .table-tabs {
+            .input-container {
                 flex-direction: column;
                 align-items: center;
             }
             
-            .tab-btn {
+            input {
                 width: 100%;
-                max-width: 300px;
+                max-width: 280px;
             }
             
-            .mobile-levels-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            button {
+                width: 100%;
+                max-width: 280px;
+                justify-content: center;
+            }
+            
+            .results-container {
+                flex-direction: column;
+            }
+            
+            .wheel-container {
+                width: 180px;
+                height: 180px;
             }
         }
         
         @media (max-width: 480px) {
-            body {
-                padding: 15px;
+            h1 {
+                font-size: 24px;
             }
             
-            .container {
-                gap: 20px;
+            h1 i {
+                font-size: 28px;
             }
             
-            .input-section {
-                gap: 15px;
+            .wheel-container {
+                width: 160px;
+                height: 160px;
             }
             
-            .table-container {
-                padding: 15px;
+            .wheel-text {
+                font-size: 20px;
             }
             
-            .mobile-levels-grid {
-                grid-template-columns: 1fr;
-                gap: 10px;
+            .label-buy, .label-sell {
+                font-size: 18px;
             }
             
-            .level-card {
-                padding: 12px 8px;
-                min-height: 70px;
+            input {
+                padding: 12px 15px;
+                font-size: 16px;
             }
             
-            .difference-item {
-                padding: 12px;
-            }
-        }
-        
-        @media (min-width: 769px) {
-            .desktop-view {
-                display: block;
+            button {
+                padding: 12px 20px;
+                font-size: 16px;
             }
             
-            .mobile-view {
-                display: none;
+            .results {
+                padding: 20px 15px;
+            }
+            
+            .results h2 {
+                font-size: 22px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>Beaver Trading</h1>
-            <p class="subtitle">Análisis de retrocesos </p>
-        </header>
+        <h1><i class="fas fa-chart-line"></i> Beaver Trading</h1>
         
-        <div class="input-section">
-            <div class="input-group">
-                <label for="maximo">MÁXIMO</label>
-                <div class="input-container">
-                    <input type="number" id="maximo" step="0.01" placeholder="Ingresa valor máximo">
-                </div>
-            </div>
-            <div class="input-group">
-                <label for="minimo">MÍNIMO</label>
-                <div class="input-container">
-                    <input type="number" id="minimo" step="0.01" placeholder="Ingresa valor mínimo">
-                </div>
-            </div>
-            <button class="calculate-btn" id="calcular">CALCULAR</button>
-        </div>
+        <p class="description">
+            Programas de formación avanzada. Tecnología cuántica, inteligencia artificial y estrategias probadas para maximizar tus ganancias Protége siempre tu capital. Un buen trader sobrevive para operar otro día.
+        </p>
         
-        <div class="action-section">
-            <div class="action-container">
-                <div class="action-circle buy" id="action-circle">
-                    <div>BUY</div>
-                    <div class="action-label">COMPRAR</div>
+        <div class="wheel-selector">
+            <div class="wheel-container">
+                <div class="wheel" id="mode-wheel">
+                    <div class="wheel-text" id="wheel-mode">BUY</div>
+                    <div class="wheel-indicator"></div>
+                    <div class="wheel-label label-buy">BUY</div>
+                    <div class="wheel-label label-sell">SELL</div>
                 </div>
             </div>
         </div>
         
-        <div class="results-section" id="results-section">
-            <div class="table-tabs">
-                <button class="tab-btn active" data-tab="desktop">Lista de Niveles</button>
-                <button class="tab-btn" data-tab="mobile">Ver Diferencias</button>
+        <div class="input-container">
+            <div class="input-box">
+                <label for="fib1">Punto A:</label>
+                <input type="number" id="fib1" placeholder="mínimo" min="0">
+            </div>
+            <div class="input-box">
+                <label for="fib2">Punto B:</label>
+                <input type="number" id="fib2" placeholder="máximo" min="0">
+            </div>
+        </div>
+        
+        <div class="buttons">
+            <button onclick="calculateLevels()">
+                <i class="fas fa-calculator"></i> Calcular Niveles
+            </button>
+            <button class="clear" onclick="clearFields()">
+                <i class="fas fa-broom"></i> Limpiar
+            </button>
+        </div>
+        
+        <div class="results-container">
+            <div class="results" id="retracement-results" style="display: none;">
+                <h2><i class="fas fa-level-down-alt"></i> Retrocesos</h2>
+                <div class="result-grid" id="retracement-items"></div>
             </div>
             
-            <div class="table-container">
-                <!-- VISTA DESKTOP - Lista de Niveles -->
-                <div class="desktop-view">
-                    <div class="levels-list" id="levels-list">
-                        <!-- Los niveles se generarán dinámicamente con JavaScript -->
-                    </div>
-                </div>
-                
-                <!-- VISTA MÓVIL - Grid Interactivo -->
-                <div class="mobile-view">
-                    <!-- Grid de niveles para móviles -->
-                    <div class="mobile-levels-grid" id="mobile-levels-grid">
-                        <!-- Los niveles se generarán dinámicamente con JavaScript -->
-                    </div>
-                    
-                    <!-- Diferencias para nivel seleccionado -->
-                    <div class="mobile-differences" id="mobile-differences">
-                        <div class="selected-level-header" id="mobile-selected-level">
-                            Selecciona un nivel para ver diferencias
-                        </div>
-                        <div class="differences-list" id="mobile-differences-list">
-                            <!-- Las diferencias se generarán dinámicamente con JavaScript -->
-                        </div>
-                    </div>
-                </div>
+            <div class="results" id="extension-results" style="display: none;">
+                <h2><i class="fas fa-level-up-alt"></i> Extensiones</h2>
+                <div class="result-grid" id="extension-items"></div>
             </div>
+        </div>
+        
+        <p class="fib-sequence" id="sequence-info" style="display: none;"></p>
+        
+        <div class="explanation">
+            <h3><i class="fas fa-lightbulb"></i> ¿Cómo funciona?</h3>
+            <p>El trading es 80% psicología y 20% técnica. Controlar tus emociones es la clave del éxito.</p>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const maximoInput = document.getElementById('maximo');
-            const minimoInput = document.getElementById('minimo');
-            const calcularBtn = document.getElementById('calcular');
-            const actionCircle = document.getElementById('action-circle');
-            const resultsSection = document.getElementById('results-section');
-            const levelsList = document.getElementById('levels-list');
-            const mobileLevelsGrid = document.getElementById('mobile-levels-grid');
-            const mobileDifferences = document.getElementById('mobile-differences');
-            const mobileSelectedLevel = document.getElementById('mobile-selected-level');
-            const mobileDifferencesList = document.getElementById('mobile-differences-list');
-            const container = document.querySelector('.container');
-            const tabBtns = document.querySelectorAll('.tab-btn');
-            const desktopView = document.querySelector('.desktop-view');
-            const mobileView = document.querySelector('.mobile-view');
+        let currentMode = 'buy';
+        let wheelRotation = 0;
+        const wheel = document.getElementById('mode-wheel');
+        const wheelText = document.getElementById('wheel-mode');
+        
+        // Configurar la rueda giratoria
+        function setupWheel() {
+            wheel.addEventListener('click', toggleMode);
+            wheel.addEventListener('touchstart', handleTouchStart, false);
+            wheel.addEventListener('touchmove', handleTouchMove, false);
             
-            let currentAction = 'buy';
-            let currentTab = 'desktop';
-            let currentLevels = {};
-            let selectedLevel = null;
+            // Actualizar la rueda según el modo actual
+            updateWheel();
+        }
+        
+        let xDown = null;
+        let yDown = null;
+        
+        function handleTouchStart(evt) {
+            const firstTouch = evt.touches[0];
+            xDown = firstTouch.clientX;
+            yDown = firstTouch.clientY;
+        }
+        
+        function handleTouchMove(evt) {
+            if (!xDown || !yDown) {
+                return;
+            }
             
-            // Niveles de Fibonacci para zona vertical
-            const fibLevelsVertical = [
-                { level: '423.6%', value: 4.236 },
-                { level: '261.8%', value: 2.618 },
-                { level: '161.8%', value: 1.618 },
-                { level: '100.0%', value: 1.0 },
-                { level: '78.6%', value: 0.786 },
-                { level: '61.8%', value: 0.618 },
-                { level: '50.0%', value: 0.5 },
-                { level: '38.2%', value: 0.382 },
-                { level: '23.6%', value: 0.236 },
-                { level: '00.0%', value: 0.0 }
-            ];
+            const xUp = evt.touches[0].clientX;
+            const yUp = evt.touches[0].clientY;
             
-            // Cambiar entre BUY y SELL
-            actionCircle.addEventListener('click', function() {
-                if (currentAction === 'buy') {
-                    currentAction = 'sell';
-                    actionCircle.classList.remove('buy');
-                    actionCircle.classList.add('sell');
-                    actionCircle.innerHTML = '<div>SELL</div><div class="action-label">VENDER</div>';
-                    container.classList.remove('buy');
-                    container.classList.add('sell');
+            const xDiff = xDown - xUp;
+            const yDiff = yDown - yUp;
+            
+            if (Math.abs(xDiff) > Math.abs(yDiff)) {
+                if (xDiff > 0) {
+                    // Deslizar a la izquierda
+                    setMode('sell');
                 } else {
-                    currentAction = 'buy';
-                    actionCircle.classList.remove('sell');
-                    actionCircle.classList.add('buy');
-                    actionCircle.innerHTML = '<div>BUY</div><div class="action-label">COMPRAR</div>';
-                    container.classList.remove('sell');
-                    container.classList.add('buy');
+                    // Deslizar a la derecha
+                    setMode('buy');
                 }
-                
-                // Regenerar datos si ya hay información
-                const maximo = parseFloat(maximoInput.value);
-                const minimo = parseFloat(minimoInput.value);
-                
-                if (!isNaN(maximo) && !isNaN(minimo) && maximo > minimo) {
-                    const levels = calculateFibonacciLevels(maximo, minimo);
-                    updateAllViews(maximo, minimo, levels);
+            } else {
+                if (yDiff > 0) {
+                    // Deslizar hacia arriba
+                    setMode('buy');
+                } else {
+                    // Deslizar hacia abajo
+                    setMode('sell');
                 }
-            });
+            }
             
-            // Cambiar entre pestañas
-            tabBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    // Remover clase active de todos los botones
-                    tabBtns.forEach(b => b.classList.remove('active'));
-                    // Agregar clase active al botón clickeado
-                    this.classList.add('active');
-                    currentTab = this.getAttribute('data-tab');
-                    
-                    // Mostrar la vista correspondiente
-                    if (currentTab === 'desktop') {
-                        desktopView.style.display = 'block';
-                        mobileView.style.display = 'none';
-                    } else {
-                        desktopView.style.display = 'none';
-                        mobileView.style.display = 'block';
-                        
-                        // Generar grid móvil si hay datos
-                        const maximo = parseFloat(maximoInput.value);
-                        const minimo = parseFloat(minimoInput.value);
-                        
-                        if (!isNaN(maximo) && !isNaN(minimo) && maximo > minimo) {
-                            generateMobileLevelsGrid(maximo, minimo);
-                        }
+            // Reset values
+            xDown = null;
+            yDown = null;
+        }
+        
+        function toggleMode() {
+            setMode(currentMode === 'buy' ? 'sell' : 'buy');
+        }
+        
+        function setMode(mode) {
+            currentMode = mode;
+            updateWheel();
+            
+            // Recalcular si ya hay datos
+            if (document.getElementById('fib1').value && document.getElementById('fib2').value) {
+                calculateLevels();
+            }
+        }
+        
+        function updateWheel() {
+            if (currentMode === 'buy') {
+                wheelRotation = 0;
+                wheelText.textContent = 'BUY';
+                wheelText.style.color = '#2ecc71';
+            } else {
+                wheelRotation = 180;
+                wheelText.textContent = 'SELL';
+                wheelText.style.color = '#e74c3c';
+            }
+            
+            wheel.style.transform = `rotate(${wheelRotation}deg)`;
+        }
+        
+        function calculateLevels() {
+            const fib1 = parseFloat(document.getElementById('fib1').value);
+            const fib2 = parseFloat(document.getElementById('fib2').value);
+            
+            if (isNaN(fib1) || isNaN(fib2) || fib1 < 0 || fib2 < 0) {
+                alert("Por favor, ingresa dos números válidos (no negativos).");
+                return;
+            }
+            
+            if (fib1 === fib2) {
+                alert("Los números no pueden ser iguales.");
+                return;
+            }
+            
+            // Asegurar que fib1 es el menor y fib2 el mayor para cálculos consistentes
+            const min = Math.min(fib1, fib2);
+            const max = Math.max(fib1, fib2);
+            const difference = max - min;
+            
+            // Calcular el siguiente número de Fibonacci para verificar la secuencia
+            const nextFib = min + max;
+            
+            // Calcular niveles según el modo
+            let retracements = {};
+            let extensions = {};
+            
+            if (currentMode === 'buy') {
+                // Modo Buy: Retrocesos por debajo, extensiones por encima
+                retracements = {
+                    '78.6%': max - difference * 0.786,
+                    '61.8%': max - difference * 0.618,
+                    '50.0%': max - difference * 0.5,
+                    '38.2%': max - difference * 0.382,
+                    '23.6%': max - difference * 0.236
+                };
+                
+                extensions = {
+                    '161.8%': max + difference * 0.618,
+                    '261.8%': max + difference * 1.618,
+                    '423.6%': max + difference * 2.236
+                };
+            } else {
+                // Modo Sell: Retrocesos por encima, extensiones por debajo
+                retracements = {
+                    '78.6%': min + difference * 0.786,
+                    '61.8%': min + difference * 0.618,
+                    '50.0%': min + difference * 0.5,
+                    '38.2%': min + difference * 0.382,
+                    '23.6%': min + difference * 0.236
+                };
+                
+                extensions = {
+                    '161.8%': min - difference * 0.618,
+                    '261.8%': min - difference * 1.618,
+                    '423.6%': min - difference * 2.236
+                };
+            }
+            
+            // Mostrar retrocesos
+            const retracementItems = document.getElementById('retracement-items');
+            retracementItems.innerHTML = '';
+            
+            for (const [level, value] of Object.entries(retracements)) {
+                const item = document.createElement('div');
+                item.className = 'result-item';
+                
+                // Determinar la clase para el color
+                let colorClass = 'level-' + level.replace('.', '').replace('%', '');
+                
+                item.innerHTML = `
+                    <span><strong>Nivel ${level}:</strong></span> 
+                    <span class="percentage ${colorClass}">${value.toFixed(2)}</span>
+                `;
+                retracementItems.appendChild(item);
+            }
+            
+            // Mostrar extensiones
+            const extensionItems = document.getElementById('extension-items');
+            extensionItems.innerHTML = '';
+            
+            for (const [level, value] of Object.entries(extensions)) {
+                const item = document.createElement('div');
+                item.className = 'result-item extension';
+                
+                // Determinar la clase para el color
+                let colorClass = 'level-' + level.replace('.', '').replace('%', '');
+                
+                item.innerHTML = `
+                    <span><strong>Nivel ${level}:</strong></span> 
+                    <span class="percentage ${colorClass}">${value.toFixed(2)}</span>
+                `;
+                extensionItems.appendChild(item);
+            }
+            
+            // Mostrar información de la secuencia
+            document.getElementById('sequence-info').textContent = 
+                `Basado en la secuencia: ..., ${min}, ${max}, ${nextFib}, ...`;
+            
+            document.getElementById('retracement-results').style.display = 'block';
+            document.getElementById('extension-results').style.display = 'block';
+            document.getElementById('sequence-info').style.display = 'block';
+        }
+        
+        function clearFields() {
+            document.getElementById('fib1').value = '';
+            document.getElementById('fib2').value = '';
+            document.getElementById('retracement-results').style.display = 'none';
+            document.getElementById('extension-results').style.display = 'none';
+            document.getElementById('sequence-info').style.display = 'none';
+        }
+        
+        // Inicializar la rueda cuando el documento esté listo
+        document.addEventListener('DOMContentLoaded', function() {
+            setupWheel();
+            
+            // Permitir calcular con la tecla Enter
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        calculateLevels();
                     }
                 });
-            });
-            
-            // Función para calcular los niveles de Fibonacci
-            function calculateFibonacciLevels(maximo, minimo) {
-                const diff = maximo - minimo;
-                const levels = {};
-                
-                fibLevelsVertical.forEach(item => {
-                    levels[item.level] = minimo + (diff * item.value);
-                });
-                
-                return levels;
-            }
-            
-            // Función para actualizar todas las vistas
-            function updateAllViews(maximo, minimo, levels) {
-                currentLevels = levels;
-                generateDesktopLevelsList(maximo, minimo, levels);
-                generateMobileLevelsGrid(maximo, minimo);
-                
-                if (selectedLevel) {
-                    showMobileDifferencesForLevel(selectedLevel, levels);
-                }
-            }
-            
-            // Función para generar la lista de niveles en desktop
-            function generateDesktopLevelsList(maximo, minimo, levels) {
-                levelsList.innerHTML = '';
-                
-                const allLevels = [
-                    { level: 'Máximo', value: maximo, type: 'maximo' },
-                    ...fibLevelsVertical.map(item => ({ level: item.level, value: levels[item.level], type: 'nivel' })),
-                    { level: 'Mínimo', value: minimo, type: 'minimo' }
-                ];
-                
-                // Ordenar según el modo BUY/SELL
-                const displayLevels = currentAction === 'sell' 
-                    ? [...allLevels].reverse() 
-                    : allLevels;
-                
-                displayLevels.forEach(item => {
-                    const levelRow = document.createElement('div');
-                    levelRow.className = 'level-row';
-                    levelRow.innerHTML = `
-                        <span class="level-name">${item.type === 'maximo' ? 'MÁXIMO' : item.type === 'minimo' ? 'MÍNIMO' : 'Nivel ' + item.level}</span>
-                        <span class="level-value">${item.value.toFixed(2)}</span>
-                    `;
-                    
-                    levelsList.appendChild(levelRow);
-                });
-                
-                // Aplicar clase de modo (buy/sell) a la lista
-                levelsList.className = currentAction;
-            }
-            
-            // Función para generar el grid de niveles móvil
-            function generateMobileLevelsGrid(maximo, minimo) {
-                mobileLevelsGrid.innerHTML = '';
-                
-                const allLevels = [
-                    { level: 'Máximo', value: maximo, type: 'maximo' },
-                    ...fibLevelsVertical.map(item => ({ level: item.level, value: currentLevels[item.level], type: 'nivel' })),
-                    { level: 'Mínimo', value: minimo, type: 'minimo' }
-                ];
-                
-                // Ordenar según el modo BUY/SELL
-                const displayLevels = currentAction === 'sell' 
-                    ? [...allLevels].reverse() 
-                    : allLevels;
-                
-                displayLevels.forEach(item => {
-                    const card = document.createElement('div');
-                    card.className = 'level-card';
-                    card.innerHTML = `
-                        <div class="mobile-level-name">${item.type === 'maximo' ? 'MÁXIMO' : item.type === 'minimo' ? 'MÍNIMO' : item.level}</div>
-                        <div class="mobile-level-value">${item.value.toFixed(2)}</div>
-                    `;
-                    
-                    card.addEventListener('click', function() {
-                        // Remover clase active de todas las cards
-                        document.querySelectorAll('.level-card').forEach(c => {
-                            c.classList.remove('active');
-                        });
-                        
-                        // Agregar clase active a la card seleccionada
-                        this.classList.add('active');
-                        
-                        // Mostrar diferencias
-                        selectedLevel = item.level;
-                        showMobileDifferencesForLevel(item.level, currentLevels);
-                    });
-                    
-                    mobileLevelsGrid.appendChild(card);
-                });
-            }
-            
-            // Función para mostrar diferencias en móvil
-            function showMobileDifferencesForLevel(level, levels) {
-                const maximo = parseFloat(maximoInput.value);
-                const minimo = parseFloat(minimoInput.value);
-                
-                mobileSelectedLevel.textContent = `Diferencias para: ${level === 'Máximo' ? 'MÁXIMO' : level === 'Mínimo' ? 'MÍNIMO' : level}`;
-                
-                mobileDifferencesList.innerHTML = '';
-                
-                const allLevels = [
-                    { level: 'Máximo', value: maximo },
-                    ...fibLevelsVertical.map(item => ({ level: item.level, value: levels[item.level] })),
-                    { level: 'Mínimo', value: minimo }
-                ];
-                
-                const currentValue = level === 'Máximo' ? maximo : 
-                                   level === 'Mínimo' ? minimo : 
-                                   levels[level];
-                
-                allLevels.forEach(item => {
-                    if (item.level !== level) {
-                        const diff = currentValue - item.value;
-                        const diffClass = diff > 0 ? 'positive' : (diff < 0 ? 'negative' : '');
-                        
-                        const diffItem = document.createElement('div');
-                        diffItem.className = 'difference-item';
-                        diffItem.innerHTML = `
-                            <span class="difference-level">${item.level === 'Máximo' ? 'MÁXIMO' : item.level === 'Mínimo' ? 'MÍNIMO' : item.level}</span>
-                            <span class="difference-value ${diffClass}">${diff > 0 ? '+' : ''}${diff.toFixed(2)}</span>
-                        `;
-                        
-                        mobileDifferencesList.appendChild(diffItem);
-                    }
-                });
-                
-                mobileDifferences.style.display = 'block';
-            }
-            
-            // Event Listener para calcular
-            calcularBtn.addEventListener('click', function() {
-                const maximo = parseFloat(maximoInput.value);
-                const minimo = parseFloat(minimoInput.value);
-                
-                if (isNaN(maximo) || isNaN(minimo) || maximo <= minimo) {
-                    alert('Por favor, ingresa valores válidos (máximo debe ser mayor que mínimo)');
-                    return;
-                }
-                
-                const levels = calculateFibonacciLevels(maximo, minimo);
-                updateAllViews(maximo, minimo, levels);
-                resultsSection.style.display = 'block';
-                
-                // Aplicar clase de modo (buy/sell) al contenedor
-                container.classList.add(currentAction);
-                
-                // Desplazarse suavemente a los resultados
-                resultsSection.scrollIntoView({ behavior: 'smooth' });
             });
         });
     </script>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Beaver Trading - Herramientas de Trading</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -12,30 +13,39 @@
             font-family: 'Segoe UI', Arial, sans-serif;
         }
         
+        :root {
+            --primary: #00c6ff;
+            --secondary: #0072ff;
+            --dark: rgba(10, 14, 23, 0.85);
+            --darker: rgba(5, 10, 20, 0.9);
+            --light: rgba(255, 255, 255, 0.9);
+            --glass: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
          body {
-            font-family: 'Exo 2', sans-serif;
-            background: url('https://raw.githubusercontent.com/welding30001994/vip/refs/heads/main/unnamed%20(1).jpg') no-repeat center center fixed;
-            background-size: cover;
-            color: #fff;
-            line-height: 1.6;
-            min-height: 100vh;
-            padding: 20px;
-            position: relative;
-            overflow-x: hidden;
-        }
+        background: url('https://raw.githubusercontent.com/welding30001994/vip/refs/heads/main/unnamed%20(1).jpg') no-repeat center center fixed;
+        background-size: cover;
+        color: #fff;
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 20px;
+        position: relative;
+        overflow-x: hidden;
+    }
+    
+    /* Capa oscura sobre la imagen de fondo */
+    body::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(5, 5, 16, 0.85) 0%, rgba(10, 10, 26, 0.8) 100%);
+        z-index: -1;
+    }
         
-      
-        /* Capa oscura sobre la imagen de fondo */
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: -1;
-        }
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -45,26 +55,39 @@
         
         header {
             text-align: center;
-            padding: 40px 0;
-            background: rgba(10, 14, 23, 0.8);
-            border-bottom: 1px solid #2a3a5a;
+            padding: 60px 0 40px;
             margin-bottom: 40px;
+            position: relative;
+        }
+        
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
         }
         
         h1 {
-            font-size: 2.8rem;
-            background: linear-gradient(90deg, #00c6ff, #0072ff);
+            font-size: 3.5rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 10px;
-            text-shadow: 0 0 10px rgba(0, 114, 255, 0.3);
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            font-weight: 800;
         }
         
         .subtitle {
-            font-size: 1.2rem;
-            color: #a0aec0;
-            margin-bottom: 30px;
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 10px;
+            font-weight: 300;
+            letter-spacing: 1px;
         }
         
         .tools-section {
@@ -73,87 +96,142 @@
         }
         
         .section-title {
-            font-size: 2rem;
-            margin-bottom: 40px;
-            color: #e0e0e0;
+            font-size: 2.2rem;
+            margin-bottom: 50px;
+            color: var(--light);
             position: relative;
             display: inline-block;
+            font-weight: 600;
         }
         
-        .section-title:after {
+        .section-title::after {
             content: '';
             position: absolute;
-            width: 60%;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, #0072ff, transparent);
-            bottom: -10px;
-            left: 20%;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
         }
         
         .tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
             margin-top: 40px;
         }
         
         .tool-card {
-            background: rgba(20, 25, 40, 0.7);
-            border-radius: 12px;
-            padding: 30px 20px;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 35px 25px;
+            transition: var(--transition);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
             position: relative;
             overflow: hidden;
+            cursor: pointer;
+            min-height: 320px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         
-        .tool-card:before {
+        .tool-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, #00c6ff, #0072ff);
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 198, 255, 0.1) 0%, rgba(0, 114, 255, 0.1) 100%);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: -1;
         }
         
         .tool-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
             border-color: rgba(0, 198, 255, 0.3);
+        }
+        
+        .tool-card:hover::before {
+            opacity: 1;
+        }
+        
+        .tool-card.active {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 114, 255, 0.3);
+            border-color: rgba(0, 198, 255, 0.5);
+        }
+        
+        .tool-card.active::before {
+            opacity: 1;
         }
         
         .tool-icon {
             font-size: 3.5rem;
-            margin-bottom: 20px;
-            color: #00c6ff;
-            text-shadow: 0 0 15px rgba(0, 198, 255, 0.5);
+            margin-bottom: 25px;
+            color: var(--primary);
+            text-shadow: 0 0 20px rgba(0, 198, 255, 0.5);
+            transition: var(--transition);
+        }
+        
+        .tool-card.active .tool-icon {
+            transform: scale(1.1);
+            color: var(--secondary);
         }
         
         .tool-title {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             margin-bottom: 15px;
-            color: #e0e0e0;
+            color: var(--light);
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .tool-card.active .tool-title {
+            color: var(--primary);
         }
         
         .tool-description {
-            color: #a0aec0;
-            font-size: 0.95rem;
-            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+            line-height: 1.6;
+            transition: var(--transition);
+        }
+        
+        .tool-link-container {
+            height: 0;
+            overflow: hidden;
+            transition: var(--transition);
+            opacity: 0;
+        }
+        
+        .tool-card.active .tool-link-container {
+            height: 50px;
+            opacity: 1;
+            margin-top: 20px;
         }
         
         .tool-link {
             display: inline-block;
-            margin-top: 20px;
-            padding: 8px 20px;
-            background: linear-gradient(90deg, #00c6ff, #0072ff);
+            padding: 12px 30px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
             color: white;
             text-decoration: none;
             border-radius: 30px;
             font-weight: 600;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             box-shadow: 0 4px 15px rgba(0, 114, 255, 0.3);
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
         }
         
         .tool-link:hover {
@@ -161,11 +239,115 @@
             box-shadow: 0 6px 20px rgba(0, 114, 255, 0.5);
         }
         
+        /* Loader Styles */
+        .loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 10, 20, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        
+        .loader-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .loader-container {
+            text-align: center;
+            max-width: 500px;
+            padding: 40px;
+        }
+        
+        .loader-logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 30px;
+        }
+        
+        .loader {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+        
+        .loader-inner {
+            width: 100%;
+            height: 100%;
+            border: 4px solid transparent;
+            border-top: 4px solid var(--primary);
+            border-right: 4px solid var(--secondary);
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite;
+            position: relative;
+        }
+        
+        .loader-inner::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border: 4px solid transparent;
+            border-top: 4px solid var(--secondary);
+            border-right: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 2s linear infinite reverse;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loader-text {
+            color: var(--light);
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+        
+        .loader-progress {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        
+        .loader-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 3px;
+            transition: width 2.5s ease;
+        }
+        
+        .loader-overlay.active .loader-progress-bar {
+            width: 100%;
+        }
+        
         footer {
-            background: rgba(10, 14, 23, 0.9);
-            border-top: 1px solid #2a3a5a;
-            padding: 30px 0;
-            margin-top: auto;
+            background: var(--darker);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px 0 20px;
+            margin-top: 60px;
         }
         
         .footer-content {
@@ -181,34 +363,93 @@
         .footer-logo {
             font-size: 1.8rem;
             font-weight: 700;
-            background: linear-gradient(90deg, #00c6ff, #0072ff);
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
         
-        .footer-links {
+        .social-links {
             display: flex;
-            gap: 20px;
+            gap: 15px;
         }
         
-        .footer-links a {
-            color: #a0aec0;
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
             text-decoration: none;
-            transition: color 0.3s;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
         }
         
-        .footer-links a:hover {
-            color: #00c6ff;
+        .social-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: var(--transition);
+            z-index: -1;
+        }
+        
+        .social-links a:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 114, 255, 0.4);
+        }
+        
+        .social-links a:hover::before {
+            opacity: 1;
         }
         
         .footer-bottom {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 30px;
             padding-top: 20px;
-            border-top: 1px solid #2a3a5a;
-            color: #718096;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
             font-size: 0.9rem;
+        }
+        
+        .glow {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 198, 255, 0.2) 0%, transparent 70%);
+            filter: blur(20px);
+            z-index: -1;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .glow-1 {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .glow-2 {
+            bottom: 10%;
+            right: 10%;
+            animation-delay: 3s;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                transform: translateY(-20px) scale(1.1);
+            }
         }
         
         @media (max-width: 768px) {
@@ -223,7 +464,7 @@
             }
             
             h1 {
-                font-size: 2.2rem;
+                font-size: 2.5rem;
             }
             
             .section-title {
@@ -237,20 +478,58 @@
             }
             
             header {
-                padding: 20px 0;
+                padding: 40px 0 30px;
             }
             
             h1 {
-                font-size: 1.8rem;
+                font-size: 2rem;
             }
             
             .section-title {
-                font-size: 1.5rem;
+                font-size: 1.6rem;
+            }
+            
+            .tool-card {
+                padding: 25px 20px;
+            }
+            
+            .social-links {
+                gap: 10px;
+            }
+            
+            .social-links a {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .loader-container {
+                padding: 20px;
+            }
+            
+            .loader-logo {
+                font-size: 2rem;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Loader Overlay -->
+    <div class="loader-overlay" id="loaderOverlay">
+        <div class="loader-container">
+            <div class="loader-logo">Beaver Trading</div>
+            <div class="loader">
+                <div class="loader-inner"></div>
+            </div>
+            <div class="loader-text" id="loaderText">Cargando herramienta...</div>
+            <div class="loader-progress">
+                <div class="loader-progress-bar"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+    
     <header>
         <div class="container">
             <h1>Beaver Trading</h1>
@@ -260,35 +539,43 @@
     
     <div class="container">
         <section class="tools-section">
-            <h2 class="section-title">Usa las herramientas de trading</h2>
+            <h2 class="section-title">Herramientas de Trading</h2>
             
             <div class="tools-grid">
                 <div class="tool-card">
-                    <div class="tool-icon">💬</div>
+                    <div class="tool-icon"><i class="fas fa-comments"></i></div>
                     <h3 class="tool-title">Chat Live</h3>
                     <p class="tool-description">Comunícate en tiempo real con otros traders y expertos para compartir estrategias y análisis de mercado.</p>
-                    <a href="./Chat Live/index1.html" class="tool-link">Acceder</a>
+                    <div class="tool-link-container">
+                        <button class="tool-link" data-url="./Chat Live/index1.html" data-name="Chat Live">Acceder</button>
+                    </div>
                 </div>
                 
                 <div class="tool-card">
-                    <div class="tool-icon">📊</div>
+                    <div class="tool-icon"><i class="fas fa-chart-line"></i></div>
                     <h3 class="tool-title">Analizador Gráfico</h3>
                     <p class="tool-description">Herramientas avanzadas de análisis técnico con indicadores personalizados y gráficos interactivos.</p>
-                    <a href="./Analizador Gráfico/index2.html" class="tool-link">Acceder</a>
+                    <div class="tool-link-container">
+                        <button class="tool-link" data-url="./Analizador Gráfico/index2.html" data-name="Analizador Gráfico">Acceder</button>
+                    </div>
                 </div>
                 
                 <div class="tool-card">
-                    <div class="tool-icon">📈</div>
+                    <div class="tool-icon"><i class="fas fa-signal"></i></div>
                     <h3 class="tool-title">Señales Divisas</h3>
                     <p class="tool-description">Recibe señales de trading en tiempo real para los principales pares de divisas del mercado Forex.</p>
-                    <a href="./Señales Divisas/index3.html" class="tool-link">Acceder</a>
+                    <div class="tool-link-container">
+                        <button class="tool-link" data-url="./Señales Divisas/index3.html" data-name="Señales Divisas">Acceder</button>
+                    </div>
                 </div>
                 
                 <div class="tool-card">
-                    <div class="tool-icon">📑</div>
+                    <div class="tool-icon"><i class="fas fa-file-alt"></i></div>
                     <h3 class="tool-title">Documentos de Análisis</h3>
                     <p class="tool-description">Accede a informes detallados, análisis fundamentales y reportes de mercado actualizados.</p>
-                    <a href="./Documentos de Análisis/index4.html" class="tool-link">Acceder</a>
+                    <div class="tool-link-container">
+                        <button class="tool-link" data-url="./Documentos de Análisis/index4.html" data-name="Documentos de Análisis">Acceder</button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -297,16 +584,74 @@
     <footer>
         <div class="footer-content">
             <div class="footer-logo">Beaver Trading</div>
-            <div class="footer-links">
-                <a href="#">Términos de uso</a>
-                <a href="#">Política de privacidad</a>
-                <a href="#">Soporte</a>
-                <a href="#">Contacto</a>
+            <div class="social-links">
+                <a href="https://www.facebook.com/profile.php?id=61579696913394" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.tiktok.com/@beaver_trading_oficial" target="_blank"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.youtube.com/@beavertrading2025" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.instagram.com/weldingmiguel/" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/593986122265" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://t.me/+x8P5ya17Dek4YjBh" target="_blank"><i class="fab fa-telegram-plane"></i></a>
             </div>
         </div>
         <div class="footer-bottom">
             <p>&copy; 2023 Beaver Trading. Todos los derechos reservados.</p>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toolCards = document.querySelectorAll('.tool-card');
+            const loaderOverlay = document.getElementById('loaderOverlay');
+            const loaderText = document.getElementById('loaderText');
+            let targetUrl = '';
+            
+            toolCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    // Cerrar cualquier tarjeta abierta
+                    toolCards.forEach(c => {
+                        if (c !== card && c.classList.contains('active')) {
+                            c.classList.remove('active');
+                        }
+                    });
+                    
+                    // Alternar estado de la tarjeta clickeada
+                    card.classList.toggle('active');
+                });
+            });
+            
+            // Cerrar tarjetas al hacer clic fuera de ellas
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.tool-card') && !e.target.classList.contains('tool-link')) {
+                    toolCards.forEach(card => {
+                        card.classList.remove('active');
+                    });
+                }
+            });
+            
+            // Manejar clic en botones de acceso
+            document.querySelectorAll('.tool-link').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const url = this.getAttribute('data-url');
+                    const name = this.getAttribute('data-name');
+                    
+                    if (url) {
+                        targetUrl = url;
+                        loaderText.textContent = `Cargando ${name}...`;
+                        showLoader();
+                    }
+                });
+            });
+            
+            function showLoader() {
+                loaderOverlay.classList.add('active');
+                
+                // Redirigir después de 2.5 segundos (tiempo de la animación de progreso)
+                setTimeout(() => {
+                    window.location.href = targetUrl;
+                }, 2500);
+            }
+        });
+    </script>
 </body>
 </html>

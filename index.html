@@ -35,6 +35,133 @@
         font-family: 'Orbitron', 'Rajdhani', sans-serif;
     }
     
+    /* Cargador futurista */
+    .loader-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--darker);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+    
+    .loader-container.fade-out {
+        opacity: 0;
+        visibility: hidden;
+    }
+    
+    .loader-logo {
+        font-size: 3.5rem;
+        font-weight: 900;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        letter-spacing: 2px;
+        color: var(--primary);
+        text-shadow: var(--neon-glow-strong);
+        margin-bottom: 3rem;
+        animation: pulse 2s infinite alternate;
+    }
+    
+    .loader-logo i {
+        color: var(--primary);
+        font-size: 4rem;
+        filter: drop-shadow(0 0 8px var(--primary));
+    }
+    
+    .loader {
+        width: 200px;
+        height: 4px;
+        background: rgba(0, 240, 255, 0.1);
+        border-radius: 4px;
+        overflow: hidden;
+        position: relative;
+        margin-bottom: 2rem;
+        box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+    }
+    
+    .loader::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, var(--primary), transparent);
+        animation: loading 2.5s infinite;
+        box-shadow: var(--neon-glow);
+    }
+    
+    @keyframes loading {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+    }
+    
+    .loader-text {
+        color: var(--light);
+        font-family: 'Rajdhani', sans-serif;
+        font-size: 1.2rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-align: center;
+        margin-top: 1rem;
+        text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+    }
+    
+    .loader-dots {
+        display: flex;
+        gap: 10px;
+        margin-top: 1.5rem;
+    }
+    
+    .loader-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--primary);
+        animation: dot-pulse 1.5s infinite ease-in-out;
+        box-shadow: var(--neon-glow);
+    }
+    
+    .loader-dot:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+    
+    .loader-dot:nth-child(3) {
+        animation-delay: 0.4s;
+    }
+    
+    @keyframes dot-pulse {
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.5); opacity: 0.7; }
+    }
+    
+    .loader-grid {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+            linear-gradient(rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+        background-size: 40px 40px;
+        pointer-events: none;
+        z-index: -1;
+        animation: grid-move 15s linear infinite;
+    }
+    
+    @keyframes grid-move {
+        0% { background-position: 0 0; }
+        100% { background-position: 40px 40px; }
+    }
+    
     body {
         background: url('https://raw.githubusercontent.com/welding30001994/vip/refs/heads/main/unnamed%20(1).jpg') no-repeat center center fixed;
         background-size: cover;
@@ -221,14 +348,9 @@
         animation: grid-move 20s linear infinite;
     }
     
-    @keyframes grid-move {
-        0% { background-position: 0 0; }
-        100% { background-position: 40px 40px; }
-    }
-    
-    .hero-content {
-        position: relative;
-        z-index: 2;
+    @keyframes pulse {
+        0% { text-shadow: 0 0 10px var(--primary), 0 0 20px rgba(0, 240, 255, 0.3); }
+        100% { text-shadow: 0 0 15px var(--primary), 0 0 30px rgba(0, 240, 255, 0.5), 0 0 40px rgba(0, 240, 255, 0.2); }
     }
     
     .hero h1 {
@@ -241,11 +363,6 @@
         color: var(--primary);
         text-shadow: var(--neon-glow-strong);
         animation: pulse 3s infinite alternate;
-    }
-    
-    @keyframes pulse {
-        0% { text-shadow: 0 0 10px var(--primary), 0 0 20px rgba(0, 240, 255, 0.3); }
-        100% { text-shadow: 0 0 15px var(--primary), 0 0 30px rgba(0, 240, 255, 0.5), 0 0 40px rgba(0, 240, 255, 0.2); }
     }
     
     .hero h1::after {
@@ -804,6 +921,22 @@
     </style>
 </head>
 <body>
+    <!-- Cargador futurista -->
+    <div class="loader-container" id="loader">
+        <div class="loader-grid"></div>
+        <div class="loader-logo">
+            <i class="fas fa-crown"></i>
+            <span>Beaver Trading</span>
+        </div>
+        <div class="loader"></div>
+        <div class="loader-text">Inicializando sistema VIP...</div>
+        <div class="loader-dots">
+            <div class="loader-dot"></div>
+            <div class="loader-dot"></div>
+            <div class="loader-dot"></div>
+        </div>
+    </div>
+    
     <div class="grid-overlay"></div>
     <div id="particles-js"></div>
     
@@ -879,10 +1012,13 @@
                     <a href="contacto.html">Soporte</a>
                 </div>
                 <div class="social-icons">
-                    <a href="https://www.facebook.com/profile.php?id=61579696913394"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://t.me/+x8P5ya17Dek4YjBh"><i class="fab fa-telegram-plane"></i></a>
+                    <a href="https://www.facebook.com/profile.php?id=61579696913394"><i class="fab fa-facebook-f"></i></a>                    
+                    <a href="https://www.tiktok.com/@beaver_trading_oficial" target="_blank"><i class="fab fa-tiktok"></i></a>
+                     <a href="https://www.youtube.com/@beavertrading2025"><i class="fab fa-youtube"></i></a>
                     <a href="https://www.instagram.com/weldingmiguel/"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.youtube.com/@OXOMAX-TRADING/shorts"><i class="fab fa-youtube"></i></a>
+                    <a href="https://wa.me/593986122265" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://t.me/+x8P5ya17Dek4YjBh"><i class="fab fa-telegram-plane"></i></a>                    
+
                 </div>
                 <div class="copyright">
                     &copy; 2024 Beaver Trading. Todos los derechos reservados.
@@ -921,6 +1057,34 @@
     <!-- Script de partículas -->
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
+        // Mostrar cargador por 3 segundos al cargar la página
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('loader').classList.add('fade-out');
+                
+                setTimeout(function() {
+                    document.getElementById('loader').style.display = 'none';
+                }, 800);
+            }, 3000);
+        });
+        
+        // Función para mostrar el cargador
+        function showLoader() {
+            const loader = document.getElementById('loader');
+            loader.style.display = 'flex';
+            loader.classList.remove('fade-out');
+        }
+        
+        // Función para ocultar el cargador
+        function hideLoader() {
+            const loader = document.getElementById('loader');
+            loader.classList.add('fade-out');
+            
+            setTimeout(function() {
+                loader.style.display = 'none';
+            }, 800);
+        }
+        
         // Inicializar partículas
         document.addEventListener('DOMContentLoaded', function() {
             particlesJS('particles-js', {
@@ -1066,15 +1230,25 @@
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
             
+            // Mostrar cargador
+            showLoader();
+            document.querySelector('.loader-text').textContent = 'Verificando credenciales...';
+            
             auth.signInWithEmailAndPassword(email, password)
                 .then((userCredential) => {
                     // Login exitoso
-                    authModal.style.display = 'none';
-                    document.body.style.overflow = 'auto';
-                    loginForm.reset();
-                    window.location.href = 'dashboard.html';
+                    document.querySelector('.loader-text').textContent = 'Accediendo al sistema VIP...';
+                    
+                    setTimeout(() => {
+                        authModal.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                        loginForm.reset();
+                        window.location.href = 'dashboard.html';
+                    }, 2000);
                 })
                 .catch((error) => {
+                    // Ocultar cargador en caso de error
+                    hideLoader();
                     authError.textContent = error.message;
                 });
         });
@@ -1098,6 +1272,10 @@
                 return;
             }
             
+            // Mostrar cargador
+            showLoader();
+            document.querySelector('.loader-text').textContent = 'Creando cuenta VIP...';
+            
             auth.createUserWithEmailAndPassword(email, password)
                 .then((userCredential) => {
                     // Registro exitoso
@@ -1113,12 +1291,18 @@
                         lastLogin: firebase.database.ServerValue.TIMESTAMP
                     });
                     
-                    authModal.style.display = 'none';
-                    document.body.style.overflow = 'auto';
-                    registerForm.reset();
-                    window.location.href = 'dashboard.html';
+                    document.querySelector('.loader-text').textContent = 'Configurando acceso VIP...';
+                    
+                    setTimeout(() => {
+                        authModal.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                        registerForm.reset();
+                        window.location.href = 'dashboard.html';
+                    }, 2000);
                 })
                 .catch((error) => {
+                    // Ocultar cargador en caso de error
+                    hideLoader();
                     registerError.textContent = error.message;
                 });
         });
