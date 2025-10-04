@@ -3,695 +3,289 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beaver Trading - Plataforma de Videos</title>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>Beaver Trading - Panel Principal</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
+        
         body {
-            font-family: 'Exo 2', sans-serif;
-            background: url('https://raw.githubusercontent.com/welding30001994/vip/refs/heads/main/unnamed%20(1).jpg') no-repeat center center fixed;
-            background-size: cover;
-            color: #fff;
-            line-height: 1.6;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e0e0e0;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
             padding: 20px;
-            position: relative;
-            overflow-x: hidden;
         }
-
-        /* Capa oscura sobre la imagen de fondo */
-        body::before {
+        
+        .header {
+            text-align: center;
+            padding: 30px 0;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #00c6ff, #0072ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(0, 198, 255, 0.5);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #a0a0a0;
+            letter-spacing: 2px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 20px 0;
+        }
+        
+        .folder {
+            background: rgba(25, 25, 35, 0.7);
+            border-radius: 15px;
+            padding: 30px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(0, 198, 255, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: block;
+            color: inherit;
+        }
+        
+        .folder::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: -1;
+            height: 5px;
+            background: linear-gradient(90deg, #00c6ff, #0072ff);
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+        
+        .folder:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 114, 255, 0.4);
+            background: rgba(35, 35, 50, 0.9);
         }
-
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 20px;
-            border-bottom: 1px solid rgba(0, 255, 255, 0.3);
-            position: relative;
-        }
-
-        .logo {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: #00ffff;
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
-            letter-spacing: 2px;
-        }
-
-        .tagline {
-            font-size: 1.2rem;
-            color: #b0b0b0;
+        
+        .folder-icon {
+            font-size: 3.5rem;
             margin-bottom: 20px;
+            color: #00c6ff;
+            text-shadow: 0 0 10px rgba(0, 198, 255, 0.7);
         }
-
-        .search-container {
-            max-width: 600px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 12px 20px;
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(0, 255, 255, 0.3);
-            border-radius: 30px;
-            color: white;
-            font-size: 1rem;
-            outline: none;
-            transition: all 0.3s;
-        }
-
-        .search-input:focus {
-            border-color: #00ffff;
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-        }
-
-        .search-btn {
-            position: absolute;
-            right: 5px;
-            top: 5px;
-            background: #00ffff;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            color: #000;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .search-btn:hover {
-            background: #00cccc;
-            transform: scale(1.05);
-        }
-
-        .video-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
-
-        .video-card {
-            background: rgba(10, 15, 30, 0.7);
-            border-radius: 10px;
-            overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: 1px solid rgba(0, 255, 255, 0.2);
-        }
-
-        .video-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 255, 255, 0.2);
-            border-color: rgba(0, 255, 255, 0.5);
-        }
-
-        .video-thumbnail {
-            position: relative;
-            height: 180px;
-            overflow: hidden;
-        }
-
-        .video-thumbnail img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-
-        .video-card:hover .video-thumbnail img {
-            transform: scale(1.05);
-        }
-
-        .play-icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 255, 255, 0.8);
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: #000;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .video-card:hover .play-icon {
-            opacity: 1;
-        }
-
-        .video-info {
-            padding: 15px;
-        }
-
-        .video-title {
-            font-size: 1.1rem;
+        
+        .folder-name {
+            font-size: 1.4rem;
             font-weight: 600;
+            color: #ffffff;
             margin-bottom: 10px;
-            color: #00ffff;
-            height: 50px;
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
         }
-
-        .video-meta {
-            display: flex;
-            justify-content: space-between;
+        
+        .folder-desc {
             font-size: 0.9rem;
             color: #b0b0b0;
-            margin-bottom: 15px;
+            line-height: 1.5;
         }
-
-        .video-actions {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .btn {
-            padding: 8px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-family: 'Exo 2', sans-serif;
-            font-weight: 600;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .watch-btn {
-            background: #00ffff;
-            color: #000;
-        }
-
-        .watch-btn:hover {
-            background: #00cccc;
-        }
-
-        .download-btn {
-            background: rgba(0, 255, 255, 0.2);
-            color: #00ffff;
-            border: 1px solid rgba(0, 255, 255, 0.5);
-        }
-
-        .download-btn:hover {
-            background: rgba(0, 255, 255, 0.3);
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .modal-content {
-            background: rgba(10, 15, 30, 0.95);
-            border-radius: 10px;
-            width: 90%;
-            max-width: 900px;
-            padding: 20px;
-            position: relative;
-            border: 1px solid rgba(0, 255, 255, 0.3);
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 1.5rem;
-            color: #00ffff;
-            cursor: pointer;
-            background: none;
-            border: none;
-            z-index: 10;
-        }
-
-        .video-player {
-            width: 100%;
-            height: 0;
-            padding-bottom: 56.25%; /* 16:9 aspect ratio */
-            position: relative;
-            margin-bottom: 20px;
-        }
-
-        .video-player iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 5px;
-        }
-
-        .modal-title {
-            font-size: 1.3rem;
-            margin-bottom: 15px;
-            color: #00ffff;
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .modal-download-btn {
-            background: rgba(0, 255, 255, 0.2);
-            color: #00ffff;
-            border: 1px solid rgba(0, 255, 255, 0.5);
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .modal-download-btn:hover {
-            background: rgba(0, 255, 255, 0.3);
-        }
-
-        footer {
+        
+        .footer {
             text-align: center;
             margin-top: 50px;
             padding: 20px;
-            border-top: 1px solid rgba(0, 255, 255, 0.3);
-            color: #b0b0b0;
+            color: #707070;
             font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
-
-        /* Responsive adjustments */
+        
+        /* Efectos futuristas */
+        .glow {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 198, 255, 0.4) 0%, rgba(0, 198, 255, 0) 70%);
+            filter: blur(10px);
+            z-index: -1;
+            animation: pulse 6s infinite alternate;
+        }
+        
+        .glow-1 {
+            top: 10%;
+            left: 10%;
+        }
+        
+        .glow-2 {
+            bottom: 10%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+        
+        .glow-3 {
+            top: 50%;
+            left: 70%;
+            animation-delay: 4s;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.6;
+            }
+            100% {
+                transform: scale(1.2);
+                opacity: 0.3;
+            }
+        }
+        
+        /* Responsive */
         @media (max-width: 768px) {
-            .video-grid {
+            .grid {
                 grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                gap: 15px;
+                gap: 20px;
             }
             
-            .logo {
-                font-size: 2.5rem;
+            .folder {
+                padding: 25px 15px;
             }
             
-            .tagline {
-                font-size: 1rem;
+            .folder-icon {
+                font-size: 3rem;
             }
         }
-
+        
         @media (max-width: 480px) {
-            .video-grid {
+            .grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .header {
+                padding: 20px 0;
             }
             
             .logo {
                 font-size: 2rem;
             }
-            
-            .container {
-                padding: 10px;
-            }
-        }
-
-        /* Animaciones */
-        @keyframes glow {
-            0% { text-shadow: 0 0 5px rgba(0, 255, 255, 0.7); }
-            50% { text-shadow: 0 0 20px rgba(0, 255, 255, 0.9), 0 0 30px rgba(0, 255, 255, 0.6); }
-            100% { text-shadow: 0 0 5px rgba(0, 255, 255, 0.7); }
-        }
-
-        .logo {
-            animation: glow 3s infinite;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="logo">BEAVER TRADING</div>
-            <div class="tagline">Plataforma futurista de videos educativos</div>
-            <div class="search-container">
-                <input type="text" class="search-input" placeholder="Buscar videos...">
-                <button class="search-btn"><i class="fas fa-search"></i></button>
-            </div>
-        </header>
-
-        <main>
-            <div class="video-grid" id="videoGrid">
-                <!-- Los videos se cargarán aquí dinámicamente -->
-            </div>
-        </main>
-
-        <footer>
-            <p>Beaver Trading &copy; 2023 - Todos los derechos reservados</p>
-            <p>Plataforma educativa para traders</p>
-        </footer>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+    <div class="glow glow-3"></div>
+    
+    <div class="header">
+        <div class="logo">BEAVER TRADING</div>
+        <div class="subtitle">PANEL DE CONTROL PRINCIPAL</div>
     </div>
-
-    <!-- Modal para ver videos -->
-    <div class="modal" id="videoModal">
-        <div class="modal-content">
-            <button class="close-modal" id="closeModal">&times;</button>
-            <div class="video-player" id="videoPlayer">
-                <!-- El reproductor de video se cargará aquí -->
-            </div>
-            <h3 class="modal-title" id="modalTitle">Título del video</h3>
-            <div class="modal-actions">
-                <button class="modal-download-btn" id="modalDownloadBtn">
-                    <i class="fas fa-download"></i> Descargar Video
-                </button>
-            </div>
+    
+    <div class="container">
+        <div class="grid">
+            <a href="./bos chos/index.html" class="folder">
+                <div class="folder-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="folder-name">BOS CHOS</div>
+                <div class="folder-desc">Análisis de mercado y patrones de trading avanzados</div>
+            </a>
+            
+            <a href="./buy y sell/index.html" class="folder">
+                <div class="folder-icon">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <div class="folder-name">BUY Y SELL</div>
+                <div class="folder-desc">Operaciones de compra y venta en tiempo real</div>
+            </a>
+            
+            <a href="./confirmacion/index.html" class="folder">
+                <div class="folder-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="folder-name">CONFIRMATION</div>
+                <div class="folder-desc">Validación y confirmación de operaciones</div>
+            </a>
+            
+            <a href="./orden/index.html" class="folder">
+                <div class="folder-icon">
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <div class="folder-name">ORDEN</div>
+                <div class="folder-desc">Gestión y seguimiento de órdenes de trading</div>
+            </a>
+            
+            <a href="./compra/index.html" class="folder">
+                <div class="folder-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <div class="folder-name">ORDERS COMPRA</div>
+                <div class="folder-desc">Órdenes de compra específicas y gestión</div>
+            </a>
+            
+            <a href="./powell/index.html" class="folder">
+                <div class="folder-icon">
+                    <i class="fas fa-landmark"></i>
+                </div>
+                <div class="folder-name">POWELL</div>
+                <div class="folder-desc">Análisis de políticas monetarias y su impacto</div>
+            </a>
+            
+            <a href="./sweep/index.html" class="folder">
+                <div class="folder-icon">
+                    <i class="fas fa-broom"></i>
+                </div>
+                <div class="folder-name">SWEEP</div>
+                <div class="folder-desc">Operaciones de barrido y limpieza de mercado</div>
+            </a>
+            
+            <a href="./swing/index.html" class="folder">
+                <div class="folder-icon">
+                    <i class="fas fa-wave-square"></i>
+                </div>
+                <div class="folder-name">SWING</div>
+                <div class="folder-desc">Estrategias de swing trading y análisis técnico</div>
+            </a>
+            
+            <a href="./zoom/index.html" class="folder">
+                <div class="folder-icon">
+                    <i class="fas fa-search-plus"></i>
+                </div>
+                <div class="folder-name">ZOOM</div>
+                <div class="folder-desc">Análisis detallado y ampliación de gráficos</div>
+            </a>
+            
+            <a href="./videos/index.html" class="folder">
+                <div class="folder-icon">
+                    <i class="fas fa-video"></i>
+                </div>
+                <div class="folder-name">VIDEOS</div>
+                <div class="folder-desc">Tutoriales, análisis y contenido multimedia</div>
+            </a>
         </div>
     </div>
-
-    <script>
-        // Datos de los videos (en un caso real, estos vendrían de una base de datos)
-        const videos = [
-            {
-                id: 1,
-                title: "Introducción al Trading Avanzado",
-                youtubeId: "ygleB1CLhUE",
-                duration: "15:30",
-                date: "2023-10-15"
-            },
-            {
-                id: 2,
-                title: "Estrategias de Mercado para Principiantes",
-                youtubeId: "defSZjhGq9s",
-                duration: "22:45",
-                date: "2023-10-10"
-            },
-            {
-                id: 3,
-                title: "Análisis Técnico Profesional",
-                youtubeId: "psBNHz8oTIQ",
-                duration: "18:20",
-                date: "2023-10-05"
-            },
-            {
-                id: 4,
-                title: "Gestión de Riesgos en Trading",
-                youtubeId: "-w8NPVrI6H4",
-                duration: "25:10",
-                date: "2023-09-28"
-            },
-            {
-                id: 5,
-                title: "Patrones de Gráficos Esenciales",
-                youtubeId: "Cnvku7ZHw0E",
-                duration: "19:35",
-                date: "2023-09-20"
-            },
-            {
-                id: 6,
-                title: "Psicología del Trader Exitoso",
-                youtubeId: "JGy4WUVGwGE",
-                duration: "21:15",
-                date: "2023-09-15"
-            },
-            {
-                id: 7,
-                title: "Mercados Forex: Guía Completa",
-                youtubeId: "9nRFcetXqkA",
-                duration: "28:40",
-                date: "2023-09-10"
-            },
-            {
-                id: 8,
-                title: "Opciones Binarias para Principiantes",
-                youtubeId: "Hxr9Y8QZgAs",
-                duration: "17:25",
-                date: "2023-09-05"
-            },
-            {
-                id: 9,
-                title: "Análisis Fundamental Aplicado",
-                youtubeId: "MObFIEX6hXs",
-                duration: "24:50",
-                date: "2023-08-28"
-            },
-            {
-                id: 10,
-                title: "Automatización con Trading Bots",
-                youtubeId: "BPJecT8qXrc",
-                duration: "26:30",
-                date: "2023-08-20"
-            },
-            {
-                id: 11,
-                title: "Estrategias de Scalping Efectivas",
-                youtubeId: "JhBX0TQ41H8",
-                duration: "20:15",
-                date: "2023-08-15"
-            },
-            {
-                id: 12,
-                title: "Trading con Criptomonedas",
-                youtubeId: "VvZKAPs_JnA",
-                duration: "23:45",
-                date: "2023-08-10"
-            },
-            {
-                id: 13,
-                title: "Indicadores Técnicos Avanzados",
-                youtubeId: "KnYg21yltd8",
-                duration: "19:20",
-                date: "2023-08-05"
-            },
-            {
-                id: 14,
-                title: "Planificación de Trading Diario",
-                youtubeId: "AIeBNqf8RBA",
-                duration: "16:35",
-                date: "2023-07-28"
-            },
-            {
-                id: 15,
-                title: "Manejo de Emotional Trading",
-                youtubeId: "FUC0iWyCI08",
-                duration: "22:10",
-                date: "2023-07-20"
-            },
-            {
-                id: 16,
-                title: "Backtesting de Estrategias",
-                youtubeId: "Q-jQGto-nic",
-                duration: "25:40",
-                date: "2023-07-15"
-            },
-            {
-                id: 17,
-                title: "Trading en Mercados Volátiles",
-                youtubeId: "jJKYeglSjHw",
-                duration: "18:55",
-                date: "2023-07-10"
-            },
-            {
-                id: 18,
-                title: "Optimización de Portfolio",
-                youtubeId: "nwWn85GuiR8",
-                duration: "21:30",
-                date: "2023-07-05"
-            },
-            {
-                id: 19,
-                title: "Análisis de Noticias en Tiempo Real",
-                youtubeId: "7teuvsTglnQ",
-                duration: "17:45",
-                date: "2023-06-28"
-            },
-            {
-                id: 20,
-                title: "Estrategias de Swing Trading",
-                youtubeId: "nudje7WT-Vs",
-                duration: "24:20",
-                date: "2023-06-20"
-            },
-            {
-                id: 21,
-                title: "Gestión de Capital Avanzada",
-                youtubeId: "4jc5myA2lgw",
-                duration: "26:15",
-                date: "2023-06-15"
-            },
-            {
-                id: 22,
-                title: "Trading Algorithmico Básico",
-                youtubeId: "zb_kiI-VVwU",
-                duration: "29:50",
-                date: "2023-06-10"
-            }
-        ];
-
-        // Función para cargar los videos en la cuadrícula
-        function loadVideos() {
-            const videoGrid = document.getElementById('videoGrid');
-            videoGrid.innerHTML = '';
-            
-            videos.forEach(video => {
-                const videoCard = document.createElement('div');
-                videoCard.className = 'video-card';
-                videoCard.innerHTML = `
-                    <div class="video-thumbnail">
-                        <img src="https://img.youtube.com/vi/${video.youtubeId}/hqdefault.jpg" alt="${video.title}">
-                        <div class="play-icon">
-                            <i class="fas fa-play"></i>
-                        </div>
-                    </div>
-                    <div class="video-info">
-                        <h3 class="video-title">${video.title}</h3>
-                        <div class="video-meta">
-                            <span>${video.duration}</span>
-                            <span>${video.date}</span>
-                        </div>
-                        <div class="video-actions">
-                            <button class="btn watch-btn" data-id="${video.id}">
-                                <i class="fas fa-play"></i> Ver
-                            </button>
-                            <button class="btn download-btn" data-id="${video.id}">
-                                <i class="fas fa-download"></i> Descargar
-                            </button>
-                        </div>
-                    </div>
-                `;
-                videoGrid.appendChild(videoCard);
-            });
-            
-            // Agregar event listeners a los botones
-            document.querySelectorAll('.watch-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const videoId = this.getAttribute('data-id');
-                    openVideoModal(videoId);
-                });
-            });
-            
-            document.querySelectorAll('.download-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const videoId = this.getAttribute('data-id');
-                    downloadVideo(videoId);
-                });
-            });
-        }
-
-        // Función para abrir el modal de video
-        function openVideoModal(videoId) {
-            const video = videos.find(v => v.id == videoId);
-            if (!video) return;
-            
-            const modal = document.getElementById('videoModal');
-            const videoPlayer = document.getElementById('videoPlayer');
-            const modalTitle = document.getElementById('modalTitle');
-            const modalDownloadBtn = document.getElementById('modalDownloadBtn');
-            
-            videoPlayer.innerHTML = `<iframe src="https://www.youtube.com/embed/${video.youtubeId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-            modalTitle.textContent = video.title;
-            modalDownloadBtn.setAttribute('data-id', videoId);
-            
-            modal.style.display = 'flex';
-            
-            // Cerrar modal al hacer clic en la X
-            document.getElementById('closeModal').onclick = function() {
-                modal.style.display = 'none';
-                videoPlayer.innerHTML = ''; // Detener el video
-            };
-            
-            // Cerrar modal al hacer clic fuera del contenido
-            modal.onclick = function(event) {
-                if (event.target === modal) {
-                    modal.style.display = 'none';
-                    videoPlayer.innerHTML = ''; // Detener el video
-                }
-            };
-            
-            // Agregar event listener al botón de descarga en el modal
-            modalDownloadBtn.onclick = function() {
-                downloadVideo(videoId);
-            };
-        }
-
-        // Función para descargar video (simulada)
-        function downloadVideo(videoId) {
-            const video = videos.find(v => v.id == videoId);
-            if (!video) return;
-            
-            // En un caso real, aquí se implementaría la lógica de descarga
-            // Por ahora, simulamos la descarga con un alert
-            alert(`Iniciando descarga de: ${video.title}\n\n(En una implementación real, esto descargaría el video)`);
-            
-            // Simulación de descarga (podría redirigir a un servicio de descarga de YouTube)
-            // window.open(`https://www.y2mate.com/youtube/${video.youtubeId}`, '_blank');
-        }
-
-        // Función de búsqueda
-        function setupSearch() {
-            const searchInput = document.querySelector('.search-input');
-            const searchBtn = document.querySelector('.search-btn');
-            
-            const performSearch = () => {
-                const query = searchInput.value.toLowerCase();
-                const videoCards = document.querySelectorAll('.video-card');
-                
-                videoCards.forEach(card => {
-                    const title = card.querySelector('.video-title').textContent.toLowerCase();
-                    if (title.includes(query)) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            };
-            
-            searchBtn.addEventListener('click', performSearch);
-            searchInput.addEventListener('keyup', function(event) {
-                if (event.key === 'Enter') {
-                    performSearch();
-                }
-            });
-        }
-
-        // Inicializar la página cuando se carga
-        document.addEventListener('DOMContentLoaded', function() {
-            loadVideos();
-            setupSearch();
-        });
-    </script>
+    
+    <div class="footer">
+        Beaver Trading System &copy; 2023 - Panel de Control Futurista
+    </div>
 </body>
 </html>

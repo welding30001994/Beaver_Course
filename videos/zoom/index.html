@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beaver Trading - Videos</title>
+    <style>
+        :root {
+            --primary: #00f3ff;
+            --secondary: #9d4edd;
+            --dark: #0a0a16;
+            --darker: #050510;
+            --light: #e2e2e2;
+            --success: #00ff9d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            color: var(--light);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: rgba(226, 226, 226, 0.7);
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 30px;
+        }
+        
+        .video-player-container {
+            background: rgba(10, 10, 22, 0.7);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .video-player {
+            width: 100%;
+            height: 400px;
+            background: #000;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .video-player video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .video-placeholder {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .video-placeholder i {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            display: block;
+            color: var(--primary);
+        }
+        
+        .video-info {
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+        }
+        
+        .video-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .video-info p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .videos-list {
+            max-height: 600px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        
+        .videos-list::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .videos-list::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+        
+        .videos-list::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+        
+        .video-card {
+            background: rgba(15, 15, 30, 0.7);
+            border-radius: 10px;
+            padding: 15px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 243, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+        
+        .video-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border-color: rgba(0, 243, 255, 0.3);
+        }
+        
+        .video-card.active {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
+        }
+        
+        .video-title {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: var(--light);
+            display: flex;
+            align-items: center;
+        }
+        
+        .video-title i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        .video-status {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .status-available {
+            background-color: var(--success);
+            box-shadow: 0 0 8px var(--success);
+        }
+        
+        .status-missing {
+            background-color: #ff3d71;
+            box-shadow: 0 0 8px #ff3d71;
+        }
+        
+        .status-text {
+            font-size: 0.9rem;
+        }
+        
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            padding: 20px;
+            color: rgba(226, 226, 226, 0.5);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(0, 243, 255, 0.1);
+            width: 100%;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            z-index: 1000;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.success {
+            background: var(--success);
+            box-shadow: 0 0 15px rgba(0, 255, 157, 0.5);
+        }
+        
+        .notification.error {
+            background: #ff3d71;
+            box-shadow: 0 0 15px rgba(255, 61, 113, 0.5);
+        }
+        
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 1100px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .videos-list {
+                max-height: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .video-player {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>BEAVER TRADING VIDEO SYSTEM</h1>
+            <p class="subtitle">Sistema futurista para reproducir videos locales</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="video-player-container">
+                <div class="video-player" id="videoPlayer">
+                    <div class="video-placeholder">
+                        <i>🎬</i>
+                        <p>Selecciona un capítulo para reproducir</p>
+                    </div>
+                </div>
+                <div class="video-info">
+                    <h3 id="currentVideoTitle">Ningún video seleccionado</h3>
+                    <p id="currentVideoDescription">Selecciona un capítulo de la lista para comenzar a reproducir</p>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="videos-list" id="videosList">
+                    <!-- Los elementos de video se generarán dinámicamente con JavaScript -->
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Sistema de videos Beaver Trading © 2023 | Diseño futurista</p>
+        </footer>
+    </div>
+
+    <div class="notification" id="notification"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const videosList = document.getElementById('videosList');
+            const videoPlayer = document.getElementById('videoPlayer');
+            const currentVideoTitle = document.getElementById('currentVideoTitle');
+            const currentVideoDescription = document.getElementById('currentVideoDescription');
+            const notification = document.getElementById('notification');
+            
+            // Lista de capítulos de Beaver Trading
+            const chapters = Array.from({length: 8}, (_, i) => i + 1);
+            
+            // Generar los elementos de video para los capítulos de Beaver Trading
+            function generateVideoCards() {
+                videosList.innerHTML = '';
+                
+                chapters.forEach(chapter => {
+                    const videoCard = document.createElement('div');
+                    videoCard.className = 'video-card';
+                    videoCard.id = `chapter-${chapter}`;
+                    
+                    // Nombres de archivo posibles
+                    const possibleNames = [
+                        `beaver trading capitulo ${chapter}.mp4`,
+                        `beaver trading capitulo ${chapter}.avi`,
+                        `beaver trading capitulo ${chapter}.mkv`,
+                        `beaver trading capitulo ${chapter}.mov`,
+                        `beaver-trading-capitulo-${chapter}.mp4`,
+                        `beaver_trading_capitulo_${chapter}.mp4`,
+                        `Beaver Trading Capitulo ${chapter}.mp4`
+                    ];
+                    
+                    // Verificar si el video existe
+                    checkVideoExists(possibleNames, chapter).then(exists => {
+                        videoCard.innerHTML = `
+                            <div class="video-title">
+                                <i>🎥</i> Beaver Trading Capítulo ${chapter}
+                            </div>
+                            <div class="video-status">
+                                <div class="status-indicator ${exists ? 'status-available' : 'status-missing'}"></div>
+                                <span class="status-text">${exists ? 'Disponible' : 'No encontrado'}</span>
+                            </div>
+                        `;
+                        
+                        if (exists) {
+                            videoCard.addEventListener('click', function() {
+                                playVideo(chapter, possibleNames);
+                            });
+                        } else {
+                            videoCard.style.opacity = '0.6';
+                            videoCard.style.cursor = 'not-allowed';
+                        }
+                    });
+                    
+                    videosList.appendChild(videoCard);
+                });
+            }
+            
+            // Verificar si un video existe
+            function checkVideoExists(possibleNames, chapter) {
+                return new Promise((resolve) => {
+                    let checked = 0;
+                    
+                    possibleNames.forEach(filename => {
+                        const video = document.createElement('video');
+                        video.src = filename;
+                        video.addEventListener('loadeddata', () => {
+                            resolve(true);
+                        });
+                        video.addEventListener('error', () => {
+                            checked++;
+                            if (checked === possibleNames.length) {
+                                resolve(false);
+                            }
+                        });
+                    });
+                });
+            }
+            
+            // Reproducir video
+            function playVideo(chapter, possibleNames) {
+                // Quitar la clase active de todas las tarjetas
+                document.querySelectorAll('.video-card').forEach(card => {
+                    card.classList.remove('active');
+                });
+                
+                // Añadir la clase active a la tarjeta seleccionada
+                document.getElementById(`chapter-${chapter}`).classList.add('active');
+                
+                // Actualizar la información del video
+                currentVideoTitle.textContent = `Beaver Trading - Capítulo ${chapter}`;
+                currentVideoDescription.textContent = `Reproduciendo el capítulo ${chapter} de la serie Beaver Trading`;
+                
+                // Limpiar el reproductor
+                videoPlayer.innerHTML = '';
+                
+                // Crear elemento de video
+                const videoElement = document.createElement('video');
+                videoElement.controls = true;
+                videoElement.style.width = '100%';
+                videoElement.style.height = '100%';
+                videoElement.autoplay = true;
+                
+                // Intentar cargar el video con diferentes nombres posibles
+                let sourcesAdded = false;
+                
+                possibleNames.forEach(filename => {
+                    const source = document.createElement('source');
+                    source.src = filename;
+                    source.type = 'video/mp4';
+                    videoElement.appendChild(source);
+                    sourcesAdded = true;
+                });
+                
+                if (!sourcesAdded) {
+                    videoElement.innerHTML = 'Tu navegador no soporta el elemento de video.';
+                }
+                
+                videoElement.addEventListener('error', function() {
+                    showNotification(`Error: No se pudo cargar el capítulo ${chapter}`, 'error');
+                    videoPlayer.innerHTML = `
+                        <div class="video-placeholder">
+                            <i>❌</i>
+                            <p>Error al cargar el video</p>
+                            <p>Verifica que el archivo exista en la carpeta</p>
+                        </div>
+                    `;
+                });
+                
+                videoElement.addEventListener('loadeddata', function() {
+                    showNotification(`Reproduciendo Capítulo ${chapter}`, 'success');
+                });
+                
+                videoPlayer.appendChild(videoElement);
+            }
+            
+            // Mostrar notificación
+            function showNotification(message, type) {
+                notification.textContent = message;
+                notification.className = `notification ${type} show`;
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+            
+            // Inicializar las tarjetas de video
+            generateVideoCards();
+        });
+    </script>
+</body>
+</html>
