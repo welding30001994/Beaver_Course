@@ -393,6 +393,102 @@
     .btn-cyan i { color: #00ffff; filter: drop-shadow(0 0 5px #00ffff); }
     .btn-cyan:hover { border-color: #00ffff; box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 255, 255, 0.4); }
     
+    /* Estilos para el cargador */
+    .loader-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(5, 5, 16, 0.95);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    
+    .loader-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .loader {
+        width: 80px;
+        height: 80px;
+        position: relative;
+        margin-bottom: 30px;
+    }
+    
+    .loader:before, .loader:after {
+        content: '';
+        position: absolute;
+        border-radius: 50%;
+        animation: pulsate 1.5s ease-in-out infinite;
+        filter: drop-shadow(0 0 5px var(--primary));
+    }
+    
+    .loader:before {
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 240, 255, 0.2);
+        animation-delay: 0s;
+    }
+    
+    .loader:after {
+        width: 80%;
+        height: 80%;
+        background-color: rgba(0, 240, 255, 0.4);
+        top: 10%;
+        left: 10%;
+        animation-delay: 0.2s;
+    }
+    
+    @keyframes pulsate {
+        0%, 100% {
+            transform: scale(0.8);
+            opacity: 0.7;
+        }
+        50% {
+            transform: scale(1.2);
+            opacity: 1;
+        }
+    }
+    
+    .loader-text {
+        font-size: 1.5rem;
+        color: var(--primary);
+        text-align: center;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-shadow: var(--neon-glow);
+        margin-bottom: 20px;
+    }
+    
+    .loader-progress {
+        width: 300px;
+        height: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .loader-progress-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--primary), #7a04eb);
+        border-radius: 3px;
+        box-shadow: 0 0 10px var(--primary);
+        transition: width 0.3s ease;
+    }
+    
     footer {
         text-align: center;
         padding: 40px 0;
@@ -469,6 +565,10 @@
         .portal-btn i {
             font-size: 2.5rem;
         }
+        
+        .loader-progress {
+            width: 250px;
+        }
     }
     
     @media (max-width: 480px) {
@@ -499,6 +599,14 @@
             height: 40px;
             font-size: 1rem;
         }
+        
+        .loader-progress {
+            width: 200px;
+        }
+        
+        .loader-text {
+            font-size: 1.2rem;
+        }
     }
     </style>
 </head>
@@ -515,6 +623,15 @@
         <div class="diamond" style="top: 40%; left: 10%; animation-delay: 12s;"></div>
     </div>
     <div class="vip-particles" id="vipParticles"></div>
+    
+    <!-- Overlay del cargador -->
+    <div class="loader-overlay" id="loaderOverlay">
+        <div class="loader"></div>
+        <div class="loader-text" id="loaderText">Cargando...</div>
+        <div class="loader-progress">
+            <div class="loader-progress-bar" id="loaderProgressBar"></div>
+        </div>
+    </div>
     
     <header>
         <div class="container">
@@ -545,59 +662,64 @@
                     <h2>PORTAL DE ACCESOS</h2>
                 </div>
                 <div class="portal-container">
-                    <a href="modulos/ordenblock.html" target="_blank" class="portal-btn btn-gold">
+                    <a href="modulos/ordenblock.html" target="_blank" class="portal-btn btn-gold" data-name="Módulos">
                         <i class="fas fa-chart-line"></i>
                         Modulos
                     </a>
-                    
-                    <a href="fibonachi/calculadora.HTML" target="_blank" class="portal-btn btn-vip">
-                        <i class="fas fa-calculator"></i>
-                        Fibonachi
-                    </a>
-
-                    <a href="contenido/oxo.html" target="_blank" class="portal-btn btn-cyan">
-                        <i class="fas fa-signal"></i>
-                        Contenido
-                    </a>
-
-                    <a href="gestion/lotajes.html" target="_blank" class="portal-btn btn-gold">
+                     <a href="gestion/lotajes.html" target="_blank" class="portal-btn btn-gold" data-name="Gestión">
                         <i class="fas fa-coins"></i>
                         Gestion
                     </a>
                     
-                    <a href="soporte/asistente.html" target="_blank" class="portal-btn btn-vip">
-                        <i class="fas fa-exchange-alt"></i>
-                        SOPORTE 
+                    <a href="fibonachi/calculadora.HTML" target="_blank" class="portal-btn btn-vip" data-name="Fibonacci">
+                        <i class="fas fa-calculator"></i>
+                        Fibonachi
                     </a>
-                    
-                    <a href="señales/index.html" target="_blank" class="portal-btn btn-cyan">
-                        <i class="fas fa-broadcast-tower"></i>
-                        Señales
-                    </a>
-                    
-                    <a href="pagos/pagos.html" target="_blank" class="portal-btn btn-gold">
+
+                    <a href="pagos/pagos.html" target="_blank" class="portal-btn btn-gold" data-name="Pagos">
                         <i class="fas fa-credit-card"></i>
                         Pagos
                     </a>
 
-                    <a href="hora/hora.html" target="_blank" class="portal-btn btn-vip">
+                    <a href="hora/hora.html" target="_blank" class="portal-btn btn-vip" data-name="Hora">
                         <i class="fas fa-wallet"></i>
                         Hora
                     </a>
 
-                    <a href="pdf/libros.html" target="_blank" class="portal-btn btn-cyan">
-                        <i class="fas fa-book"></i>
-                        Pdf
+
+                    <a href="contenido/oxo.html" target="_blank" class="portal-btn btn-cyan" data-name="Contenido">
+                        <i class="fas fa-signal"></i>
+                        Contenido
+                    </a>
+
+                  
+                    
+                    <a href="soporte/asistente.html" target="_blank" class="portal-btn btn-vip" data-name="Soporte">
+                        <i class="fas fa-exchange-alt"></i>
+                        Soporte 
                     </a>
                     
-                    <a href="videos/videos.html" target="_blank" class="portal-btn btn-gold">
+                    <a href="señales/index.html" target="_blank" class="portal-btn btn-cyan" data-name="Señales">
+                        <i class="fas fa-broadcast-tower"></i>
+                        Señales
+                    </a>
+                    
+                    <a href="videos/videos.html" target="_blank" class="portal-btn btn-gold" data-name="Videos">
                         <i class="fas fa-video"></i>
                         Videos
                     </a>
 
-                    <a href="fotos/calendario.html" target="_blank" class="portal-btn btn-vip">
+
+                    <a href="pdf/libros.html" target="_blank" class="portal-btn btn-cyan" data-name="PDF">
+                        <i class="fas fa-book"></i>
+                        Pdf
+                    </a>
+                    
+
+
+                    <a href="fotos/calendario.html" target="_blank" class="portal-btn btn-vip" data-name="Análisis">
                         <i class="fas fa-calendar-alt"></i>
-                        análisis 
+                        App Descarga 
                     </a>
                 </div>
             </section>
@@ -631,6 +753,9 @@
         const userAvatar = document.getElementById('userAvatar');
         const welcomeMessage = document.getElementById('welcomeMessage');
         const vipParticlesContainer = document.getElementById('vipParticles');
+        const loaderOverlay = document.getElementById('loaderOverlay');
+        const loaderText = document.getElementById('loaderText');
+        const loaderProgressBar = document.getElementById('loaderProgressBar');
         
         // Crear efecto de partículas
         function createVipParticles() {
@@ -666,6 +791,35 @@
             }
         }
         
+        // Función para mostrar el cargador
+        function showLoader(moduleName) {
+            // Actualizar el texto del cargador
+            loaderText.textContent = `Accediendo a ${moduleName}...`;
+            
+            // Mostrar el overlay del cargador
+            loaderOverlay.classList.add('active');
+            
+            // Reiniciar la barra de progreso
+            loaderProgressBar.style.width = '0%';
+            
+            // Simular progreso
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 100) progress = 100;
+                loaderProgressBar.style.width = `${progress}%`;
+                
+                if (progress === 100) {
+                    clearInterval(interval);
+                }
+            }, 300);
+        }
+        
+        // Función para ocultar el cargador
+        function hideLoader() {
+            loaderOverlay.classList.remove('active');
+        }
+        
         // Verificar autenticación al cargar la página
         auth.onAuthStateChanged((user) => {
             if (!user) {
@@ -683,6 +837,29 @@
         logoutBtn.addEventListener('click', () => {
             auth.signOut().then(() => {
                 window.location.href = 'index.html';
+            });
+        });
+        
+        // Agregar event listeners a los botones del portal
+        document.querySelectorAll('.portal-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Obtener el nombre del módulo desde el atributo data-name
+                const moduleName = button.getAttribute('data-name');
+                const targetUrl = button.getAttribute('href');
+                
+                // Mostrar el cargador
+                showLoader(moduleName);
+                
+                // Esperar 3 segundos antes de redirigir
+                setTimeout(() => {
+                    // Abrir en una nueva pestaña
+                    window.open(targetUrl, '_blank');
+                    
+                    // Ocultar el cargador después de un pequeño retraso
+                    setTimeout(hideLoader, 500);
+                }, 3000);
             });
         });
         
