@@ -324,7 +324,7 @@
             const currentVideoDescription = document.getElementById('currentVideoDescription');
             const notification = document.getElementById('notification');
             
-            // Lista de capítulos de Beaver Trading
+            // Lista de capítulos de Beaver Trading (1-20)
             const chapters = Array.from({length: 8}, (_, i) => i + 1);
             
             // Generar los elementos de video para los capítulos de Beaver Trading
@@ -336,15 +336,12 @@
                     videoCard.className = 'video-card';
                     videoCard.id = `chapter-${chapter}`;
                     
-                    // Nombres de archivo posibles
+                    // Nombres de archivo CORREGIDOS - usando el formato que mencionaste
                     const possibleNames = [
-                        `beaver trading capitulo ${chapter}.mp4`,
-                        `beaver trading capitulo ${chapter}.avi`,
-                        `beaver trading capitulo ${chapter}.mkv`,
-                        `beaver trading capitulo ${chapter}.mov`,
                         `beaver-trading-capitulo-${chapter}.mp4`,
-                        `beaver_trading_capitulo_${chapter}.mp4`,
-                        `Beaver Trading Capitulo ${chapter}.mp4`
+                        `beaver trading capitulo ${chapter}.mp4`,
+                        `Beaver Trading Capitulo ${chapter}.mp4`,
+                        `beaver_trading_capitulo_${chapter}.mp4`
                     ];
                     
                     // Verificar si el video existe
@@ -376,17 +373,23 @@
             // Verificar si un video existe
             function checkVideoExists(possibleNames, chapter) {
                 return new Promise((resolve) => {
+                    let exists = false;
                     let checked = 0;
                     
                     possibleNames.forEach(filename => {
                         const video = document.createElement('video');
                         video.src = filename;
+                        
                         video.addEventListener('loadeddata', () => {
-                            resolve(true);
+                            if (!exists) {
+                                exists = true;
+                                resolve(true);
+                            }
                         });
+                        
                         video.addEventListener('error', () => {
                             checked++;
-                            if (checked === possibleNames.length) {
+                            if (checked === possibleNames.length && !exists) {
                                 resolve(false);
                             }
                         });
@@ -406,7 +409,7 @@
                 
                 // Actualizar la información del video
                 currentVideoTitle.textContent = `Beaver Trading - Capítulo ${chapter}`;
-                currentVideoDescription.textContent = `Reproduciendo el capítulo ${chapter} de la serie Beaver Trading`;
+                currentVideoDescription.textContent = `Reproduciendo: beaver-trading-capitulo-${chapter}.mp4`;
                 
                 // Limpiar el reproductor
                 videoPlayer.innerHTML = '';
@@ -419,17 +422,17 @@
                 videoElement.autoplay = true;
                 
                 // Intentar cargar el video con diferentes nombres posibles
-                let sourcesAdded = false;
+                let sourceAdded = false;
                 
-                possibleNames.forEach(filename => {
+                for (let filename of possibleNames) {
                     const source = document.createElement('source');
                     source.src = filename;
                     source.type = 'video/mp4';
                     videoElement.appendChild(source);
-                    sourcesAdded = true;
-                });
+                    sourceAdded = true;
+                }
                 
-                if (!sourcesAdded) {
+                if (!sourceAdded) {
                     videoElement.innerHTML = 'Tu navegador no soporta el elemento de video.';
                 }
                 
@@ -439,7 +442,7 @@
                         <div class="video-placeholder">
                             <i>❌</i>
                             <p>Error al cargar el video</p>
-                            <p>Verifica que el archivo exista en la carpeta</p>
+                            <p>Verifica que el archivo "beaver-trading-capitulo-${chapter}.mp4" exista en la carpeta</p>
                         </div>
                     `;
                 });
