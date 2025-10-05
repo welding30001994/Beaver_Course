@@ -570,21 +570,21 @@
             const max = Math.max(fib1, fib2);
             const difference = max - min;
             
-            // Calcular el siguiente número de Fibonacci para verificar la secuencia
-            const nextFib = min + max;
-            
-            // Calcular niveles según el modo
+            // ALGORITMO FIBONACCI PRECISO - Basado en tu referencia
             let retracements = {};
             let extensions = {};
             
             if (currentMode === 'buy') {
                 // Modo Buy: Retrocesos por debajo, extensiones por encima
+                // Usando los ratios exactos de tu referencia
                 retracements = {
+                    '100.0%': max,
                     '78.6%': max - difference * 0.786,
                     '61.8%': max - difference * 0.618,
                     '50.0%': max - difference * 0.5,
                     '38.2%': max - difference * 0.382,
-                    '23.6%': max - difference * 0.236
+                    '23.6%': max - difference * 0.236,
+                    '00.0%': min
                 };
                 
                 extensions = {
@@ -595,11 +595,13 @@
             } else {
                 // Modo Sell: Retrocesos por encima, extensiones por debajo
                 retracements = {
+                    '100.0%': min,
                     '78.6%': min + difference * 0.786,
                     '61.8%': min + difference * 0.618,
                     '50.0%': min + difference * 0.5,
                     '38.2%': min + difference * 0.382,
-                    '23.6%': min + difference * 0.236
+                    '23.6%': min + difference * 0.236,
+                    '00.0%': max
                 };
                 
                 extensions = {
@@ -647,7 +649,7 @@
             
             // Mostrar información de la secuencia
             document.getElementById('sequence-info').textContent = 
-                `Basado en la secuencia: ..., ${min}, ${max}, ${nextFib}, ...`;
+                `Basado en la secuencia: ..., ${min}, ${max}, ${(min + max).toFixed(2)}, ...`;
             
             document.getElementById('retracement-results').style.display = 'block';
             document.getElementById('extension-results').style.display = 'block';
